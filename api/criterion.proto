@@ -1,0 +1,19 @@
+syntax = "proto3";
+package snowballr;
+
+import "base.proto";
+
+enum CriterionCategory {
+  CRITERION_CATEGORY_UNSPECIFIED = 0;
+  CRITERION_CATEGORY_INCLUSION = 1;
+  CRITERION_CATEGORY_EXCLUSION = 2;
+  CRITERION_CATEGORY_HARD_EXCLUSION = 3;
+}
+
+message Criterion {
+  Id id = 1;
+  string tag = 2;
+  string name = 3;
+  string description = 4;
+  CriterionCategory category = 5;
+}
