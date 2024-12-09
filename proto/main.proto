@@ -1,0 +1,42 @@
+syntax = "proto3";
+package snowballr;
+
+import "authentication.proto";
+import "base.proto";
+import "project.proto";
+
+service SnowballR {
+  rpc Register (RegisterRequest) returns (RegisterReply);
+  rpc Login (LoginRequest) returns (LoginReply);
+  rpc Logout (Nothing) returns (Nothing); 
+  rpc ResetPassword (UserIdentifier) returns (Nothing);
+  rpc SoftDelete (UserIdentifier) returns (Nothing);
+  rpc SoftUndelete (UserIdentifier) returns (Nothing);
+
+  rpc GetAllUsers (Nothing) returns (UserList);
+  rpc GetUser (UserRequest) returns (User);
+
+
+
+
+
+
+
+  rpc GetPendingInvitations (Nothing) returns (ProjectList);
+
+  rpc GetAllProjects (Nothing) returns (ProjectList);
+  rpc GetAllArchivedProjects (Nothing) returns (ProjectList);
+  rpc GetUserProjects (Nothing) returns (ProjectList);
+  rpc GetUserArchivedProjects (Nothing) returns (ProjectList);
+  
+  rpc CreateProject (Project) returns (Project);
+  rpc Invite (Email, Project) returns (Nothing);
+
+  rpc GetProjectMembers (Id) returns (UserList);
+
+  rpc GetReadingList (Nothing) returns (PaperList);
+  rpc AddToReadingList (Id) returns (Nothing);
+  rpc RemoveFromReadingList (Id) returns (Nothing);
+
+}
+

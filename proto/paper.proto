@@ -1,0 +1,18 @@
+syntax = "proto3";
+package snowballr;
+
+import "base.proto";
+
+enum PaperDecision {
+  PAIdCISION_UNSPECIFIED = 0;
+  PAPER_DECISION_DECLINED = 1;
+  PAPER_DECISION_ACCEPTED = 2;
+}
+
+message Paper {
+    uint64 id = 1;
+}
+
+message PaperList {
+    repeated Paper papers = 1;
+}
