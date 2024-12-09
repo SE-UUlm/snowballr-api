@@ -1,0 +1,27 @@
+syntax = "proto3";
+package snowballr;
+
+import "base.proto";
+
+enum Role {
+    PROJECT_MEMBER = 1;
+    PROJECT_ADMIN = 2;
+    SERVER_ADMIN = 3;
+}
+
+message User {
+    Id id = 1;
+    string first_name = 2;
+    string last_name = 3;
+    Role role = 4;
+}
+
+message UserList {
+    repeated User users = 1;
+}
+
+message UserRequest {
+    Id id = 1;
+
+    bool return first_name
+}

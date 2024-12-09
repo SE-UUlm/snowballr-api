@@ -1,0 +1,10 @@
+syntax = "proto3";
+package snowballr;
+
+message Paper {
+    uint64 id = 1;
+}
+
+message PaperList {
+    repeated Paper papers = 1;
+}
