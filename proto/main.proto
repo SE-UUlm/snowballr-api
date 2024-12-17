@@ -4,39 +4,79 @@ package snowballr;
 import "authentication.proto";
 import "base.proto";
 import "project.proto";
+import "criterion.proto";
+import "user.proto";
+import "paper.proto";
+
 
 service SnowballR {
   rpc Register (RegisterRequest) returns (RegisterReply);
   rpc Login (LoginRequest) returns (LoginReply);
   rpc Logout (Nothing) returns (Nothing); 
-  rpc ResetPassword (UserIdentifier) returns (Nothing);
-  rpc SoftDelete (UserIdentifier) returns (Nothing);
-  rpc SoftUndelete (UserIdentifier) returns (Nothing);
+  rpc ResetPassword (ResetPasswordRequest) returns (Nothing);
+
+
 
   rpc GetAllUsers (Nothing) returns (UserList);
-  rpc GetUser (UserRequest) returns (User);
+  // If no user was provided, the requesting one is assumed.
+  rpc GetUserById (Id) returns (User);
+  rpc UpdateUser (User) returns (User);
+  rpc ChangePassword (PasswordChangeRequest) returns (Nothing);
+  rpc SoftDeleteUser (Id) returns (Nothing);
+  rpc SoftUndeleteUser (Id) returns (Nothing);
+  // Returns the pending invitations for the provided user.
+  // If no user was provided, the requesting one is assumed.
+  rpc GetPendingInvitations (Id) returns (ProjectList);
+  // Returns the projects the provided user is participating in.
+  // If no user was provided, the requesting one is assumed.
+  rpc GetUserProjects (Id) returns (ProjectList);
+  // Returns the archived projects the provided user has participated in.
+  // If no user was provided, the requesting one is assumed.
+  rpc GetUserArchivedProjects (Id) returns (ProjectList);
 
+  rpc GetReadingList (Nothing) returns (PaperList);
+  // Add the Paper with the provided id to the current users reading list.
+  rpc AddToReadingList (Id) returns (Nothing);
+  // Remove the Paper with the provided id from the current users reading list.
+  rpc RemoveFromReadingList (Id) returns (Nothing);
+  
 
-
-
-
-
-
-  rpc GetPendingInvitations (Nothing) returns (ProjectList);
 
   rpc GetAllProjects (Nothing) returns (ProjectList);
   rpc GetAllArchivedProjects (Nothing) returns (ProjectList);
-  rpc GetUserProjects (Nothing) returns (ProjectList);
-  rpc GetUserArchivedProjects (Nothing) returns (ProjectList);
   
+  // Create a project using the given data. The project id will be ignored
+  // and set by the server.
   rpc CreateProject (Project) returns (Project);
-  rpc Invite (Email, Project) returns (Nothing);
-
+  rpc GetProjectById (Id) returns (Project);
+  // Update the project with the given id using the provided data. Only
+  // specified fields will be updated.
+  // Criterias may be modified and removed but cannot be created/added using
+  // this call, see `CreateCriterion` instead.
+  rpc UpdateProject (Project) returns (Project);
+  rpc InviteToProject (InviteRequest) returns (Nothing);
   rpc GetProjectMembers (Id) returns (UserList);
+  rpc RemoveProjectMember (MemberRemoveRequest) returns (Nothing);
+  rpc GetProjectReplicationPackageAsZip (Id) returns (ReplicationPackage);
+  rpc GetAllProjectPapersAsCsv (Id) returns (ProjectPaperListCsv);
+  // Create a criterion using the given data. The criterion id will be ignored
+  // and set by the server.
+  rpc CreateCriterion (CriterionCreationRequest) returns (Criterion);
 
-  rpc GetReadingList (Nothing) returns (PaperList);
-  rpc AddToReadingList (Id) returns (Nothing);
-  rpc RemoveFromReadingList (Id) returns (Nothing);
 
+  
+  rpc GetPaperById (Id) returns (Paper);
+  rpc UpdatePaper (Paper) returns (Paper);
+  // Create a criterion using the given data. The criterion id will be ignored
+  // and set by the server.
+  rpc CreatePaper (Paper) returns (Paper);
+  rpc GetForwardReferencedPapers (Id) returns (PaperList);
+  rpc GetBackwardReferencedPapers (Id) returns (PaperList);
+
+
+
+  rpc GetProjectPaperById (Id) returns (ProjectPaper);
+  rpc UpdateProjectPaper (ProjectPaper) returns (ProjectPaper);
+  rpc DeleteProjectPaper (ProjectPaper) returns (Nothing);
 }
 

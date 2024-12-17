@@ -1,8 +1,6 @@
 syntax = "proto3";
 package snowballr;
 
-import "base.proto";
-
 enum CriterionCategory {
   CRITERION_CATEGORY_UNSPECIFIED = 0;
   CRITERION_CATEGORY_INCLUSION = 1;
@@ -11,9 +9,18 @@ enum CriterionCategory {
 }
 
 message Criterion {
-  Id id = 1;
+  string id = 1;
   string tag = 2;
   string name = 3;
   string description = 4;
   CriterionCategory category = 5;
+}
+
+message CriterionList {
+  repeated Criterion criteria = 1;
+}
+
+message CriterionCreationRequest {
+  string project_id = 1;
+  Criterion criterion = 2;
 }

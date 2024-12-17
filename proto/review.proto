@@ -1,29 +1,26 @@
 syntax = "proto3";
 package snowballr;
 
-enum FinalDecision {
-  FINAL_DECISION_UNSPECIFIED = 0;
-  FINAL_DECISION_DECLINED = 1;
-  FINAL_DECISION_ACCEPTED = 2;
-}
-
-enum ReviewDecision {
-  REVIEW_DECISION_UNSPECIFIED = 0;
-  REVIEW_DECISION_DECLINED = 1;
-  REVIEW_DECISION_MAYBE = 2;
-  REVIEW_DECISION_ACCEPTED = 3;
-}
+import "decisions.proto";
 
 message ReviewDecisionMatrix {
   message Pattern {
     repeated ReviewDecision reviews = 1;
-    FinalDecision decision = 2; 
+    PaperDecision decision = 2; 
   }
 
   uint32 number_of_reviewers = 1;
   repeated Pattern patterns = 2;
 }
 
+enum ReviewStatus {
+    REVIEW_STATUS_UNSPECIFIED = 0;
+    REVIEW_STATUS_FINISHED = 1;
+}
+
 message Review {
-  
+    string user_id = 1;
+    ReviewStatus status = 2;
+    ReviewDecision decision = 3;
+    repeated string selected_criteria_ids = 4;
 }

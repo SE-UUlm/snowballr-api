@@ -1,0 +1,16 @@
+syntax = "proto3";
+package snowballr;
+
+enum ReviewDecision {
+  REVIEW_DECISION_UNSPECIFIED = 0;
+  REVIEW_DECISION_DECLINED = 1;
+  REVIEW_DECISION_MAYBE = 2;
+  REVIEW_DECISION_ACCEPTED = 3;
+}
+
+enum PaperDecision {
+  PAPER_DECISION_UNSPECIFIED = 0;
+  PAPER_DECISION_DECLINED = 1;
+  PAPER_DECISION_ACCEPTED = 2;
+}
+
