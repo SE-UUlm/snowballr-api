@@ -1,7 +1,7 @@
 syntax = "proto3";
 package snowballr;
 
-import "base.proto";
+import "google/protobuf/field_mask.proto";
 
 enum CriterionCategory {
   CRITERION_CATEGORY_UNSPECIFIED = 0;
@@ -11,9 +11,28 @@ enum CriterionCategory {
 }
 
 message Criterion {
-  Id id = 1;
+  string id = 1;
   string tag = 2;
   string name = 3;
   string description = 4;
   CriterionCategory category = 5;
+
+  message List {
+    repeated Criterion criteria = 1;
+  }
+
+  message Create {
+    string project_id = 1;
+    string tag = 2;
+    string name = 3;
+    string description = 4;
+    CriterionCategory category = 5;
+  }
+
+  message Update {
+    Criterion criterion = 1;
+    google.protobuf.FieldMask mask = 2;
+  }
 }
+
+

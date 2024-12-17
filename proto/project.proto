@@ -1,29 +1,125 @@
 syntax = "proto3";
 package snowballr;
 
-import "base.proto";
-import "criterion.proto";
+import "google/protobuf/field_mask.proto";
+import "paper.proto";
 import "review.proto";
+import "user.proto";
 
-enum FetcherApi {
-  FETCHER_API_UNSPECIFIED = 0;
-  FETCHER_API_GOOGLE_SCHOLAR = 1;
-  FETCHER_API_SEMANTIC_SCHOLAR = 2;
-  FETCHER_API_IEEE_XPLORE = 3;
-  FETCHER_API_MICROSOFT_RESEARCH = 4;
-  FETCHER_API_OPEN_CITATIONS = 5;
-  FETCHER_API_CROSS_REF = 6;
+enum SnowballingType {
+  SNOWBALLING_TYPE_UNSPECIFIED = 0;
+  SNOWBALLING_TYPE_FORWARD = 1;
+  SNOWBALLING_TYPE_BACKWARD = 2;
+  SNOWBALLING_TYPE_BOTH = 3;
+}
+
+enum MemberRole {
+  MEMBER_ROLE_UNSPECIFIED = 0;
+  MEMBER_ROLE_DEFAULT = 1;
+  MEMBER_ROLE_ADMIN = 2;
+}
+
+enum ProjectStatus {
+  PROJECT_STATUS_UNSPECIFIED = 0;
+  PROJECT_STATUS_ACTIVE = 1;
+  PROJECT_STATUS_ARCHIVED = 2;
+  PROJECT_STATUS_DELETED = 3;
+}
+
+enum PaperDecision {
+  PAPER_DECISION_UNSPECIFIED = 0;
+  PAPER_DECISION_UNDECIDED = 1;
+  PAPER_DECISION_DECLINED = 2;
+  PAPER_DECISION_ACCEPTED = 3;
 }
 
 message Project {
-  Id id = 1;
+  string id = 1;
   string name = 2;
-  float similarity_threshold = 3;
-  ReviewDecisionMatrix decision_matrix = 4;
-  repeated FetcherApi fetcher_apis = 5;
-  repeated Criterion criteria = 6;
+  ProjectStatus status = 3;
+  uint64 current_stage = 4;
+  uint64 max_stage = 5;
+  Settings settings = 6;
+
+  message List {
+    repeated Project projects = 1;
+  }
+
+  message Create {
+    string name = 1;
+  }
+
+  message Update {
+    Project project = 1;
+    google.protobuf.FieldMask mask = 2;
+  }
+
+  message Statistics {
+    float project_progress = 1;
+
+    message Get {
+      string project_id = 1;
+      google.protobuf.FieldMask mask = 2;
+    }
+  }
+
+  message Settings {
+    float similarity_threshold = 5;
+    ReviewDecisionMatrix decision_matrix = 6;
+    repeated string fetcher_apis = 7;
+    SnowballingType snowballing_type = 8;
+    bool review_maybe_allowed = 9;
+  }
+
+  message Member {
+    User user = 1;
+    MemberRole role = 2;
+
+    message List {
+      repeated Member members = 1;
+    }
+
+    message Invite {
+      string project_id = 1;
+      string user_email = 2;
+    }
+
+    message Remove {
+      string project_id = 1;
+      string user_id = 2;
+    }
+  }
+
+  message Paper {
+    string id = 1;
+    snowballr.Paper paper = 2;
+    uint64 stage = 3;
+    PaperDecision decision = 4;
+    repeated Review reviews = 5;
+
+    message List {
+      repeated Paper project_papers = 1;
+    }
+
+    message Add {
+      string project_id = 1;
+      uint64 stage = 2;
+      string paper_id = 3;
+    }
+
+    message Update {
+      Paper project_paper = 1;
+      google.protobuf.FieldMask mask = 2;
+    }
+  }
 }
 
-message ProjectList {
-  repeated Project projects = 1;
+message ReviewDecisionMatrix {
+  message Pattern {
+    repeated ReviewDecision reviews = 1;
+    PaperDecision decision = 2; 
+  }
+
+  uint32 number_of_reviewers = 1;
+  repeated Pattern patterns = 2;
 }
