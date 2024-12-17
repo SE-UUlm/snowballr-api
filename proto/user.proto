@@ -1,27 +1,35 @@
 syntax = "proto3";
 package snowballr;
 
-import "base.proto";
+import "google/protobuf/field_mask.proto";
 
-enum Role {
-    PROJECT_MEMBER = 1;
-    PROJECT_ADMIN = 2;
-    SERVER_ADMIN = 3;
+enum UserRole {
+  USER_ROLE_UNSPECIFIED = 0;
+  USER_ROLE_DEFAULT = 1;
+  USER_ROLE_ADMIN = 2;
+}
+
+enum UserStatus {
+  USER_STATUS_UNSPECIFIED = 0;
+  USER_STATUS_ACTIVE = 1;
+  USER_STATUS_DELETED = 2;
 }
 
 message User {
-    Id id = 1;
-    string first_name = 2;
-    string last_name = 3;
-    Role role = 4;
-}
+  string id = 1;
+  string email = 2;
+  string first_name = 3;
+  string last_name = 4;
+  UserRole role = 5;
+  UserStatus status = 6;
 
-message UserList {
+  message List {
     repeated User users = 1;
+  }
+
+  message Update {
+    User user = 1;
+    google.protobuf.FieldMask mask = 2;
+  }
 }
 
-message UserRequest {
-    Id id = 1;
-
-    bool return first_name
-}

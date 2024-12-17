@@ -3,21 +3,23 @@
 This repository contains the API specification of the *SnowballR* project.
 For communication between the backend and frontend, [gRPC](https://grpc.io) is
 used, whereas the services are defined by Protocol Buffers
-(see [/proto](./proto/) for the service definiton
+(see [/proto](./proto/) for the service definition
 (in [main.proto](./proto/main.proto)) and all required `.proto` files).
 
 ## Usage
 
-To use integrate the API specification into the backend or frontend, integrate
-this repository as git submodule in the corresponding repository.
+To integrate the API specification into the backend or frontend, add
+this repository as a git submodule in the corresponding repository.
 
 In the backend / frontend repository, execute the following commands:
 
 ```bash
 git submodule add [-b branch] git@github.com:SE-UUlm/snowballr-api.git <name>
 git submodule update --init --recursive
-
 ```
+
+Then follow the [instructions](https://grpc.io/docs/languages/) on the gRPC
+documentation page to generate the relevant files for your project.
 
 ## Linting
 
@@ -40,3 +42,9 @@ automatically after every push to `main` and `develop` as well as after a
 version tag has been set. The generated documentation is packaged into a
 docker container running [nginx](https://nginx.org/) and is served on the
 internal port `80`.
+
+The documentation can be built locally using docker:
+```bash
+docker build . -t snowballr-api
+docker run -it -p 8080:80 snowballr-api:latest
+```

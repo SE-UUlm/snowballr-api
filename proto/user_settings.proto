@@ -1,0 +1,18 @@
+syntax = "proto3";
+package snowballr;
+
+import "criterion.proto";
+import "google/protobuf/field_mask.proto";
+import "project.proto";
+
+message UserSettings {
+  bool show_hotkeys = 1;
+  bool review_mode = 2;
+  Project.Settings default_project_settings = 3;
+  Criterion.List default_criteria = 4;
+
+  message Update {
+    UserSettings user_settings = 1;
+    google.protobuf.FieldMask mask = 2;
+  }
+}

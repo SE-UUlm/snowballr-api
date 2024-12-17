@@ -6,8 +6,9 @@ message LoginRequest {
   string password = 2;
 }
 
-message LoginReply {
-  string secret = 1;
+message LoginSecret {
+  string access_token = 1;
+  string refresh_token = 2;
 }
 
 message RegisterRequest {
@@ -17,7 +18,21 @@ message RegisterRequest {
   string password = 4;
 }
 
-message RegisterReply {
-  bool successful = 1;
-  string secret = 2;
+message RenewRequest {
+  string refresh_token = 1;
 }
+
+message RequestPasswordResetRequest {
+  string email = 1;
+}
+
+message PasswordResetRequest {
+  string token = 1;
+  string new_password = 2;
+}
+
+message PasswordChangeRequest {
+  string old_password = 1;
+  string new_password = 2;
+}
+

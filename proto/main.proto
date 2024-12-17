@@ -3,40 +3,129 @@ package snowballr;
 
 import "authentication.proto";
 import "base.proto";
+import "criterion.proto";
+import "export.proto";
+import "paper.proto";
 import "project.proto";
+import "review.proto";
+import "user.proto";
+import "user_settings.proto";
 
 service SnowballR {
-  rpc Register (RegisterRequest) returns (RegisterReply);
-  rpc Login (LoginRequest) returns (LoginReply);
-  rpc Logout (Nothing) returns (Nothing); 
-  rpc ResetPassword (UserIdentifier) returns (Nothing);
-  rpc SoftDelete (UserIdentifier) returns (Nothing);
-  rpc SoftUndelete (UserIdentifier) returns (Nothing);
-
-  rpc GetAllUsers (Nothing) returns (UserList);
-  rpc GetUser (UserRequest) returns (User);
-
-
-
-
-
-
-
-  rpc GetPendingInvitations (Nothing) returns (ProjectList);
-
-  rpc GetAllProjects (Nothing) returns (ProjectList);
-  rpc GetAllArchivedProjects (Nothing) returns (ProjectList);
-  rpc GetUserProjects (Nothing) returns (ProjectList);
-  rpc GetUserArchivedProjects (Nothing) returns (ProjectList);
+  rpc GetAvailableFetcherApis (Nothing) returns (AvailableFetcherApis);
   
-  rpc CreateProject (Project) returns (Project);
-  rpc Invite (Email, Project) returns (Nothing);
 
-  rpc GetProjectMembers (Id) returns (UserList);
+  rpc Register (RegisterRequest) returns (LoginSecret);
+  rpc Login (LoginRequest) returns (LoginSecret);
+  rpc Logout (Nothing) returns (Nothing);
+  rpc IsAuthenticated (Nothing) returns (BoolValue);
+  rpc RenewSession (RenewRequest) returns (LoginSecret);
+  rpc RequestPasswordReset (RequestPasswordResetRequest) returns (Nothing);
+  // Request an email from the server to help you reset your password
+  // in case you forgot it.
+  rpc ResetPassword (PasswordResetRequest) returns (Nothing);
+  // Change your password by free will using your old one as additional
+  // authentication.
+  rpc ChangePassword (PasswordChangeRequest) returns (Nothing);
 
-  rpc GetReadingList (Nothing) returns (PaperList);
-  rpc AddToReadingList (Id) returns (Nothing);
-  rpc RemoveFromReadingList (Id) returns (Nothing);
+  
+  rpc GetAllUsers (Nothing) returns (User.List);
+  // The currently logged in user of this session.
+  rpc GetCurrentUser (Nothing) returns (User);
+  rpc GetUserById (Id) returns (User);
+  rpc GetUserByEmail (Id) returns (User);
+  // Update all in the field-mask specified attributes except for id and
+  // status. This especially includes role and email.
+  rpc UpdateUser (User.Update) returns (User);
+  rpc SoftDeleteUser (Id) returns (Nothing);
+  rpc SoftUndeleteUser (Id) returns (Nothing);
 
+  
+  // Get all papers the requesting user should review no matter the project.
+  rpc GetAllPapersToReview (Nothing) returns (Project.Paper.List);
+  // Get all papers from a specific project the requesting user should review.
+  rpc GetPapersToReviewForProject (Id) returns (Project.Paper.List);
+  
+
+  rpc GetUserSettings (Nothing) returns (UserSettings);
+  rpc UpdateUserSettings (UserSettings.Update) returns (UserSettings);
+
+
+  rpc GetReadingList (Nothing) returns (Paper.List);
+  rpc IsPaperOnReadingList (Id) returns (BoolValue);
+  rpc AddPaperToReadingList (Id) returns (Nothing);
+  rpc RemovePaperFromReadingList (Id) returns (Nothing);
+
+  
+  rpc GetPendingInvitationsForUser (Id) returns (Project.List);
+  rpc InviteUserToProject (Project.Member.Invite) returns (Nothing);
+  rpc GetPendingInvitationsForProject (Id) returns (User.List);
+  rpc GetProjectMembers (Id) returns (Project.Member.List);
+  rpc RemoveProjectMember (Project.Member.Remove) returns (Nothing);
+
+
+  rpc GetAllProjects (Nothing) returns (Project.List);
+  rpc GetAllDeletedProjects (Nothing) returns (Project.List);
+  // Returns the projects the provided user is part of.
+  rpc GetAllDeletedProjectsForUser (Id) returns (Project.List);
+  rpc GetAllArchivedProjects (Nothing) returns (Project.List);
+  // Returns the projects the provided user is participating in.
+  rpc GetAllProjectsForUser (Id) returns (Project.List);
+  // Returns the archived projects the provided user has participated in.
+  rpc GetAllArchivedProjectsForUser (Id) returns (Project.List);
+  rpc CreateProject (Project.Create) returns (Project);
+  rpc GetProjectById (Id) returns (Project);
+  // Update the project with the given id using the provided data. Only
+  // specified fields will be updated.
+  rpc UpdateProject (Project.Update) returns (Project);
+  rpc ExportProject (ExportRequest) returns (Blob);
+  rpc SoftDeleteProject (Id) returns (Nothing);
+  rpc SoftUndeleteProject (Id) returns (Nothing);
+  rpc GetProjectStatistics (Project.Statistics.Get)
+    returns (Project.Statistics);
+
+  
+  rpc GetCriterionById (Id) returns (Criterion);
+  rpc GetAllCriteriaForProject (Id) returns (Criterion.List);
+  rpc CreateCriterion (Criterion.Create) returns (Criterion);
+  // Update the criterion with the given id using the provided data. Only
+  // specified fields will be updated.
+  rpc UpdateCriterion (Criterion.Update) returns (Criterion);
+  rpc DeleteCriterion (Id) returns (Nothing);
+
+
+  rpc GetProjectPaperById (Id) returns (Project.Paper);
+  rpc GetAllProjectPapersForProject (Id) returns (Project.Paper.List);
+  rpc AddPaperToProject (Project.Paper.Add) returns (Project.Paper);
+  // Update the project paper with the given id using the provided data. Only
+  // specified fields will be updated.
+  rpc UpdateProjectPaper (Project.Paper.Update) returns (Project.Paper);
+  rpc RemovePaperFromProject (Id) returns (Nothing);
+
+
+  rpc GetReviewById (Id) returns (Review);
+  rpc GetAllReviewsForProjectPaper (Id) returns (Review.List);
+  rpc CreateReview (Review.Create) returns (Review);
+  // Update the review with the given id using the provided data. Only
+  // specified fields will be updated.
+  rpc UpdateReview (Review.Update) returns (Review);
+  rpc DeleteReview (Id) returns (Nothing);
+  
+  
+  rpc GetPaperById (Id) returns (Paper);
+  // Create a paper using the given data. The paper id will be ignored
+  // and set by the server.
+  rpc CreatePaper (Paper) returns (Paper);
+  // Update the paper with the given id using the provided data. Only
+  // specified fields will be updated.
+  rpc UpdatePaper (Paper.Update) returns (Paper);
+  rpc GetForwardReferencedPapers (Id) returns (Paper.List);
+  rpc GetBackwardReferencedPapers (Id) returns (Paper.List);
+  rpc GetPaperPdf (Id) returns (Blob);
+  rpc SetPaperPdf (Paper.PdfUpdate) returns (Nothing);
+}
+
+message AvailableFetcherApis {
+  repeated string fetcher_apis = 1;
 }
 
