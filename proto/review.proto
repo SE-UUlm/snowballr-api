@@ -1,11 +1,7 @@
 syntax = "proto3";
 package snowballr;
 
-enum FinalDecision {
-  FINAL_DECISION_UNSPECIFIED = 0;
-  FINAL_DECISION_DECLINED = 1;
-  FINAL_DECISION_ACCEPTED = 2;
-}
+import "google/protobuf/field_mask.proto";
 
 enum ReviewDecision {
   REVIEW_DECISION_UNSPECIFIED = 0;
@@ -14,16 +10,24 @@ enum ReviewDecision {
   REVIEW_DECISION_ACCEPTED = 3;
 }
 
-message ReviewDecisionMatrix {
-  message Pattern {
-    repeated ReviewDecision reviews = 1;
-    FinalDecision decision = 2; 
+message Review {
+  string id = 1;
+  string user_id = 2;
+  ReviewDecision decision = 3;
+  repeated string selected_criteria_ids = 4;
+
+  message List {
+    repeated Review reviews = 1;
   }
 
-  uint32 number_of_reviewers = 1;
-  repeated Pattern patterns = 2;
-}
+  message Create {
+    string project_paper_id = 1;
+    ReviewDecision decision = 2;
+    repeated string selected_criteria_ids = 3;
+  }
 
-message Review {
-  
+  message Update {
+    Review review = 1;
+    google.protobuf.FieldMask mask = 2;
+  }
 }

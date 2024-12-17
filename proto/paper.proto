@@ -2,17 +2,38 @@ syntax = "proto3";
 package snowballr;
 
 import "base.proto";
+import "google/protobuf/field_mask.proto";
 
-enum PaperDecision {
-  PAIdCISION_UNSPECIFIED = 0;
-  PAPER_DECISION_DECLINED = 1;
-  PAPER_DECISION_ACCEPTED = 2;
+message Author {
+  string first_name = 1;
+  string last_name = 2;
+  string orcid = 3;
 }
 
 message Paper {
-    uint64 id = 1;
-}
+  string id = 1;
+  string external_id = 2;
+  string title = 3;
+  string abstrakt = 4;
+  int32 year = 5;
+  string publisher = 6;
+  string publication_name = 7;
+  string publication_type = 8;
+  bool has_pdf = 9;
+  repeated Author authors = 10;
+  repeated string backward_referenced_ids = 11;
 
-message PaperList {
+  message List {
     repeated Paper papers = 1;
+  }
+
+  message Update {
+    Paper paper = 1;
+    google.protobuf.FieldMask mask = 2;
+  }
+
+  message PdfUpdate {
+    string paper_id = 1;
+    Blob pdf = 2;
+  }
 }

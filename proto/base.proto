@@ -1,16 +1,17 @@
 syntax = "proto3";
 package snowballr;
 
-message Id {
-  uint64 id = 1;
-}
-
-message UserIdentifier {
-  oneof id {
-    string email = 1;
-    Id userId = 2;
-  }
-}
-
 message Nothing {
+}
+
+message Id {
+  string id = 1;
+}
+
+message BoolValue {
+  bool value = 1;
+}
+
+message Blob {
+  bytes data = 1;
 }
