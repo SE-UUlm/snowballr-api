@@ -1,7 +1,6 @@
 syntax = "proto3";
 package snowballr;
 
-import "base.proto";
 import "criterion.proto";
 import "review.proto";
 
@@ -15,15 +14,43 @@ enum FetcherApi {
   FETCHER_API_CROSS_REF = 6;
 }
 
+enum ProjectStatus {
+  PROJECT_STATUS_UNSPECIFIED = 0;
+  PROJECT_STATUS_ACTIVE = 1;
+  PROJECT_STATUS_ARCHIVED = 2;
+}
+
 message Project {
-  Id id = 1;
+  string id = 1;
   string name = 2;
-  float similarity_threshold = 3;
-  ReviewDecisionMatrix decision_matrix = 4;
-  repeated FetcherApi fetcher_apis = 5;
-  repeated Criterion criteria = 6;
+  ProjectStatus status = 3;
+  uint64 current_stage = 4;
+  float similarity_threshold = 5;
+  ReviewDecisionMatrix decision_matrix = 6;
+  repeated FetcherApi fetcher_apis = 7;
+  repeated Criterion criteria = 8;
 }
 
 message ProjectList {
   repeated Project projects = 1;
 }
+
+message InviteRequest {
+  string project_id = 1;
+  string user_email = 2;
+}
+
+message MemberRemoveRequest {
+  string project_id = 1;
+  string user_id = 2;
+}
+
+message ReplicationPackage {
+  bytes data = 1;
+}
+
+message ProjectPaperListCsv {
+  bytes data = 1;
+}
+
+

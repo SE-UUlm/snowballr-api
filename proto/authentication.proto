@@ -18,6 +18,9 @@ message RegisterRequest {
 }
 
 message RegisterReply {
-  bool successful = 1;
   string secret = 2;
+}
+
+message ResetPasswordRequest {
+  string email = 1;
 }
