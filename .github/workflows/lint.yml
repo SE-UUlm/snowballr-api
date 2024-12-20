@@ -1,0 +1,20 @@
+name: Linting
+
+on:
+  push:
+    branches: ['main', 'develop']
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  linting:
+    name: Linting
+    runs-on: ubuntu-latest
+    container: yoheimuta/protolint:latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run protolint
+        run: protolint *.proto
+    
