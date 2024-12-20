@@ -16,5 +16,5 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Run protolint
-        run: protolint *.proto
+        run: protolint proto/*.proto
     
