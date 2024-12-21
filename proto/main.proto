@@ -18,7 +18,7 @@ service SnowballR {
 
 
   rpc GetAllUsers (Nothing) returns (UserList);
-  // If no user was provided, the requesting one is assumed.
+  // If no user id was provided, the requesting one is assumed.
   rpc GetUserById (Id) returns (User);
   rpc UpdateUser (User) returns (User);
   rpc ChangePassword (PasswordChangeRequest) returns (Nothing);

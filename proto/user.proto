@@ -20,6 +20,11 @@ message User {
     UserRole role = 5;
 }
 
+message UserUpdate {
+    User user = 1;
+    FieldMask mask = 2;
+}
+
 message PasswordChangeRequest {
     string old_password = 1;
     string new_password = 2;
