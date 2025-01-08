@@ -1,0 +1,6 @@
+[language-server.protols]
+command = "protols"
+
+[[language]]
+name = "protobuf"
+language-servers = [ "protols" ]
