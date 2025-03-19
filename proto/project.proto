@@ -92,10 +92,16 @@ message Project {
 
   message Paper {
     string id = 1;
+    string local_id = 6;
     snowballr.Paper paper = 2;
     uint64 stage = 3;
     PaperDecision decision = 4;
     repeated Review reviews = 5;
+
+    message Get {
+      string project_id = 1;
+      string relative_project_paper_id = 2;
+    }
 
     message List {
       repeated Paper project_papers = 1;
