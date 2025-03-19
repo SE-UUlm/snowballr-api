@@ -83,6 +83,7 @@ service SnowballR {
   rpc SoftUndeleteProject (Id) returns (Nothing);
   rpc GetProjectStatistics (Project.Statistics.Get)
     returns (Project.Statistics);
+  rpc UpdateProjectMemberRole (Project.Member.Update) returns (Nothing);
 
   
   rpc GetCriterionById (Id) returns (Criterion);

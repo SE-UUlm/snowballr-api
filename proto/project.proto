@@ -88,6 +88,12 @@ message Project {
       string project_id = 1;
       string user_id = 2;
     }
+
+    message Update {
+      string project_id = 1;
+      string user_id = 2;
+      MemberRole new_role = 3;
+    }
   }
 
   message Paper {
