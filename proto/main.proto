@@ -95,6 +95,7 @@ service SnowballR {
 
 
   rpc GetProjectPaperById (Id) returns (Project.Paper);
+  rpc GetProjectPaperByRelativeId (Project.Paper.Get) returns (Project.Paper);
   rpc GetAllProjectPapersForProject (Id) returns (Project.Paper.List);
   rpc AddPaperToProject (Project.Paper.Add) returns (Project.Paper);
   // Update the project paper with the given id using the provided data. Only
