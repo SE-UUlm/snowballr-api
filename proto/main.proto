@@ -81,8 +81,10 @@ service SnowballR {
   rpc ExportProject (ExportRequest) returns (Blob);
   rpc SoftDeleteProject (Id) returns (Nothing);
   rpc SoftUndeleteProject (Id) returns (Nothing);
-  rpc GetProjectStatistics (Project.Statistics.Get)
-    returns (Project.Statistics);
+  rpc GetProjectInformation (Project.Information.Get)
+    returns (Project.Information);
+  rpc GetStageDecisionStats (Project.Information.DecisionStats.Get)
+    returns (Project.Information.DecisionStats);
   rpc UpdateProjectMemberRole (Project.Member.Update) returns (Nothing);
 
   

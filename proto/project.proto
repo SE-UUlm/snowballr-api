@@ -2,6 +2,7 @@ syntax = "proto3";
 package snowballr;
 
 import "google/protobuf/field_mask.proto";
+import "google/protobuf/timestamp.proto";
 import "paper.proto";
 import "review.proto";
 import "user.proto";
@@ -54,12 +55,28 @@ message Project {
     google.protobuf.FieldMask mask = 2;
   }
 
-  message Statistics {
+  message Information {
     float project_progress = 1;
+    google.protobuf.Timestamp creation_date = 2;
+    google.protobuf.Timestamp last_stage_started = 3;
 
     message Get {
       string project_id = 1;
       google.protobuf.FieldMask mask = 2;
+    }
+
+    message DecisionStats {
+      repeated Stat stats = 1;
+
+      message Stat {
+        PaperDecision decision = 1;
+        uint64 count = 2;
+      };
+
+      message Get {
+        string project_id = 1;
+        uint64 stage = 2;
+      }
     }
   }
 
