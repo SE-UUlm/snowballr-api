@@ -85,6 +85,7 @@ service SnowballR {
     returns (Project.Information);
   rpc GetDecisionStatisticsForStage (Project.Information.DecisionStatistics.Get)
     returns (Project.Information.DecisionStatistics);
+  rpc UpdateProjectMemberRole (Project.Member.Update) returns (Nothing);
 
   
   rpc GetCriterionById (Id) returns (Criterion);
