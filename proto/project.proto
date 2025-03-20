@@ -65,10 +65,10 @@ message Project {
       google.protobuf.FieldMask mask = 2;
     }
 
-    message DecisionStats {
-      repeated Stat stats = 1;
+    message DecisionStatistics {
+      repeated Statistic statistics = 1;
 
-      message Stat {
+      message Statistic {
         PaperDecision decision = 1;
         uint64 count = 2;
       };
