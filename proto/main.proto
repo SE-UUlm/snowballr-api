@@ -18,7 +18,7 @@ service SnowballR {
   rpc Register (RegisterRequest) returns (LoginSecret);
   rpc Login (LoginRequest) returns (LoginSecret);
   rpc Logout (Nothing) returns (Nothing);
-  rpc IsAuthenticated (Nothing) returns (BoolValue);
+  rpc GetAuthenticationStatus (Nothing) returns (AuthenticationStatus);
   rpc RenewSession (RenewRequest) returns (LoginSecret);
   rpc RequestPasswordReset (RequestPasswordResetRequest) returns (Nothing);
   // Request an email from the server to help you reset your password
