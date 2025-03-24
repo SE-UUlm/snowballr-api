@@ -15,11 +15,11 @@ service SnowballR {
   rpc GetAvailableFetcherApis (Nothing) returns (AvailableFetcherApis);
   
 
-  rpc Register (RegisterRequest) returns (LoginSecret);
-  rpc Login (LoginRequest) returns (LoginSecret);
+  rpc Register (RegisterRequest) returns (Nothing);
+  rpc Login (LoginRequest) returns (Nothing);
   rpc Logout (Nothing) returns (Nothing);
   rpc IsAuthenticated (Nothing) returns (BoolValue);
-  rpc RenewSession (RenewRequest) returns (LoginSecret);
+  rpc RenewSession (Nothing) returns (Nothing);
   rpc RequestPasswordReset (RequestPasswordResetRequest) returns (Nothing);
   // Request an email from the server to help you reset your password
   // in case you forgot it.
