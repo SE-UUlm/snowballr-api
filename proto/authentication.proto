@@ -27,3 +27,13 @@ message PasswordChangeRequest {
   string new_password = 2;
 }
 
+enum AuthenticationStatus {
+  AUTHENTICATION_STATUS_UNSPECIFIED = 0;
+  AUTHENTICATION_STATUS_UNAUTHENTICATED = 1;
+  AUTHENTICATION_STATUS_ACCESS_TOKEN_EXPIRED = 2;
+  AUTHENTICATION_STATUS_AUTHENTICATED = 3;
+}
+
+message AuthenticationStatusResponse {
+  AuthenticationStatus authentication_status = 1;
+}
