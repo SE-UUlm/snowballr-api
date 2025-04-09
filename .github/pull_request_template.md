@@ -3,7 +3,7 @@ Closes <!-- issue reference -->
 ## What I have made
 
 <!-- write down what changes have been made, what was removed/added/changed -->
-<!-- e.g. I added a new service, which does x -->
+<!-- e.g. I added a new call, which does x -->
 
 ## Checklist
 
