@@ -59,7 +59,7 @@ service SnowballR {
   
   rpc GetPendingInvitationsForUser (Id) returns (Project.List);
   rpc InviteUserToProject (Project.Member.Invite) returns (Nothing);
-  rpc GetPendingInvitationsForProject (Id) returns (User.List);
+  rpc GetPendingInvitationsForProject (Id) returns (Project.InvitedMemberList);
   rpc GetProjectMembers (Id) returns (Project.Member.List);
   rpc RemoveProjectMember (Project.Member.Remove) returns (Nothing);
 

@@ -43,6 +43,11 @@ message Project {
   uint64 max_stage = 5;
   Settings settings = 6;
 
+  message InvitedMemberList {
+    repeated User users = 1;
+    repeated string foreigner_emails = 2;
+  }
+
   message List {
     repeated Project projects = 1;
   }
