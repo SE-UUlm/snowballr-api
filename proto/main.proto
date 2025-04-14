@@ -11,6 +11,31 @@ import "review.proto";
 import "user.proto";
 import "user_settings.proto";
 
+// ~~~mermaid
+// architecture-beta
+//  group frontend(internet)[Frontend]
+//  service browser(internet)[Browser] in frontend
+// 
+//  group backend(server)[Backend]
+//  service server(server)[SnowballR Server] in backend
+//  service db(database)[Database] in backend
+//
+//  group external(internet)[External Resources]
+//  service fetcher1(internet)[External Paper Database 1] in external
+//  service fetcher2(internet)[External Paper Database 2] in external
+// 
+//  junction j1 in external
+//  junction j2 in external
+// 
+//  browser:R --> L:server
+// 
+//  server:B --> T:db
+//  server:R -- L:j1
+// 
+//  j1:R -- L:j2
+//  j1:B --> T:fetcher1
+//  j2:B --> T:fetcher2
+// ~~~
 service SnowballR {
   rpc GetAvailableFetcherApis (Nothing) returns (AvailableFetcherApis);
   
