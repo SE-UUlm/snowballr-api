@@ -36,6 +36,27 @@ import "user_settings.proto";
 //  j1:B --> T:fetcher1
 //  j2:B --> T:fetcher2
 // ~~~
+//
+// ~~~mermaid
+// erDiagram
+//  direction LR
+// 
+//  Project 0+ -- 0+ User : "member of"
+//  Project 1 -- 1 ProjectSettings : has
+//  Project 1 -- 0+ ProjectPaper : contains
+//  Project 1 -- 0+ Criterion : contains
+// 
+//  ProjectSettings 0+ -- 1+ FetcherApi : "fetches from"
+// 
+//  ProjectPaper 1 -- 0+ Review : has
+//  ProjectPaper 1 -- 1 Paper : "refers to"
+// 
+//  Review 0+ -- 1 User : by
+//  Review 0+ -- 0+ Criterion : "ticks off"
+// 
+//  User 1 -- 1 UserSettings : has
+//  User 0+ -- 0+ Paper : "reading-list"
+// ~~~
 service SnowballR {
   rpc GetAvailableFetcherApis (Nothing) returns (AvailableFetcherApis);
   
