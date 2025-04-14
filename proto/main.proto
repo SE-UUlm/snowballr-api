@@ -53,6 +53,18 @@ import "user_settings.proto";
 //  j1:B --> T:fetcher1
 //  j2:B --> T:fetcher2
 // ~~~
+//
+// ~~~mermaid
+// erDiagram
+//  direction LR
+//  Project }o--o{ User : "member of"
+//  Project ||--o{ ProjectPaper : contains
+//  ProjectPaper ||--o{ Review : has
+//  Review }o--|| User : by
+//  ReadingListItem }o--|| User : "belongs to"
+//  ReadingListItem }o--|| Paper : "refers to"
+//  User ||--|| UserSettings : has
+// ~~~
 service SnowballR {
   // Query all available origins a paper may be sourced from by the backend.
   // Each source is identified by a unique string and is later used to specify
