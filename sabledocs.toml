@@ -1,0 +1,1 @@
+markdown-extensions = ["fenced_code", "nl2br", "markdown_mermaidjs"]
