@@ -5,8 +5,8 @@ on:
   workflow_dispatch:
 
 jobs:
-  linting:
-    name: Linting
+  api-linting:
+    name: Linting the API definition
     runs-on: ubuntu-latest
     container: yoheimuta/protolint:latest
     steps:
@@ -15,3 +15,22 @@ jobs:
 
       - name: Run protolint
         run: protolint proto/*.proto
+
+  changelog-linting:
+    name: Linting the changelog
+    runs-on: ubuntu-latest
+    if: contains(github.event.pull_request.base.ref, 'releases')
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Install hallmark
+        run: npm install -g hallmark
+
+      - name: Lint CHANGELOG.md
+        run: hallmark CHANGELOG.md
