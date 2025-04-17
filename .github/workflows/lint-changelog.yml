@@ -24,3 +24,8 @@ jobs:
 
       - name: Lint CHANGELOG.md
         run: hallmark CHANGELOG.md
+
+      - name: Check for broken references in CHANGELOG.md
+        uses: becheran/mlc@v0.21.0
+        with:
+          args: CHANGELOG.md
