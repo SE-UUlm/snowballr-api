@@ -34,7 +34,7 @@ To release a new version of the API, follow these steps:
    ```
    Replace `X`, `Y`, `Z` with the correct version numbers according to semantic versioning.
 
-2. Add an entry to the _CHANGELOG.md_. Use [hallmark](https://github.com/vweevers/hallmark) to add the entry:
+2. Add an entry to the _CHANGELOG.md_. Prefer using [hallmark](https://github.com/vweevers/hallmark) to add the entry:
 
    ```bash
    hallmark cc add major|minor|patch
