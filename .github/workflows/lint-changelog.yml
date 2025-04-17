@@ -2,20 +2,10 @@ name: Linting
 
 on:
   pull_request:
-  workflow_dispatch:
+    paths:
+      - CHANGELOG.md
 
 jobs:
-  api-linting:
-    name: Linting the API definition
-    runs-on: ubuntu-latest
-    container: yoheimuta/protolint:latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Run protolint
-        run: protolint proto/*.proto
-
   changelog-linting:
     name: Linting the changelog
     runs-on: ubuntu-latest
