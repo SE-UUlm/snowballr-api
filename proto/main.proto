@@ -11,21 +11,127 @@ import "review.proto";
 import "user.proto";
 import "user_settings.proto";
 
+// SnowballR is a tool aiming to assist in scientific research by organizing
+// and managing structured literature reviews. The application is split into
+// a web frontend and a backend on a central server keeping track of all data.
+// This service represents all available interactions between the frontend and
+// backend.
+//
+// Unless stated otherwise, **every** call **requires** the user to be
+// **authenticated**. This shall be achieved by providing a valid access token
+// assigned by the server (see [Login](#service-snowballr.SnowballR-Login)) in
+// the `Authorization` header.
+//
+// Every enum contains a `_UNSPECIFIED` variant indicating its absence.
+// If any other variant is present, the field is considered to be _specified_.
+// The word _guaranteed_ may only convey meaning in the context of this
+// contract. Due to the nature of the underlying network communication, a result
+// may never be really guaranteed and proper error handling is advised. In the
+// following, _guaranteed_ shall denote a situation in which the client shall
+// be able to safely make assumptions about a successfully received message.
+//
+// ~~~mermaid
+// architecture-beta
+//  group frontend(internet)[Frontend]
+//  service browser(internet)[Browser] in frontend
+// 
+//  group backend(server)[Backend]
+//  service server(server)[SnowballR Server] in backend
+//  service db(database)[Database] in backend
+//
+//  group external(internet)[External Resources]
+//  service fetcher1(internet)[External Paper Database 1] in external
+//  service fetcher2(internet)[External Paper Database 2] in external
+// 
+//  junction j1 in external
+//  junction j2 in external
+// 
+//  browser:R --> L:server
+// 
+//  server:B --> T:db
+//  server:R -- L:j1
+// 
+//  j1:R -- L:j2
+//  j1:B --> T:fetcher1
+//  j2:B --> T:fetcher2
+// ~~~
+//
+// ~~~mermaid
+// erDiagram
+//  direction LR
+//  Project }o--o{ User : "member of"
+//  Project ||--o{ ProjectPaper : contains
+//  ProjectPaper ||--o{ Review : has
+//  Review }o--|| User : by
+//  ReadingListItem }o--|| User : "belongs to"
+//  ReadingListItem }o--|| Paper : "refers to"
+//  User ||--|| UserSettings : has
+// ~~~
 service SnowballR {
+  // Query all available origins a paper may be sourced from by the backend.
+  // Each source is identified by a unique string and is later used to specify
+  // which services shall be used by a project to collect papers. The list is
+  // **guaranteed** to be **non-empty** but **may change** over time.
   rpc GetAvailableFetcherApis (Nothing) returns (AvailableFetcherApis);
   
-
+  // Create an account for this SnowballR instance. The provided
+  // **email must not be already registered** and
+  // **every field must not be empty**.
+  // If successful, a LoginSecret is provided. Use it to authenticate with the
+  // server.
+  //
+  // This call does not require the user to be authenticated.
   rpc Register (RegisterRequest) returns (Nothing);
+
+  // If email and password exactly match a user in the server's database, a
+  // new LoginSecret is provided to authenticate as that user. Old access and
+  // refresh tokens shall remain valid.
+  //
+  // This call does not require the user to be authenticated.
   rpc Login (LoginRequest) returns (Nothing);
+  
+  // Revoke access through the currently used set of access and refresh token.
+  // Other token pairs may not be affected.
   rpc Logout (Nothing) returns (Nothing);
+  
+  // Acquire the clients authentication status. The result is **guaranteed** to
+  // be **specified**.
+  //
+  // This call does not require the user to be authenticated.
   rpc GetAuthenticationStatus (Nothing) returns (AuthenticationStatusResponse);
+
+  // Upon presentation of a valid refresh token, a new LoginSecret
+  // authenticating the owner of the token is returned. The new pair is
+  // **guaranteed** to contain valid credentials. The refresh token
+  // **may change** too.
+  //
+  // Use this call if the access token is expired.
+  // This call does not require the user to be authenticated.
   rpc RenewSession (Nothing) returns (Nothing);
+
+  // If the provided email address is registered as an active user, a
+  // challange/token is emailed to that address. That token must be sent
+  // alongside a new password
+  // (see [ResetPassword](#service-snowballr.SnowballR-ResetPassword)) in order
+  // to update a lost or forgotten password.
+  //
+  // This call does not require the user to be authenticated.
   rpc RequestPasswordReset (RequestPasswordResetRequest) returns (Nothing);
-  // Request an email from the server to help you reset your password
-  // in case you forgot it.
+  
+  // After requesting a password reset email using
+  // [RequestPasswordReset](#service-snowballr.SnowballR-RequestPasswordReset),
+  // this call may be used to actually set the new password. To verify the
+  // ownership of the account, the token sent via email must also be provided
+  // and valid. The new password must follow the same rules as during
+  // [registration](#service-snowballr.SnowballR-Register).
+  //
+  // This call does not require the user to be authenticated.
   rpc ResetPassword (PasswordResetRequest) returns (Nothing);
-  // Change your password by free will using your old one as additional
-  // authentication.
+
+  // Use a valid access token and the old password in order to set a new
+  // password. The new password must follow the same rules as during
+  // [registration](#service-snowballr.SnowballR-Register). This serves no
+  // recovery purpose and is for user convenience only.
   rpc ChangePassword (PasswordChangeRequest) returns (Nothing);
 
   
