@@ -105,6 +105,8 @@ service SnowballR {
   // specified fields will be updated.
   rpc UpdateProjectPaper (Project.Paper.Update) returns (Project.Paper);
   rpc RemovePaperFromProject (Id) returns (Nothing);
+  rpc GetNextProjectPaper (Id) returns (Project.Paper);
+  rpc GetPreviousProjectPaper (Id) returns (Project.Paper);
 
 
   rpc GetReviewById (Id) returns (Review);
