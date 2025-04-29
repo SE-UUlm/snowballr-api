@@ -45,7 +45,22 @@ service SnowballR {
   rpc GetAllPapersToReview (Nothing) returns (Project.Paper.List);
   // Get all papers from a specific project the requesting user should review.
   rpc GetPapersToReviewForProject (Id) returns (Project.Paper.List);
-  
+  // Get the paper with the succeeding local id
+  rpc GetNextPaper (Id) returns (Project.Paper);
+  // Get the paper with the succeeding local id, that still has to be in
+  // review and is on the same stage. If there is no other paper to be
+  // reviewed on the same page, the same criteria counts for the next
+  // stage and so on until there is no other paper to review in the
+  // same stage and higher stages
+  rpc GetNextPaperToReview (Id) returns (Project.Paper);
+  // Get the paper with the preceding local id
+  rpc GetPreviousPaper (Id) returns (Project.Paper);
+  // Get the previous paper with the preceding local id that still has
+  // to be in review and is on the same stage. If there is no other paper
+  // to be reviewed on the same page, the same criteria counts for the
+  // previous stage and so on until there is no other paper to review in
+  // the same stage and lower stages
+  rpc GetPreviousPaperToReview (Id) returns (Project.Paper);
 
   rpc GetUserSettings (Nothing) returns (UserSettings);
   rpc UpdateUserSettings (UserSettings.Update) returns (UserSettings);
@@ -105,8 +120,6 @@ service SnowballR {
   // specified fields will be updated.
   rpc UpdateProjectPaper (Project.Paper.Update) returns (Project.Paper);
   rpc RemovePaperFromProject (Id) returns (Nothing);
-  rpc GetNextProjectPaper (Id) returns (Project.Paper);
-  rpc GetPreviousProjectPaper (Id) returns (Project.Paper);
 
 
   rpc GetReviewById (Id) returns (Review);

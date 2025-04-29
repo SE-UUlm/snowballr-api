@@ -147,7 +147,7 @@ message Project {
 message ReviewDecisionMatrix {
   message Pattern {
     repeated Entry entries = 1;
-    PaperDecision decision = 2; 
+    PaperDecision decision = 2;
 
     message Entry {
       ReviewDecision review_decision = 1;
