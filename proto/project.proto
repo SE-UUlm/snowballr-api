@@ -57,8 +57,10 @@ message Project {
   }
 
   message Information {
+    // In a range from 0.0 to 1.0
     float project_progress = 1;
     google.protobuf.Timestamp creation_date = 2;
+    // The start time of the last (not necessarily completed) stage
     google.protobuf.Timestamp last_stage_started = 3;
 
     message Get {
