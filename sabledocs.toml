@@ -1,1 +1,5 @@
 markdown-extensions = ["fenced_code", "markdown_mermaidjs"]
+repository-type = "github"
+repository-url = "https://github.com/SE-UUlm/snowballr-api/"
+repository-branch = "main"
+repository-dir = "proto"
