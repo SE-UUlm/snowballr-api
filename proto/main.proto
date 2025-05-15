@@ -244,10 +244,6 @@ service SnowballR {
   // paper is the first paper in the project, a `NOT_FOUND` error is returned.
   rpc GetPreviousPaper (Id) returns (Project.Paper);
 
-  // Will be deleted in the future.
-  // See: https://github.com/SE-UUlm/snowballr-api/issues/29
-  rpc GetPreviousPaperToReview (Id) returns (Project.Paper);
-
 
   // Get the list of papers on the reading list of the calling user.
   rpc GetReadingList (Nothing) returns (Paper.List);
@@ -383,7 +379,7 @@ service SnowballR {
   
   // Create a new criterion. Every field **must be specified** and
   // **non-empty**, otherwise an `INVALID_ARGUMENT` error is returned. If
-  // successfull, the newly created criterion is returned.
+  // successful, the newly created criterion is returned.
   // The calling user is **required to be a project admin**.
   rpc CreateCriterion (Criterion.Create) returns (Criterion);
   
