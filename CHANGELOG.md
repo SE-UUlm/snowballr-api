@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.3.0] - 2025-05-16
+
+### Added
+
+- Add `GetNextPaper` to get the next paper (if review mode is disabled) ([#23](https://github.com/SE-UUlm/snowballr-api/issues/23)) (Dominik Enderle)
+- Add `GetNextPaperToReview` to get the next paper (if review mode is enabled) ([#23](https://github.com/SE-UUlm/snowballr-api/issues/23)) (Dominik Enderle)
+- Add `GetPreviousPaper` to get the previous paper (if review mode is disabled) ([#23](https://github.com/SE-UUlm/snowballr-api/issues/23)) (Dominik Enderle)
+
+    **Note**: There is no method to get a paper if the review mode is enabled, because this functionality 
+is directly handled in the frontend 
+
+- Add: API documentation ([#3](https://github.com/SE-UUlm/snowballr-api/issues/3)) (Luca Schlecker)
+
 ## [0.2.0] - 2025-04-16
 
 ### Changed
@@ -25,6 +38,8 @@
 ## [0.1.0] - 2025-01-30
 
 _:seedling: Initial release._
+
+[0.3.0]: https://github.com/SE-UUlm/snowballr-api/releases/tag/v0.3.0
 
 [0.2.0]: https://github.com/SE-UUlm/snowballr-api/releases/tag/v0.2.0
 
