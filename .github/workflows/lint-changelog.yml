@@ -28,4 +28,4 @@ jobs:
       - name: Check for broken references in CHANGELOG.md
         uses: becheran/mlc@v0.21.0
         with:
-          args: CHANGELOG.md
+          args: --ignore-links "https://github.com/SE-UUlm/snowballr-api/releases/tag/*" CHANGELOG.md
