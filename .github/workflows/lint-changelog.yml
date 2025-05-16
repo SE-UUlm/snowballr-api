@@ -9,7 +9,6 @@ jobs:
   changelog-linting:
     name: Linting the changelog
     runs-on: ubuntu-latest
-    if: contains(github.event.pull_request.base.ref, 'releases')
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
