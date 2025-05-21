@@ -22,7 +22,11 @@ import "user_settings.proto";
 // Unless stated otherwise, **every** call **requires** the user to be
 // **authenticated**. This shall be achieved by providing a valid access token
 // assigned by the server (see [Login](#service-snowballr.SnowballR-Login)) in
-// the `Authorization` header.
+// the `Authorization` header. TODO: Which error code?
+//
+// TODO: unavailable may occur at any time
+// 
+// TODO: `NOT_FOUND` can be dropped.
 // 
 // Every call looking up an entity using a unique identifier may fail with a
 // `NOT_FOUND` error if no entity with the provided identifier could be located.
@@ -100,6 +104,8 @@ service SnowballR {
   // Each source is identified by a unique string and is later used to specify
   // which APIs shall be used by a project to collect papers. The list is
   // **guaranteed** to be **non-empty** but **may change** at any time.
+  //
+  // No error codes
   rpc GetAvailableFetcherApis (Nothing) returns (AvailableFetcherApis);
   
   // Create an account for a SnowballR instance. The provided
@@ -116,6 +122,9 @@ service SnowballR {
   // - and contain at least **two special character**.
   // 
   // This call does not require the user to be authenticated.
+  //
+  // already exists
+  // invalid argument
   rpc Register (RegisterRequest) returns (Nothing);
 
   // If email and password exactly match a user in the server's database, a
@@ -127,16 +136,22 @@ service SnowballR {
   // with the provided email exists.
   // 
   // This call does not require the user to be authenticated.
+  //
+  // permission denied
   rpc Login (LoginRequest) returns (Nothing);
   
   // Revoke access through the currently used set of access and refresh token.
   // Other token pairs may not be affected.
+  //
+  // none
   rpc Logout (Nothing) returns (Nothing);
   
   // Acquire the clients authentication status. The result is **guaranteed** to
   // be **specified**.
   //
   // This call does not require the user to be authenticated.
+  //
+  // none
   rpc GetAuthenticationStatus (Nothing) returns (AuthenticationStatusResponse);
 
   // Upon presentation of a valid refresh token, a new set of login tokens
@@ -147,6 +162,9 @@ service SnowballR {
   //
   // Use this call if the access token is expired.
   // This call does not require the user to be authenticated.
+  // TODO: clarify need for refresh token but no need for access token
+  //
+  // unauthenticated
   rpc RenewSession (Nothing) returns (Nothing);
 
   // If the provided email address is registered as an active user, a
@@ -156,6 +174,8 @@ service SnowballR {
   // to update a lost or forgotten password.
   //
   // This call does not require the user to be authenticated.
+  //
+  // none
   rpc RequestPasswordReset (RequestPasswordResetRequest) returns (Nothing);
   
   // After requesting a password reset email using
@@ -166,32 +186,52 @@ service SnowballR {
   // [registration](#service-snowballr.SnowballR-Register).
   //
   // This call does not require the user to be authenticated.
+  //
+  // invalid argument (token, password)
+  // deadline exceeded
   rpc ResetPassword (PasswordResetRequest) returns (Nothing);
 
   // Use the old password in order to set a new password.
   // The new password must follow the same rules as during
   // [registration](#service-snowballr.SnowballR-Register). This serves no
   // recovery purpose and is for user convenience only.
+  //
+  // invalid argument (password criteria & differ from old password)
+  // permission denied
   rpc ChangePassword (PasswordChangeRequest) returns (Nothing);
 
   // Get all registered users of a SnowballR instance.
+  // TODO: create new function call for member invitation
+  // (discover new members using a filter)
+  //
+  // permission denied
   rpc GetAllUsers (Nothing) returns (User.List);
 
   // Get the currently authenticated user by looking up the provided access
   // token. If properly authenticated, it is **guaranteed** to return a valid
   // user.
+  //
+  // none
   rpc GetCurrentUser (Nothing) returns (User);
 
   // Get a user by its id.
+  //
+  // not found
   rpc GetUserById (Id) returns (User);
 
   // Get the user with the specified email address. If none is found, a
   // `NOT_FOUND` error is returned.
+  //
+  // not found
   rpc GetUserByEmail (Id) returns (User);
 
   // Update all in the field-mask specified attributes of the user with the
   // provided id except for `status`. This especially includes `role` and
   // `email`. The updated user is returned and **guaranteed** to be specified.
+  //
+  // not found
+  // invalid argument (email, status, ...)
+  // permission denied
   rpc UpdateUser (User.Update) returns (User);
 
   // Prevent the user with the provided id from logging in. It is not fully
@@ -200,73 +240,109 @@ service SnowballR {
   // result in a `FAILED_PRECONDITION` error. If no user with that `id` exists,
   // a `NOT_FOUND` error is returned.
   // The calling user is **required to be admin**.
+  //
+  // permission denied (admin deletes admin, user deletes admin, user deletes themselves)
+  // not found
   rpc SoftDeleteUser (Id) returns (Nothing);
 
   // Allow a previously soft-deleted user to login again.
   // The calling user is **required to be admin**.
+  // 
+  // permission denied
+  // not found
+  // failed precondition
   rpc SoftUndeleteUser (Id) returns (Nothing);
 
   // Get the user-specific settings for the calling user. It is **guaranteed**
   // that the result is **specified**.
+  //
+  // none
   rpc GetUserSettings (Nothing) returns (UserSettings);
 
   // Update all in the field-mask specified attributes of the calling user's
   // user settings. The updated user settings are returned and **guaranteed** to
   // be **specified**.
+  //
+  // invalid argument
   rpc UpdateUserSettings (UserSettings.Update) returns (UserSettings);
 
   
   // Get all project papers the requesting user is able to review. It is not
   // given that the returned papers belong to the same project.
   // The returned paper list **may be empty** if no papers can be reviewed.
+  //
+  // none
   rpc GetAllPapersToReview (Nothing) returns (Project.Paper.List);
 
   // Get all project papers from a specific project identified by the id, the
   // requesting user is able to review.
   // The returned paper list **may be empty** if no papers can be reviewed.
+  //
+  // not found
+  // permission denied
   rpc GetPapersToReviewForProject (Id) returns (Project.Paper.List);
 
   // Get the project paper with the succeeding _local_ id of the project paper
   // identified by the provided _global_ id. It is **guaranteed** that the
   // returned paper is in the same project as the provided one. If the provided
   // paper is the last paper in the project, a `NOT_FOUND` error is returned.
+  //
+  // not found
+  // failed precondition (no next paper found)
   rpc GetNextPaper (Id) returns (Project.Paper);
 
   // Get the next project paper the calling user is able to review. Papers with
   // lower local ids are preferred. It is **guaranteed** that the returned paper
   // is in the same project as the one provided. If there is no reviewable paper
   // left in the project, a `NOT_FOUND` error is returned.
+  //
+  // not found (id not existing)
+  // failed precondition (no next paper found)
+  // permission denied
   rpc GetNextPaperToReview (Id) returns (Project.Paper);
 
   // Get the project paper with the preceeding _local_ id of the project paper
   // identified by the provided _global_ id. It is **guaranteed** that the
   // returned paper is in the same project as the provided one. If the provided
   // paper is the first paper in the project, a `NOT_FOUND` error is returned.
+  // 
+  // not found (id not existing)
+  // failed precondition (no previous paper found)
   rpc GetPreviousPaper (Id) returns (Project.Paper);
 
 
   // Get the list of papers on the reading list of the calling user.
+  //
+  // none
   rpc GetReadingList (Nothing) returns (Paper.List);
   
   // Return whether or not the paper with the provided id is on the calling
   // user's reading list. If the provided id does not belong to a paper, `false`
   // will be returned.
+  //
+  // none
   rpc IsPaperOnReadingList (Id) returns (BoolValue);
   
   // Add the paper with the provided id to the calling user's reading list. If
   // the paper is already on the user's reading list, nothing will be changed
   // and **no error** will be returned. If no paper with the provided id exists,
   // a `NOT_FOUND` error is returned.
+  //
+  // not found (id not existing)
   rpc AddPaperToReadingList (Id) returns (Nothing);
   
   // Remove the paper with the provided id from the calling user's reading
   // list. If no paper with the provided id exists, nothing will be changed and
   // **no error** will be returned.
+  //
+  // none
   rpc RemovePaperFromReadingList (Id) returns (Nothing);
 
   
   // Get a list of all projects to which the user with the provided id is
   // invited to.
+  //
+  // not found
   rpc GetPendingInvitationsForUser (Id) returns (Project.List);
 
   // Invite a user to a project. If the project does not exist, a `NOT_FOUND`
@@ -279,50 +355,77 @@ service SnowballR {
   // exists, an invitation email is sent out. The recipient may register on
   // the SnowballR instance and then accept the invitation. The calling user is
   // **required to be a project admin**.
+  //
+  // not found (project not found)
+  // failed precondition (project not active)
+  // permission denied
   rpc InviteUserToProject (Project.Member.Invite) returns (Nothing);
   
   // Get a list of all users with a pending invitation to the provided project.
   // If the `id` field is specified, it is **guaranteed** that the user exists.
   // If, however, the `id` is empty, the user was invited by email and has not
   // yet registered on the instance.
+  //
+  // not found (project not found)
   rpc GetPendingInvitationsForProject (Id) returns (User.List);
 
   // Get a list of all members of the specified project. The calling user is
   // included. Pending invitations are **not** included.
+  //
+  // not found (project not found)
   rpc GetProjectMembers (Id) returns (Project.Member.List);
 
   // Remove the specified user from the given project. If the user is not part
   // of the project, nothing happens. The calling user is **required to be a
   // project admin**.
+  //
+  // permission denied
+  // not found (project not found)
   rpc RemoveProjectMember (Project.Member.Remove) returns (Nothing);
 
   // Change the role of the user with the provided id within the given project.
   // The new role **must not** be **unspecified**.
   // The calling user is **required to be a project admin**.
+  //
+  // permission denied
+  // not found (project not found)
+  // not found (user not found)
   rpc UpdateProjectMemberRole (Project.Member.Update) returns (Nothing);
 
 
   // Get a list of all active projects in the SnowballR instance.
+  //
+  // none
   rpc GetAllProjects (Nothing) returns (Project.List);
 
   // Get a list of all projects in the SnowballR instance that are marked as
   // deleted.
+  //
+  // none
   rpc GetAllDeletedProjects (Nothing) returns (Project.List);
 
   // Get a list of all projects the provided user is a member of and which are
   // marked as deleted.
+  //
+  // not found (user not found)
   rpc GetAllDeletedProjectsForUser (Id) returns (Project.List);
 
   // Get a list of all projects in the SnowballR instance that are marked as
   // archived.
+  //
+  // none
   rpc GetAllArchivedProjects (Nothing) returns (Project.List);
 
   // Get a list of all active projects the provided user is a member of. Pending
   // invitations are **not** included.
+  // 
+  // not found (user not found)
   rpc GetAllProjectsForUser (Id) returns (Project.List);
 
   // Get a list of all projects the provided user is a member of and which are
   // marked as archived.
+  // 
+  // not found (user not found)
   rpc GetAllArchivedProjectsForUser (Id) returns (Project.List);
 
   // Create a new project. The provided name has to be unique, otherwise an
@@ -331,9 +434,14 @@ service SnowballR {
   // calling user is automatically a member of that project with "project admin"
   // role (`MEMBER_ROLE_ADMIN`). If the project was successfully created, it is
   // returned and **guaranteed** to be **specified**.
+  //
+  // already exists (project name already exists)
+  // invalid argument (fields invalid)
   rpc CreateProject (Project.Create) returns (Project);
 
   // Get a project by its id.
+  //
+  // not found (project not found)
   rpc GetProjectById (Id) returns (Project);
 
   // Update the project with the given id using the provided data. Only
@@ -341,70 +449,111 @@ service SnowballR {
   // cannot be modified: `current_stage`, `max_stage`. The updated project
   // is returned and **guaranteed** to be **specified**. The calling user is
   // **required to be a project admin**.
+  //
+  // invalid argument (new project field invalid)
+  // not found (project not found)
+  // permission denied (not projct admin)
   rpc UpdateProject (Project.Update) returns (Project);
 
   // Export the provided project in the given format. A binary blob is returned.
   // The export includes everything for it to be reimported and be
   // indistinguishable from the original project.
+  //
+  // not found (project not found)
   rpc ExportProject (ExportRequest) returns (Blob);
 
   // Mark a project as deleted. It is not fully deleted from the database and
   // may later be restored. If no project exists with that `id`, a `NOT_FOUND`
   // error is returned.
   // The calling user is **required to be a project admin**.
+  //
+  // not found (project not found)
+  // permission denied (user not project admin)
   rpc SoftDeleteProject (Id) returns (Nothing);
   
   // Restore a previously deleted project to the **active** state. If no
   // project exists with that `id`, a `NOT_FOUND` error is returned.
   // The calling user is **required to be a project admin**.
+  //
+  // not found (project not found)
+  // permission denied (user not project admin)
   rpc SoftUndeleteProject (Id) returns (Nothing);
 
   // Retrieve information about the specified project. Only attributes
   // specified in the field-mask are included in the response.
+  //
+  // not found (project not found)
   rpc GetProjectInformation (Project.Information.Get)
     returns (Project.Information);
 
   // Get the distribution of paper decisions within a project's stage, meaning
   // it returns the number of papers for each possible `PaperDecision` in the
   // specified stage.
+  //
+  // not found (project not found)
+  // not found (stage not found)
   rpc GetDecisionStatisticsForStage (Project.Information.DecisionStatistics.Get)
     returns (Project.Information.DecisionStatistics);
 
   
   // Get a criterion by its id.
+  //
+  // not found (criterion not found)
   rpc GetCriterionById (Id) returns (Criterion);
 
   // Get all criteria associated with a given project.
+  //
+  // not found (project not found)
   rpc GetAllCriteriaForProject (Id) returns (Criterion.List);
   
   // Create a new criterion. Every field **must be specified** and
   // **non-empty**, otherwise an `INVALID_ARGUMENT` error is returned. If
   // successful, the newly created criterion is returned.
   // The calling user is **required to be a project admin**.
+  //
+  // invalid argument (field invalid)
+  // not found (project not found)
+  // permission denied (user not project admin)
   rpc CreateCriterion (Criterion.Create) returns (Criterion);
   
   // Update the criterion with the given id using the provided data. Only
   // fields specified in the field-mask will be updated. The updated criterion
   // is returned and **guaranteed** to be **specified**.
   // The calling user is **required to be a project admin**.
+  //
+  // invalid argument (field invalid)
+  // not found (criterion not found)
+  // permission denied (user not project admin)
   rpc UpdateCriterion (Criterion.Update) returns (Criterion);
 
   // Permanently delete the specified criterion. All references to it will also
   // be removed. **This cannot be reversed**. If no criterion with that `id`
   // exists, a `NOT_FOUND` error is returned.
   // The calling user is **required to be a project admin**.
+  //
+  // not found (criterion not found)
+  // permission denied (user not project admin)
   rpc DeleteCriterion (Id) returns (Nothing);
 
 
   // Get a project paper by its id.
+  //
+  // not found (project paper not found)
+  // permission denied (user not part of project)
   rpc GetProjectPaperById (Id) returns (Project.Paper);
 
   // Get a project paper using the project id and the local id within that
   // project. The local id is only **unique within its project**, **not**,
   // however, **globally**. Prefer `GetProjectPaperById` wherever possible.
+  //
+  // not found (project paper not found)
+  // permission denied (user not part of project)
   rpc GetProjectPaperByRelativeId (Project.Paper.Get) returns (Project.Paper);
 
   // Retrieve all project papers associated with the given project.
+  //
+  // not found (project not found)
+  // permission denied (user not part of project)
   rpc GetAllProjectPapersForProject (Id) returns (Project.Paper.List);
 
   // Add the provided paper to the given project within the specified stage.
@@ -412,6 +561,12 @@ service SnowballR {
   // returned. The stage must be lesser or equal to the projects `max_stage`,
   // otherwise an `INVALID_ARGUMENT` error is returned.
   // The calling user is **required to be a project admin**.
+  //
+  // not found (project not found)
+  // not found (paper not found)
+  // invalid argument (stage not found)
+  // already exists (paper already exists in project)
+  // permission denied (user not project admin)
   rpc AddPaperToProject (Project.Paper.Add) returns (Project.Paper);
 
   // Update the project paper with the specified id using the
@@ -419,19 +574,31 @@ service SnowballR {
   // excluding `local_id`, `decision` and `reviews`. The updated project will
   // be returned and **guaranteed** to be **specified**.
   // The calling user is **required to be a project admin**.
+  //
+  // permission denied (user not project admin)
+  // not found (project paper not found)
   rpc UpdateProjectPaper (Project.Paper.Update) returns (Project.Paper);
 
   // Permanently remove the specified project paper from the project. All
   // references to this project paper will also be deleted. **This cannot be
   // undone**.
   // The calling user is **required to be a project admin**.
+  //
+  // permission denied (user not project admin)
+  // not found (project paper not found)
   rpc RemovePaperFromProject (Id) returns (Nothing);
 
 
   // Get a review by its id.
+  // 
+  // not found (review not found)
+  // permission denied (user not part of project)
   rpc GetReviewById (Id) returns (Review);
   
   // Retrieve all reviews for a specific project paper.
+  // 
+  // not found (project paper not found)
+  // permission denied (user not part of project)
   rpc GetAllReviewsForProjectPaper (Id) returns (Review.List);
   
   // Create a new review for a specific project paper. Every field must be
@@ -443,6 +610,12 @@ service SnowballR {
   // error is returned. The user also has to be a member of the same project
   // the project paper belongs to, if it is not a `FAILED_PRECONDITION` error is
   // returned. If successful, the created review is returned.
+  //
+  // not found (project paper not found)
+  // invalid argument (field invalid)
+  // already exists (user already reviewed the paper)
+  // failed precondition (paper not in unreviewed or in_review state)
+  // permission denied (user not part of project)
   rpc CreateReview (Review.Create) returns (Review);
 
   // Update the review with the given id using the provided data. Only
@@ -452,6 +625,11 @@ service SnowballR {
   // review has to be member of the project the review is in, in order to update
   // it. A user is owner of a review, if the reviews `user_id` matches the
   // user's `id`.
+  // 
+  // not found (review not found)
+  // permission denied (user not owner of review)
+  // permission denied (user not part of project)
+  // invalid argument (field invalid)
   rpc UpdateReview (Review.Update) returns (Review);
 
   // Permanently remove the specified review from the project paper. **This
@@ -460,35 +638,54 @@ service SnowballR {
   // owner of the review has to be member of the project the review is in, in
   // order to remove it. A user is owner of a review, if the reviews `user_id`
   // matches the user's `id`.
+  // 
+  // not found (review not found)
+  // permission denied (user not owner of review)
+  // permission denied (user not part of project)
   rpc DeleteReview (Id) returns (Nothing);
   
   
   // Get a paper by its id.
+  // 
+  // not found (paper not found)
   rpc GetPaperById (Id) returns (Paper);
 
   // Create a paper using the given data. The `id` will be ignored and set by
   // the server. All fields may be empty. The created paper will be returned.
+  // 
+  // none
   rpc CreatePaper (Paper) returns (Paper);
 
   // Update the paper with the given id using the provided data. Only
   // fields specified in the field-mask will be updated, excluding `has_pdf`.
   // The updated paper is returned and **guaranteed** to be **specified**.
+  // 
+  // not found (paper not found)
   rpc UpdatePaper (Paper.Update) returns (Paper);
 
   // Get a list of papers which are referring to the provided paper.
+  // 
+  // not found (paper not found)
   rpc GetForwardReferencedPapers (Id) returns (Paper.List);
 
   // Get a list of papers which are referred to by the provided paper.
+  // 
+  // not found (paper not found)
   rpc GetBackwardReferencedPapers (Id) returns (Paper.List);
 
   // Get a paper's pdf as a binary blob. If the specified paper has no
   // pdf attached to it (`has_pdf == false`), a `FAILED_PRECONDITION` error is
   // returned.
+  // 
+  // failed precondition (no pdf found)
+  // not found (paper not found)
   rpc GetPaperPdf (Id) returns (Blob);
 
   // Set or overwrite the pdf of the specified paper. This call may also be
   // used to remove the pdf of a paper by not specifying the `pdf` field.
   // The paper's `has_pdf` field is automatically updated by the server.
+  // 
+  // not found (paper not found)
   rpc SetPaperPdf (Paper.PdfUpdate) returns (Nothing);
 }
 
