@@ -18,15 +18,19 @@ import "user_settings.proto";
 // a web frontend and a backend on a central server keeping track of all data.
 // This service represents all available interactions between this frontend and
 // backend.
-// 
+//
 // Unless stated otherwise, **every** call **requires** the user to be
 // **authenticated**. This shall be achieved by providing a valid access token
 // assigned by the server (see [Login](#service-snowballr.SnowballR-Login)) in
-// the `Authorization` header.
-// 
-// Every call looking up an entity using a unique identifier may fail with a
-// `NOT_FOUND` error if no entity with the provided identifier could be located.
-// This also includes calls returning data based on the looked up entity.
+// the `Authorization` header. If failing to do so, an `UNAUTHENTICATED` error
+// will be returned.
+//
+// Furthemore, the server may respond at any time with the `UNAVAILABLE` error
+// code if it is unable to process a request.
+//
+// Every error should come with a meaningful description, detailing the nature
+// of the occured error.
+//
 // Every enum contains a `_UNSPECIFIED` variant indicating its absence.
 // If any other variant is present, the field is considered to be _specified_.
 // The word _guaranteed_ may only convey meaning in the context of this
@@ -34,12 +38,12 @@ import "user_settings.proto";
 // may never be really guaranteed and proper error handling is advised. In the
 // following, _guaranteed_ shall denote a situation in which the client shall
 // be able to safely make assumptions about a successfully received message.
-// 
+//
 // ~~~mermaid
 // architecture-beta
 //  group frontend(internet)[Frontend]
 //  service browser(internet)[Browser] in frontend
-// 
+//
 //  group backend(server)[Backend]
 //  service server(server)[SnowballR Server] in backend
 //  service db(database)[Database] in backend
@@ -47,15 +51,15 @@ import "user_settings.proto";
 //  group external(internet)[External Resources]
 //  service fetcher1(internet)[External Paper Database 1] in external
 //  service fetcher2(internet)[External Paper Database 2] in external
-// 
+//
 //  junction j1 in external
 //  junction j2 in external
-// 
+//
 //  browser:R --> L:server
-// 
+//
 //  server:B --> T:db
 //  server:R -- L:j1
-// 
+//
 //  j1:R -- L:j2
 //  j1:B --> T:fetcher1
 //  j2:B --> T:fetcher2
@@ -69,20 +73,20 @@ import "user_settings.proto";
 // ~~~mermaid
 // erDiagram
 //  direction LR
-// 
+//
 //  Project 0+ -- 0+ User : "member of"
 //  Project 1 -- 1 ProjectSettings : has
 //  Project 1 -- 0+ ProjectPaper : contains
 //  Project 1 -- 0+ Criterion : contains
-// 
+//
 //  ProjectSettings 0+ -- 1+ FetcherApi : "fetches from"
-// 
+//
 //  ProjectPaper 1 -- 0+ Review : has
 //  ProjectPaper 1 -- 1 Paper : "refers to"
-// 
+//
 //  Review 0+ -- 1 User : by
 //  Review 0+ -- 0+ Criterion : "ticks off"
-// 
+//
 //  User 1 -- 1 UserSettings : has
 //  User 0+ -- 0+ Paper : "reading-list"
 // ~~~
@@ -94,29 +98,40 @@ import "user_settings.proto";
 //
 // Access control for these calls is not fully worked out yet. Due to this,
 // the required role for any call may change at any time.
-// 
+//
 service SnowballR {
   // Query all available origins a paper may be sourced from by the backend.
   // Each source is identified by a unique string and is later used to specify
   // which APIs shall be used by a project to collect papers. The list is
   // **guaranteed** to be **non-empty** but **may change** at any time.
-  rpc GetAvailableFetcherApis (Nothing) returns (AvailableFetcherApis);
-  
+  //
+  // ## Errors
+  // No additional errors may occur.
+  rpc GetAvailableFetcherApis(Nothing) returns (AvailableFetcherApis);
+
   // Create an account for a SnowballR instance. The provided
   // email **must not be already registered** and
   // **every field must not be empty**. If successful, login tokens are
   // provided which are automatically used by following calls.
-  // 
+  //
   // The password string is **required** to
-  // 
+  //
   // - be at least **eight characters long**,
   // - contain at least **two lower-case letter**,
   // - contain at least **two upper-case letter**,
   // - contain at least **two digit**,
   // - and contain at least **two special character**.
-  // 
+  //
   // This call does not require the user to be authenticated.
-  rpc Register (RegisterRequest) returns (Nothing);
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | ---: | :--- |
+  // | `ALREADY_EXISTS` | The provided email is already registered. |
+  // | `INVALID_ARGUMENT` | At least one input did not meet the requirements.
+  // The email need's to be a valid email, the passwords needs to meet the
+  // previously stated criteria and the first and last name must not be empty. |
+  rpc Register(RegisterRequest) returns (Nothing);
 
   // If email and password exactly match a user in the server's database, a
   // new set of login tokens is provided to authenticate as that user. Old
@@ -125,19 +140,32 @@ service SnowballR {
   //
   // This call will only fail with `UNAUTHENTICATED`, even so when no user
   // with the provided email exists.
-  // 
+  //
   // This call does not require the user to be authenticated.
-  rpc Login (LoginRequest) returns (Nothing);
-  
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | ---: | :--- |
+  // | `UNAUTHENTICATED` | The user does not exist or the password is incorrect.
+  // | | `INVALID_ARGUMENT` | The email is not an actual email or no password is
+  // provided. |
+  rpc Login(LoginRequest) returns (Nothing);
+
   // Revoke access through the currently used set of access and refresh token.
   // Other token pairs may not be affected.
-  rpc Logout (Nothing) returns (Nothing);
-  
+  //
+  // ## Errors
+  // No additional errors may occur.
+  rpc Logout(Nothing) returns (Nothing);
+
   // Acquire the clients authentication status. The result is **guaranteed** to
   // be **specified**.
   //
   // This call does not require the user to be authenticated.
-  rpc GetAuthenticationStatus (Nothing) returns (AuthenticationStatusResponse);
+  //
+  // ## Errors
+  // No additional errors may occur.
+  rpc GetAuthenticationStatus(Nothing) returns (AuthenticationStatusResponse);
 
   // Upon presentation of a valid refresh token, a new set of login tokens
   // authenticating the owner of the token is issued. The new pair is
@@ -147,7 +175,13 @@ service SnowballR {
   //
   // Use this call if the access token is expired.
   // This call does not require the user to be authenticated.
-  rpc RenewSession (Nothing) returns (Nothing);
+  // TODO: clarify need for refresh token but no need for access token
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | ---: | :--- |
+  // | `UNAUTHENTICATED` | The refresh token is invalid. |
+  rpc RenewSession(Nothing) returns (Nothing);
 
   // If the provided email address is registered as an active user, a
   // challange/token is emailed to that address. That token must be sent
@@ -156,8 +190,13 @@ service SnowballR {
   // to update a lost or forgotten password.
   //
   // This call does not require the user to be authenticated.
-  rpc RequestPasswordReset (RequestPasswordResetRequest) returns (Nothing);
-  
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | ---: | :--- |
+  // | `INVALID_ARGUMENT` | The email is not valid. This does **not** occur if a valid email is not yet registered. |
+  rpc RequestPasswordReset(RequestPasswordResetRequest) returns (Nothing);
+
   // After requesting a password reset email using
   // [RequestPasswordReset](#service-snowballr.SnowballR-RequestPasswordReset),
   // this call may be used to actually set the new password. To verify the
@@ -166,33 +205,85 @@ service SnowballR {
   // [registration](#service-snowballr.SnowballR-Register).
   //
   // This call does not require the user to be authenticated.
-  rpc ResetPassword (PasswordResetRequest) returns (Nothing);
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | ---: | :--- |
+  // | `INVALID_ARGUMENT` | Either the provided token is invalid or the new
+  // password does not meet the rules specified in `register`. | |
+  // `FAILED_PRECONDITION` | The account trying to be reset is not in a state in
+  // which the password can be changed. | | `DEADLINE_EXCEEDED` | The provided
+  // token is expired. |
+  rpc ResetPassword(PasswordResetRequest) returns (Nothing);
 
   // Use the old password in order to set a new password.
   // The new password must follow the same rules as during
   // [registration](#service-snowballr.SnowballR-Register). This serves no
   // recovery purpose and is for user convenience only.
-  rpc ChangePassword (PasswordChangeRequest) returns (Nothing);
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | ---: | :--- |
+  // | `INVALID_ARGUMENT` | The provided previous password is not correct or the
+  // new password does not meet the rules specified in `register`. | |
+  // `UNAUTHENTICATED` | The user is not signed in. |
+  rpc ChangePassword(PasswordChangeRequest) returns (Nothing);
 
   // Get all registered users of a SnowballR instance.
-  rpc GetAllUsers (Nothing) returns (User.List);
+  // TODO: create new function call for member invitation
+  // (discover new members using a filter)
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | ---: | :--- |
+  // | `PERMISSION_DENIED` | The user is not an admin. |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
+  rpc GetAllUsers(Nothing) returns (User.List);
 
   // Get the currently authenticated user by looking up the provided access
   // token. If properly authenticated, it is **guaranteed** to return a valid
   // user.
-  rpc GetCurrentUser (Nothing) returns (User);
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | ---: | :--- |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
+  rpc GetCurrentUser(Nothing) returns (User);
 
   // Get a user by its id.
-  rpc GetUserById (Id) returns (User);
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | ---: | :--- |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `NOT_FOUND` | No user with the provided id was found. |
+  rpc GetUserById(Id) returns (User);
 
   // Get the user with the specified email address. If none is found, a
   // `NOT_FOUND` error is returned.
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | ---: | :--- |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `NOT_FOUND` | No user with the provided email was found. |
+  // | `INVALID_ARGUMENT` | The email was invalid. |
   rpc GetUserByEmail (Email) returns (User);
 
   // Update all in the field-mask specified attributes of the user with the
   // provided id except for `status`. This especially includes `role` and
   // `email`. The updated user is returned and **guaranteed** to be specified.
-  rpc UpdateUser (User.Update) returns (User);
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | ---: | :--- |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `NOT_FOUND` | No user with the provided id was found. |
+  // | `INVALID_ARGUMENT` | The email was invalid. |
+  // | `PERMISSION_DENIED` | The user is not allowed to modify the user with the
+  // specified id. | | `ALREADY_EXISTS` | The updated email is already
+  // registered. |
+  rpc UpdateUser(User.Update) returns (User);
 
   // Prevent the user with the provided id from logging in. It is not fully
   // deleted from the database though, but not considered as an **active user**
@@ -200,74 +291,168 @@ service SnowballR {
   // result in a `FAILED_PRECONDITION` error. If no user with that `id` exists,
   // a `NOT_FOUND` error is returned.
   // The calling user is **required to be admin**.
-  rpc SoftDeleteUser (Id) returns (Nothing);
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | ---: | :--- |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `NOT_FOUND` | No user with the provided id was found. |
+  // | `PERMISSION_DENIED` | The user is not allowed to delete the user with the
+  // specified id. | | `FAILED_PRECONDITION` | The user to be deleted was an
+  // admin. |
+  rpc SoftDeleteUser(Id) returns (Nothing);
 
   // Allow a previously soft-deleted user to login again.
   // The calling user is **required to be admin**.
-  rpc SoftUndeleteUser (Id) returns (Nothing);
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | ---: | :--- |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `NOT_FOUND` | No user with the provided id was found. |
+  // | `PERMISSION_DENIED` | The user is not allowed to restore the user with
+  // the specified id. |
+  rpc SoftUndeleteUser(Id) returns (Nothing);
 
   // Get the user-specific settings for the calling user. It is **guaranteed**
   // that the result is **specified**.
-  rpc GetUserSettings (Nothing) returns (UserSettings);
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | ---: | :--- |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
+  rpc GetUserSettings(Nothing) returns (UserSettings);
 
   // Update all in the field-mask specified attributes of the calling user's
   // user settings. The updated user settings are returned and **guaranteed** to
   // be **specified**.
-  rpc UpdateUserSettings (UserSettings.Update) returns (UserSettings);
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | ---: | :--- |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `INVALID_ARGUMENT` | The updated settings are invalid. |
+  rpc UpdateUserSettings(UserSettings.Update) returns (UserSettings);
 
-  
   // Get all project papers the requesting user is able to review. It is not
   // given that the returned papers belong to the same project.
   // The returned paper list **may be empty** if no papers can be reviewed.
-  rpc GetAllPapersToReview (Nothing) returns (Project.Paper.List);
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | ---: | :--- |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
+  rpc GetAllPapersToReview(Nothing) returns (Project.Paper.List);
 
   // Get all project papers from a specific project identified by the id, the
   // requesting user is able to review.
   // The returned paper list **may be empty** if no papers can be reviewed.
-  rpc GetPapersToReviewForProject (Id) returns (Project.Paper.List);
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | ---: | :--- |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `NOT_FOUND` | No project with the provided id was found. |
+  // | `PERMISSION_DENIED` | The user is not a member of the specified project
+  // or is not allowed to review. |
+  rpc GetPapersToReviewForProject(Id) returns (Project.Paper.List);
 
   // Get the project paper with the succeeding _local_ id of the project paper
   // identified by the provided _global_ id. It is **guaranteed** that the
   // returned paper is in the same project as the provided one. If the provided
   // paper is the last paper in the project, a `NOT_FOUND` error is returned.
-  rpc GetNextPaper (Id) returns (Project.Paper);
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | ---: | :--- |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `NOT_FOUND` | No paper with the provided id was found. |
+  // | `FAILED_PRECONDITION` | There was no next paper. |
+  // | `PERMISSION_DENIED` | The user is not a member of the specified project.
+  // |
+  rpc GetNextPaper(Id) returns (Project.Paper);
 
   // Get the next project paper the calling user is able to review. Papers with
   // lower local ids are preferred. It is **guaranteed** that the returned paper
   // is in the same project as the one provided. If there is no reviewable paper
   // left in the project, a `NOT_FOUND` error is returned.
-  rpc GetNextPaperToReview (Id) returns (Project.Paper);
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | ---: | :--- |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `NOT_FOUND` | No paper with the provided id was found. |
+  // | `FAILED_PRECONDITION` | There was no next paper available to review. |
+  // | `PERMISSION_DENIED` | The user is not a member of the specified project
+  // or is not allowed to review. |
+  rpc GetNextPaperToReview(Id) returns (Project.Paper);
 
   // Get the project paper with the preceeding _local_ id of the project paper
   // identified by the provided _global_ id. It is **guaranteed** that the
   // returned paper is in the same project as the provided one. If the provided
   // paper is the first paper in the project, a `NOT_FOUND` error is returned.
-  rpc GetPreviousPaper (Id) returns (Project.Paper);
-
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | ---: | :--- |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `NOT_FOUND` | No paper with the provided id was found. |
+  // | `FAILED_PRECONDITION` | There was no previous paper. |
+  // | `PERMISSION_DENIED` | The user is not a member of the specified project.
+  // |
+  rpc GetPreviousPaper(Id) returns (Project.Paper);
 
   // Get the list of papers on the reading list of the calling user.
-  rpc GetReadingList (Nothing) returns (Paper.List);
-  
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | ---: | :--- |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
+  rpc GetReadingList(Nothing) returns (Paper.List);
+
   // Return whether or not the paper with the provided id is on the calling
   // user's reading list. If the provided id does not belong to a paper, `false`
   // will be returned.
-  rpc IsPaperOnReadingList (Id) returns (BoolValue);
-  
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | ---: | :--- |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
+  rpc IsPaperOnReadingList(Id) returns (BoolValue);
+
   // Add the paper with the provided id to the calling user's reading list. If
   // the paper is already on the user's reading list, nothing will be changed
   // and **no error** will be returned. If no paper with the provided id exists,
   // a `NOT_FOUND` error is returned.
-  rpc AddPaperToReadingList (Id) returns (Nothing);
-  
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | ---: | :--- |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `NOT_FOUND` | No paper with the provided id was found. |
+  rpc AddPaperToReadingList(Id) returns (Nothing);
+
   // Remove the paper with the provided id from the calling user's reading
   // list. If no paper with the provided id exists, nothing will be changed and
   // **no error** will be returned.
-  rpc RemovePaperFromReadingList (Id) returns (Nothing);
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | ---: | :--- |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
+  rpc RemovePaperFromReadingList(Id) returns (Nothing);
 
-  
   // Get a list of all projects to which the user with the provided id is
   // invited to.
-  rpc GetPendingInvitationsForUser (Id) returns (Project.List);
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | ---: | :--- |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `NOT_FOUND` | No user with the provided id was found. |
+  // | `PERMISSION_DENIED` | The user is not allowed to view the invitations of
+  // the specified user. |
+  rpc GetPendingInvitationsForUser(Id) returns (Project.List);
 
   // Invite a user to a project. If the project does not exist, a `NOT_FOUND`
   // error is returned. The provided project has to be active, meaning
@@ -279,51 +464,141 @@ service SnowballR {
   // exists, an invitation email is sent out. The recipient may register on
   // the SnowballR instance and then accept the invitation. The calling user is
   // **required to be a project admin**.
-  rpc InviteUserToProject (Project.Member.Invite) returns (Nothing);
-  
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | ---: | :--- |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `NOT_FOUND` | No project with the provided id was found. |
+  // | `FAILED_PRECONDITION` | The project is not active, meaning it is either
+  // archived or deleted. | | `PERMISSION_DENIED` | The user is not allowed to
+  // invite users to the specified project. | | `INVALID_ARGUMENT` | The
+  // provided email is not a valid email address. |
+  rpc InviteUserToProject(Project.Member.Invite) returns (Nothing);
+
   // Get a list of all users with a pending invitation to the provided project.
   // If the `id` field is specified, it is **guaranteed** that the user exists.
   // If, however, the `id` is empty, the user was invited by email and has not
   // yet registered on the instance.
-  rpc GetPendingInvitationsForProject (Id) returns (User.List);
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | ---: | :--- |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `NOT_FOUND` | No project with the provided id was found. |
+  // | `PERMISSION_DENIED` | The user is not allowed to view the pending
+  // invitations of the specified project. |
+  rpc GetPendingInvitationsForProject(Id) returns (User.List);
 
   // Get a list of all members of the specified project. The calling user is
   // included. Pending invitations are **not** included.
-  rpc GetProjectMembers (Id) returns (Project.Member.List);
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | ---: | :--- |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `NOT_FOUND` | No project with the provided id was found. |
+  // | `PERMISSION_DENIED` | The user is not allowed to view the members of the
+  // specified project. |
+  rpc GetProjectMembers(Id) returns (Project.Member.List);
 
   // Remove the specified user from the given project. If the user is not part
   // of the project, nothing happens. The calling user is **required to be a
   // project admin**.
-  rpc RemoveProjectMember (Project.Member.Remove) returns (Nothing);
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | ---: | :--- |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `NOT_FOUND` | No project with the provided project id or user with the
+  // provided user id was found. | | `PERMISSION_DENIED` | The user is not
+  // allowed to remove the specified user from the project. | |
+  // `FAILED_PRECONDITION` | The user to be removed is the last project admin. |
+  rpc RemoveProjectMember(Project.Member.Remove) returns (Nothing);
 
   // Change the role of the user with the provided id within the given project.
   // The new role **must not** be **unspecified**.
   // The calling user is **required to be a project admin**.
-  rpc UpdateProjectMemberRole (Project.Member.Update) returns (Nothing);
-
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | ---: | :--- |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `INVALID_ARGUMENT` | The provided role is unspecified. |
+  // | `PERMISSION_DENIED` | The user is not allowed to change the role of the
+  // specified user in the project. | | `NOT_FOUND` | No project with the
+  // provided id or user with the provided id was found. | |
+  // `FAILED_PRECONDITION` | The user to be updated is not a member of the
+  // specified project or was the last admin member of the project. |
+  rpc UpdateProjectMemberRole(Project.Member.Update) returns (Nothing);
 
   // Get a list of all active projects in the SnowballR instance.
-  rpc GetAllProjects (Nothing) returns (Project.List);
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | ---: | :--- |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `PERMISSION_DENIED` | The user is not allowed to view all global
+  // projects. |
+  rpc GetAllProjects(Nothing) returns (Project.List);
 
   // Get a list of all projects in the SnowballR instance that are marked as
   // deleted.
-  rpc GetAllDeletedProjects (Nothing) returns (Project.List);
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | ---: | :--- |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `PERMISSION_DENIED` | The user is not allowed to view all global deleted
+  // projects. |
+  rpc GetAllDeletedProjects(Nothing) returns (Project.List);
 
   // Get a list of all projects the provided user is a member of and which are
   // marked as deleted.
-  rpc GetAllDeletedProjectsForUser (Id) returns (Project.List);
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | ---: | :--- |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `NOT_FOUND` | No user with the provided id was found. |
+  // | `PERMISSION_DENIED` | The user is not allowed to view the deleted
+  // projects of the specified user. |
+  rpc GetAllDeletedProjectsForUser(Id) returns (Project.List);
 
   // Get a list of all projects in the SnowballR instance that are marked as
   // archived.
-  rpc GetAllArchivedProjects (Nothing) returns (Project.List);
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | ---: | :--- |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `PERMISSION_DENIED` | The user is not allowed to view all global archived
+  // projects. |
+  rpc GetAllArchivedProjects(Nothing) returns (Project.List);
 
   // Get a list of all active projects the provided user is a member of. Pending
   // invitations are **not** included.
-  rpc GetAllProjectsForUser (Id) returns (Project.List);
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | ---: | :--- |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `NOT_FOUND` | No user with the provided id was found. |
+  // | `PERMISSION_DENIED` | The user is not allowed to view the projects of the
+  // specified user. |
+  rpc GetAllProjectsForUser(Id) returns (Project.List);
 
   // Get a list of all projects the provided user is a member of and which are
   // marked as archived.
-  rpc GetAllArchivedProjectsForUser (Id) returns (Project.List);
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | ---: | :--- |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `NOT_FOUND` | No user with the provided id was found. |
+  // | `PERMISSION_DENIED` | The user is not allowed to view the archived
+  // projects of the specified user. |
+  rpc GetAllArchivedProjectsForUser(Id) returns (Project.List);
 
   // Create a new project. The provided name has to be unique, otherwise an
   // `ALREADY_EXISTS` error is returned. Every field must be **specified**
@@ -331,109 +606,261 @@ service SnowballR {
   // calling user is automatically a member of that project with "project admin"
   // role (`MEMBER_ROLE_ADMIN`). If the project was successfully created, it is
   // returned and **guaranteed** to be **specified**.
-  rpc CreateProject (Project.Create) returns (Project);
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | ---: | :--- |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `ALREADY_EXISTS` | A project with the provided name already exists. |
+  // | `INVALID_ARGUMENT` | The provided project name was empty. |
+  rpc CreateProject(Project.Create) returns (Project);
 
   // Get a project by its id.
-  rpc GetProjectById (Id) returns (Project);
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | ---: | :--- |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `NOT_FOUND` | No project with the provided id was found. |
+  // | `PERMISSION_DENIED` | The user is not a member of the specified project.
+  // |
+  rpc GetProjectById(Id) returns (Project);
 
   // Update the project with the given id using the provided data. Only
   // fields specified in the field-mask will be updated. The following fields
   // cannot be modified: `current_stage`, `max_stage`. The updated project
   // is returned and **guaranteed** to be **specified**. The calling user is
   // **required to be a project admin**.
-  rpc UpdateProject (Project.Update) returns (Project);
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | ---: | :--- |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `NOT_FOUND` | No project with the provided id was found. |
+  // | `INVALID_ARGUMENT` | Invalid project settings specified. |
+  // | `PERMISSION_DENIED` | The user is not allowed to update the project
+  // settings. | | `FAILED_PRECONDITION` | The project is not active. | |
+  // `ALREADY_EXISTS` | The provided project name is already used by another
+  // project. |
+  rpc UpdateProject(Project.Update) returns (Project);
 
   // Export the provided project in the given format. A binary blob is returned.
   // The export includes everything for it to be reimported and be
   // indistinguishable from the original project.
-  rpc ExportProject (ExportRequest) returns (Blob);
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | ---: | :--- |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `NOT_FOUND` | No project with the provided id was found. |
+  // | `PERMISSION_DENIED` | The user is not a member of the specified project. |
+  rpc ExportProject(ExportRequest) returns (Blob);
 
   // Mark a project as deleted. It is not fully deleted from the database and
   // may later be restored. If no project exists with that `id`, a `NOT_FOUND`
   // error is returned.
   // The calling user is **required to be a project admin**.
-  rpc SoftDeleteProject (Id) returns (Nothing);
-  
+  // ## Errors
+  // | Error Code | Description |
+  // | ---: | :--- |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `NOT_FOUND` | No project with the provided id was found. |
+  // | `PERMISSION_DENIED` | The user is not an admin of the specified project. |
+  rpc SoftDeleteProject(Id) returns (Nothing);
+
   // Restore a previously deleted project to the **active** state. If no
   // project exists with that `id`, a `NOT_FOUND` error is returned.
   // The calling user is **required to be a project admin**.
-  rpc SoftUndeleteProject (Id) returns (Nothing);
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | ---: | :--- |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `NOT_FOUND` | No project with the provided id was found. |
+  // | `PERMISSION_DENIED` | The user is not an admin of the specified project. |
+  rpc SoftUndeleteProject(Id) returns (Nothing);
 
   // Retrieve information about the specified project. Only attributes
   // specified in the field-mask are included in the response.
-  rpc GetProjectInformation (Project.Information.Get)
-    returns (Project.Information);
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | ---: | :--- |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `NOT_FOUND` | No project with the provided id was found. |
+  // | `PERMISSION_DENIED` | The user is not a member of the specified project. |
+  rpc GetProjectInformation(Project.Information.Get)
+      returns (Project.Information);
 
   // Get the distribution of paper decisions within a project's stage, meaning
   // it returns the number of papers for each possible `PaperDecision` in the
   // specified stage.
-  rpc GetDecisionStatisticsForStage (Project.Information.DecisionStatistics.Get)
-    returns (Project.Information.DecisionStatistics);
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | ---: | :--- |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `NOT_FOUND` | No project with the provided id was found. |
+  // | `PERMISSION_DENIED` | The user is not a member of the specified project. |
+  // | `OUT_OF_RANGE` | The specified stage does not exist. |
+  rpc GetDecisionStatisticsForStage(Project.Information.DecisionStatistics.Get)
+      returns (Project.Information.DecisionStatistics);
 
-  
   // Get a criterion by its id.
-  rpc GetCriterionById (Id) returns (Criterion);
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | ---: | :--- |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `NOT_FOUND` | No criterion with the provided id was found. |
+  // | `PERMISSION_DENIED` | The user is not a member of the project the criterion belongs to. |
+  rpc GetCriterionById(Id) returns (Criterion);
 
   // Get all criteria associated with a given project.
-  rpc GetAllCriteriaForProject (Id) returns (Criterion.List);
-  
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | ---: | :--- |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `NOT_FOUND` | No project with the provided id was found. |
+  // | `PERMISSION_DENIED` | The user is not a member of the specified project. |
+  rpc GetAllCriteriaForProject(Id) returns (Criterion.List);
+
   // Create a new criterion. Every field **must be specified** and
   // **non-empty**, otherwise an `INVALID_ARGUMENT` error is returned. If
   // successful, the newly created criterion is returned.
   // The calling user is **required to be a project admin**.
-  rpc CreateCriterion (Criterion.Create) returns (Criterion);
-  
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | ---: | :--- |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `INVALID_ARGUMENT` | At least one field in the provided criterion was empty. |
+  // | `NOT_FOUND` | No project with the provided id was found. |
+  // | `PERMISSION_DENIED` | The user is not an admin of the specified project. |
+  rpc CreateCriterion(Criterion.Create) returns (Criterion);
+
   // Update the criterion with the given id using the provided data. Only
   // fields specified in the field-mask will be updated. The updated criterion
   // is returned and **guaranteed** to be **specified**.
   // The calling user is **required to be a project admin**.
-  rpc UpdateCriterion (Criterion.Update) returns (Criterion);
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | ---: | :--- |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `NOT_FOUND` | No criterion with the provided id was found. |
+  // | `INVALID_ARGUMENT` | At least one field in the provided update was empty. |
+  // | `PERMISSION_DENIED` | The user is not an admin of the project the criterion belongs to. |
+  rpc UpdateCriterion(Criterion.Update) returns (Criterion);
 
   // Permanently delete the specified criterion. All references to it will also
   // be removed. **This cannot be reversed**. If no criterion with that `id`
   // exists, a `NOT_FOUND` error is returned.
   // The calling user is **required to be a project admin**.
-  rpc DeleteCriterion (Id) returns (Nothing);
-
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | ---: | :--- |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `NOT_FOUND` | No criterion with the provided id was found. |
+  // | `PERMISSION_DENIED` | The user is not an admin of the project the criterion belongs to. |
+  rpc DeleteCriterion(Id) returns (Nothing);
 
   // Get a project paper by its id.
-  rpc GetProjectPaperById (Id) returns (Project.Paper);
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | ---: | :--- |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `NOT_FOUND` | No project paper with the provided id was found. |
+  // | `PERMISSION_DENIED` | The user is not a member of the project the paper belongs to. |
+  rpc GetProjectPaperById(Id) returns (Project.Paper);
 
   // Get a project paper using the project id and the local id within that
   // project. The local id is only **unique within its project**, **not**,
   // however, **globally**. Prefer `GetProjectPaperById` wherever possible.
-  rpc GetProjectPaperByRelativeId (Project.Paper.Get) returns (Project.Paper);
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | ---: | :--- |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `NOT_FOUND` | No project paper with the provided relative id was found. Either the project does not exist or the relative id was not found within the project. |
+  // | `PERMISSION_DENIED` | The user is not a member of the project the paper belongs to. |
+  rpc GetProjectPaperByRelativeId(Project.Paper.Get) returns (Project.Paper);
 
   // Retrieve all project papers associated with the given project.
-  rpc GetAllProjectPapersForProject (Id) returns (Project.Paper.List);
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | ---: | :--- |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `NOT_FOUND` | No project with the provided id was found. |
+  // | `PERMISSION_DENIED` | The user is not a member of the specified project. |
+  rpc GetAllProjectPapersForProject(Id) returns (Project.Paper.List);
 
   // Add the provided paper to the given project within the specified stage.
   // If the paper is already in the project, a `FAILED_PRECONDITION` error is
   // returned. The stage must be lesser or equal to the projects `max_stage`,
   // otherwise an `INVALID_ARGUMENT` error is returned.
   // The calling user is **required to be a project admin**.
-  rpc AddPaperToProject (Project.Paper.Add) returns (Project.Paper);
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | ---: | :--- |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `NOT_FOUND` | Either the project or the paper with the provided ids were not found. |
+  // | `INVALID_ARGUMENT` | The provided stage does not exist in the project or the paper is not valid. This could mean that stage was less than zero or greater than `max_stage`. |
+  // | `ALREADY_EXISTS` | The specified paper already exists within the provided project. |
+  // | `PERMISSION_DENIED` | The user is not part of the specified project. |
+  rpc AddPaperToProject(Project.Paper.Add) returns (Project.Paper);
 
   // Update the project paper with the specified id using the
   // provided data. Only fields specified in the field-mask will be updated,
   // excluding `local_id`, `decision` and `reviews`. The updated project will
   // be returned and **guaranteed** to be **specified**.
   // The calling user is **required to be a project admin**.
-  rpc UpdateProjectPaper (Project.Paper.Update) returns (Project.Paper);
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | ---: | :--- |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `NOT_FOUND` | No project paper with the provided id was found. |
+  // | `PERMISSION_DENIED` | The user is not admin of the project the project paper belongs to. |
+  rpc UpdateProjectPaper(Project.Paper.Update) returns (Project.Paper);
 
   // Permanently remove the specified project paper from the project. All
   // references to this project paper will also be deleted. **This cannot be
   // undone**.
   // The calling user is **required to be a project admin**.
-  rpc RemovePaperFromProject (Id) returns (Nothing);
-
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | ---: | :--- |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `PERMISSION_DENIED` | The user is not an admin of the project the project paper belongs to. |
+  rpc RemovePaperFromProject(Id) returns (Nothing);
 
   // Get a review by its id.
-  rpc GetReviewById (Id) returns (Review);
-  
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | ---: | :--- |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `NOT_FOUND` | No review with the provided id was found. |
+  // | `PERMISSION_DENIED` | The user is not a member of the project the review belongs to. |
+  rpc GetReviewById(Id) returns (Review);
+
   // Retrieve all reviews for a specific project paper.
-  rpc GetAllReviewsForProjectPaper (Id) returns (Review.List);
-  
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | ---: | :--- |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `NOT_FOUND` | No project paper with the provided id was found. |
+  // | `PERMISSION_DENIED` | The user is not a member of the project the project paper belongs to. |
+  rpc GetAllReviewsForProjectPaper(Id) returns (Review.List);
+
   // Create a new review for a specific project paper. Every field must be
   // **specified** and **non-empty**, otherwise an `INVALID_ARGUMENT` error
   // is returned. `selected_criteria_ids` may be empty. The calling user must
@@ -443,7 +870,17 @@ service SnowballR {
   // error is returned. The user also has to be a member of the same project
   // the project paper belongs to, if it is not a `FAILED_PRECONDITION` error is
   // returned. If successful, the created review is returned.
-  rpc CreateReview (Review.Create) returns (Review);
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | ---: | :--- |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `NOT_FOUND` | No project paper with the provided id was found. |
+  // | `ALREADY_EXISTS` | The user already has a review for the specified project paper. |
+  // | `FAILED_PRECONDITION` | The project paper is not in the `UNREVIEWED` or `IN_REVIEW` state. |
+  // | `PERMISSION_DENIED` | The user is not a member of the project the project paper belongs to. |
+  // | `INVALID_ARGUMENT` | At least one field in the provided review was empty. This could be an invalid `decision` or an empty or invalid `selected_criteria_ids`. |
+  rpc CreateReview(Review.Create) returns (Review);
 
   // Update the review with the given id using the provided data. Only
   // fields specified in the field-mask will be updated, excluding `user_id`.
@@ -452,7 +889,16 @@ service SnowballR {
   // review has to be member of the project the review is in, in order to update
   // it. A user is owner of a review, if the reviews `user_id` matches the
   // user's `id`.
-  rpc UpdateReview (Review.Update) returns (Review);
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | ---: | :--- |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `NOT_FOUND` | No review with the provided id was found. |
+  // | `INVALID_ARGUMENT` | At least one field in the provided update was empty. This could be an invalid `decision` or an empty or invalid `selected_criteria_ids`. |
+  // | `PERMISSION_DENIED` | The user is either not an owner of the review or not a member of the project the review belongs to. |
+  // | `FAILED_PRECONDITION` | The project paper is in a state where no further review modifications are allowed. |
+  rpc UpdateReview(Review.Update) returns (Review);
 
   // Permanently remove the specified review from the project paper. **This
   // cannot be undone**. If no review with that `id` exists, a `NOT_FOUND` error
@@ -460,36 +906,89 @@ service SnowballR {
   // owner of the review has to be member of the project the review is in, in
   // order to remove it. A user is owner of a review, if the reviews `user_id`
   // matches the user's `id`.
-  rpc DeleteReview (Id) returns (Nothing);
-  
-  
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | ---: | :--- |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `NOT_FOUND` | No review with the provided id was found. |
+  // | `PERMISSION_DENIED` | The user is either not an owner of the review or not a member of the project the review belongs to. |
+  // | `FAILED_PRECONDITION` | The project paper is in a state where reviews are not allowed to be deleted. |
+  rpc DeleteReview(Id) returns (Nothing);
+
   // Get a paper by its id.
-  rpc GetPaperById (Id) returns (Paper);
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | ---: | :--- |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `NOT_FOUND` | No paper with the provided id was found. |
+  rpc GetPaperById(Id) returns (Paper);
 
   // Create a paper using the given data. The `id` will be ignored and set by
   // the server. All fields may be empty. The created paper will be returned.
-  rpc CreatePaper (Paper) returns (Paper);
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | ---: | :--- |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `INVALID_ARGUMENT` | At least one field in the provided paper was invalid. |
+  rpc CreatePaper(Paper) returns (Paper);
 
   // Update the paper with the given id using the provided data. Only
   // fields specified in the field-mask will be updated, excluding `has_pdf`.
   // The updated paper is returned and **guaranteed** to be **specified**.
-  rpc UpdatePaper (Paper.Update) returns (Paper);
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | ---: | :--- |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `NOT_FOUND` | No paper with the provided id was found. |
+  // | `INVALID_ARGUMENT` | At least one field in the provided paper was invalid. |
+  // | `PERMISSION_DENIED` | The user is not allowed to update the specified paper. |
+  rpc UpdatePaper(Paper.Update) returns (Paper);
 
   // Get a list of papers which are referring to the provided paper.
-  rpc GetForwardReferencedPapers (Id) returns (Paper.List);
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | ---: | :--- |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `NOT_FOUND` | No paper with the provided id was found. |
+  rpc GetForwardReferencedPapers(Id) returns (Paper.List);
 
   // Get a list of papers which are referred to by the provided paper.
-  rpc GetBackwardReferencedPapers (Id) returns (Paper.List);
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | ---: | :--- |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `NOT_FOUND` | No paper with the provided id was found. |
+  rpc GetBackwardReferencedPapers(Id) returns (Paper.List);
 
   // Get a paper's pdf as a binary blob. If the specified paper has no
   // pdf attached to it (`has_pdf == false`), a `FAILED_PRECONDITION` error is
   // returned.
-  rpc GetPaperPdf (Id) returns (Blob);
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | ---: | :--- |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `NOT_FOUND` | No paper with the provided id was found. |
+  // | `FAILED_PRECONDITION` | The paper has no pdf attached to it. See `paper.has_pdf`. |
+  rpc GetPaperPdf(Id) returns (Blob);
 
   // Set or overwrite the pdf of the specified paper. This call may also be
   // used to remove the pdf of a paper by not specifying the `pdf` field.
   // The paper's `has_pdf` field is automatically updated by the server.
-  rpc SetPaperPdf (Paper.PdfUpdate) returns (Nothing);
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | ---: | :--- |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `NOT_FOUND` | No paper with the provided id was found. |
+  // | `RESOURCE_EXHAUSTED` | The provided pdf was declined by the server. A possible reason could be, that it was too large. |
+  rpc SetPaperPdf(Paper.PdfUpdate) returns (Nothing);
 }
 
 message AvailableFetcherApis {
