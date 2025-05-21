@@ -230,19 +230,19 @@ service SnowballR {
   // identified by the provided _global_ id. It is **guaranteed** that the
   // returned paper is in the same project as the provided one. If the provided
   // paper is the last paper in the project, a `NOT_FOUND` error is returned.
-  rpc GetNextPaper (Id) returns (Project.Paper);
+  rpc GetNextPaper (Project.Paper.Get) returns (Project.Paper);
 
   // Get the next project paper the calling user is able to review. Papers with
   // lower local ids are preferred. It is **guaranteed** that the returned paper
   // is in the same project as the one provided. If there is no reviewable paper
   // left in the project, a `NOT_FOUND` error is returned.
-  rpc GetNextPaperToReview (Id) returns (Project.Paper);
+  rpc GetNextPaperToReview (Project.Paper.Get) returns (Project.Paper);
 
   // Get the project paper with the preceeding _local_ id of the project paper
   // identified by the provided _global_ id. It is **guaranteed** that the
   // returned paper is in the same project as the provided one. If the provided
   // paper is the first paper in the project, a `NOT_FOUND` error is returned.
-  rpc GetPreviousPaper (Id) returns (Project.Paper);
+  rpc GetPreviousPaper (Project.Paper.Get) returns (Project.Paper);
 
 
   // Get the list of papers on the reading list of the calling user.
