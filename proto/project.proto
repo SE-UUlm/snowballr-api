@@ -22,8 +22,16 @@ enum MemberRole {
 
 enum ProjectStatus {
   PROJECT_STATUS_UNSPECIFIED = 0;
+  // Project is active and fully editable, including settings.
   PROJECT_STATUS_ACTIVE = 1;
+  // Project is active, but slr settings can no longer be changed.
+  // This state is reached as soon as the first review is submitted.
+  PROJECT_STATUS_ACTIVE_LOCKED = 4;
+  // Project is read-only and no longer actively used.
+  // This project is marked as archived.
   PROJECT_STATUS_ARCHIVED = 2;
+  // Project is marked for deletion and should not be shown to users.
+  // This project is marked as deleted.
   PROJECT_STATUS_DELETED = 3;
 }
 
