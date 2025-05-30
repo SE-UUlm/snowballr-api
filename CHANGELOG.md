@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.4.0] - 2025-05-30
+
+### Added
+
+- Add `PROJECT_STATUS_ACTIVE_LOCKED` to the `ProjectStatus` enum to represent projects where SLR settings can no longer be changed after the first review ([#38](https://github.com/SE-UUlm/snowballr-api/issues/38)) (Moritz Wieland)
+
 ## [0.3.0] - 2025-05-16
 
 ### Added
@@ -8,8 +14,7 @@
 - Add `GetNextPaperToReview` to get the next paper (if review mode is enabled) ([#23](https://github.com/SE-UUlm/snowballr-api/issues/23)) (Dominik Enderle)
 - Add `GetPreviousPaper` to get the previous paper (if review mode is disabled) ([#23](https://github.com/SE-UUlm/snowballr-api/issues/23)) (Dominik Enderle)
 
-    **Note**: There is no method to get a paper if the review mode is enabled, because this functionality 
-is directly handled in the frontend 
+    **Note**: There is no method to get a paper if the review mode is enabled, because this functionality is directly handled in the frontend
 
 - Add: API documentation ([#3](https://github.com/SE-UUlm/snowballr-api/issues/3)) (Luca Schlecker)
 
@@ -38,6 +43,8 @@ is directly handled in the frontend
 ## [0.1.0] - 2025-01-30
 
 _:seedling: Initial release._
+
+[0.4.0]: https://github.com/SE-UUlm/snowballr-api/releases/tag/v0.4.0
 
 [0.3.0]: https://github.com/SE-UUlm/snowballr-api/releases/tag/v0.3.0
 
