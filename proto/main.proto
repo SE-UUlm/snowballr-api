@@ -187,7 +187,7 @@ service SnowballR {
 
   // Get the user with the specified email address. If none is found, a
   // `NOT_FOUND` error is returned.
-  rpc GetUserByEmail (Id) returns (User);
+  rpc GetUserByEmail (Email) returns (User);
 
   // Update all in the field-mask specified attributes of the user with the
   // provided id except for `status`. This especially includes `role` and
@@ -495,4 +495,3 @@ service SnowballR {
 message AvailableFetcherApis {
   repeated string fetcher_apis = 1;
 }
-

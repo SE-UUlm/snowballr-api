@@ -8,6 +8,10 @@ message Id {
   string id = 1;
 }
 
+message Email {
+  string email = 1;
+}
+
 message BoolValue {
   bool value = 1;
 }
