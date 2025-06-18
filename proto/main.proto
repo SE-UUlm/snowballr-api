@@ -657,9 +657,8 @@ service SnowballR {
   // | Error Code | Description |
   // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
-  // | `NOT_FOUND` | No project with the provided id was found. |
+  // | `NOT_FOUND` | No project with the provided id was found or the specified stage does not exist. |
   // | `PERMISSION_DENIED` | The user is not a member of the specified project. |
-  // | `OUT_OF_RANGE` | The specified stage does not exist. |
   rpc GetDecisionStatisticsForStage(Project.Information.DecisionStatistics.Get)
       returns (Project.Information.DecisionStatistics);
 
