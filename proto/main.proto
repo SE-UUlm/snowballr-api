@@ -476,7 +476,7 @@ service SnowballR {
 
   // Remove the specified user from the given project. If the user is not part
   // of the project, nothing happens. The calling user is **required to be a
-  // project admin**.
+  // project admin**. A project admin cannot be removed from the project.
   //
   // ## Errors
   // | Error Code | Description |
