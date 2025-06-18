@@ -125,7 +125,7 @@ service SnowballR {
   //
   // ## Errors
   // | Error Code | Description |
-  // | ---: | :--- |
+  // | :--- | :--- |
   // | `ALREADY_EXISTS` | The provided email is already registered. |
   // | `INVALID_ARGUMENT` | At least one input did not meet the requirements.
   // The email need's to be a valid email, the passwords needs to meet the
@@ -144,7 +144,7 @@ service SnowballR {
   //
   // ## Errors
   // | Error Code | Description |
-  // | ---: | :--- |
+  // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user does not exist or the password is incorrect.
   // | | `INVALID_ARGUMENT` | The email is not an actual email or no password is
   // provided. |
@@ -178,7 +178,7 @@ service SnowballR {
   //
   // ## Errors
   // | Error Code | Description |
-  // | ---: | :--- |
+  // | :--- | :--- |
   // | `UNAUTHENTICATED` | The refresh token is invalid. |
   rpc RenewSession(Nothing) returns (Nothing);
 
@@ -192,7 +192,7 @@ service SnowballR {
   //
   // ## Errors
   // | Error Code | Description |
-  // | ---: | :--- |
+  // | :--- | :--- |
   // | `INVALID_ARGUMENT` | The email is not valid. This does **not** occur if a valid email is not yet registered. |
   rpc RequestPasswordReset(RequestPasswordResetRequest) returns (Nothing);
 
@@ -207,7 +207,7 @@ service SnowballR {
   //
   // ## Errors
   // | Error Code | Description |
-  // | ---: | :--- |
+  // | :--- | :--- |
   // | `INVALID_ARGUMENT` | Either the provided token is invalid or the new
   // password does not meet the rules specified in `register`. | |
   // `FAILED_PRECONDITION` | The account trying to be reset is not in a state in
@@ -222,7 +222,7 @@ service SnowballR {
   //
   // ## Errors
   // | Error Code | Description |
-  // | ---: | :--- |
+  // | :--- | :--- |
   // | `INVALID_ARGUMENT` | The provided old password is not correct or the
   // new password does not meet the rules specified in `register`. | |
   // `UNAUTHENTICATED` | The user is not signed in. |
@@ -234,7 +234,7 @@ service SnowballR {
   //
   // ## Errors
   // | Error Code | Description |
-  // | ---: | :--- |
+  // | :--- | :--- |
   // | `PERMISSION_DENIED` | The user is not an admin. |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   rpc GetAllUsers(Nothing) returns (User.List);
@@ -245,7 +245,7 @@ service SnowballR {
   //
   // ## Errors
   // | Error Code | Description |
-  // | ---: | :--- |
+  // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   rpc GetCurrentUser(Nothing) returns (User);
 
@@ -253,7 +253,7 @@ service SnowballR {
   //
   // ## Errors
   // | Error Code | Description |
-  // | ---: | :--- |
+  // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No user with the provided id was found. |
   rpc GetUserById(Id) returns (User);
@@ -263,7 +263,7 @@ service SnowballR {
   //
   // ## Errors
   // | Error Code | Description |
-  // | ---: | :--- |
+  // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No user with the provided email was found. |
   // | `INVALID_ARGUMENT` | The email was invalid. |
@@ -275,7 +275,7 @@ service SnowballR {
   //
   // ## Errors
   // | Error Code | Description |
-  // | ---: | :--- |
+  // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No user with the provided id was found. |
   // | `INVALID_ARGUMENT` | The email was invalid. |
@@ -293,7 +293,7 @@ service SnowballR {
   //
   // ## Errors
   // | Error Code | Description |
-  // | ---: | :--- |
+  // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No user with the provided id was found. |
   // | `PERMISSION_DENIED` | The user is not allowed to delete the user with the
@@ -306,7 +306,7 @@ service SnowballR {
   //
   // ## Errors
   // | Error Code | Description |
-  // | ---: | :--- |
+  // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No user with the provided id was found. |
   // | `PERMISSION_DENIED` | The user is not allowed to restore the user with
@@ -318,7 +318,7 @@ service SnowballR {
   //
   // ## Errors
   // | Error Code | Description |
-  // | ---: | :--- |
+  // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   rpc GetUserSettings(Nothing) returns (UserSettings);
 
@@ -328,7 +328,7 @@ service SnowballR {
   //
   // ## Errors
   // | Error Code | Description |
-  // | ---: | :--- |
+  // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `INVALID_ARGUMENT` | The updated settings are invalid. |
   rpc UpdateUserSettings(UserSettings.Update) returns (UserSettings);
@@ -339,7 +339,7 @@ service SnowballR {
   //
   // ## Errors
   // | Error Code | Description |
-  // | ---: | :--- |
+  // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   rpc GetAllPapersToReview(Nothing) returns (Project.Paper.List);
 
@@ -349,7 +349,7 @@ service SnowballR {
   //
   // ## Errors
   // | Error Code | Description |
-  // | ---: | :--- |
+  // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No project with the provided id was found. |
   // | `PERMISSION_DENIED` | The user is not a member of the specified project
@@ -363,7 +363,7 @@ service SnowballR {
   //
   // ## Errors
   // | Error Code | Description |
-  // | ---: | :--- |
+  // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No paper with the provided id was found. |
   // | `FAILED_PRECONDITION` | There was no next paper. |
@@ -378,7 +378,7 @@ service SnowballR {
   //
   // ## Errors
   // | Error Code | Description |
-  // | ---: | :--- |
+  // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No paper with the provided id was found. |
   // | `FAILED_PRECONDITION` | There was no next paper available to review. |
@@ -393,7 +393,7 @@ service SnowballR {
   //
   // ## Errors
   // | Error Code | Description |
-  // | ---: | :--- |
+  // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No paper with the provided id was found. |
   // | `FAILED_PRECONDITION` | There was no previous paper. |
@@ -405,7 +405,7 @@ service SnowballR {
   //
   // ## Errors
   // | Error Code | Description |
-  // | ---: | :--- |
+  // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   rpc GetReadingList(Nothing) returns (Paper.List);
 
@@ -415,7 +415,7 @@ service SnowballR {
   //
   // ## Errors
   // | Error Code | Description |
-  // | ---: | :--- |
+  // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   rpc IsPaperOnReadingList(Id) returns (BoolValue);
 
@@ -426,7 +426,7 @@ service SnowballR {
   //
   // ## Errors
   // | Error Code | Description |
-  // | ---: | :--- |
+  // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No paper with the provided id was found. |
   rpc AddPaperToReadingList(Id) returns (Nothing);
@@ -437,7 +437,7 @@ service SnowballR {
   //
   // ## Errors
   // | Error Code | Description |
-  // | ---: | :--- |
+  // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   rpc RemovePaperFromReadingList(Id) returns (Nothing);
 
@@ -446,7 +446,7 @@ service SnowballR {
   //
   // ## Errors
   // | Error Code | Description |
-  // | ---: | :--- |
+  // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No user with the provided id was found. |
   // | `PERMISSION_DENIED` | The user is not allowed to view the invitations of
@@ -466,7 +466,7 @@ service SnowballR {
   //
   // ## Errors
   // | Error Code | Description |
-  // | ---: | :--- |
+  // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No project with the provided id was found. |
   // | `FAILED_PRECONDITION` | The project is not active, meaning it is either
@@ -482,7 +482,7 @@ service SnowballR {
   //
   // ## Errors
   // | Error Code | Description |
-  // | ---: | :--- |
+  // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No project with the provided id was found. |
   // | `PERMISSION_DENIED` | The user is not allowed to view the pending
@@ -494,7 +494,7 @@ service SnowballR {
   //
   // ## Errors
   // | Error Code | Description |
-  // | ---: | :--- |
+  // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No project with the provided id was found. |
   // | `PERMISSION_DENIED` | The user is not allowed to view the members of the
@@ -507,7 +507,7 @@ service SnowballR {
   //
   // ## Errors
   // | Error Code | Description |
-  // | ---: | :--- |
+  // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No project with the provided project id or user with the
   // provided user id was found. | | `PERMISSION_DENIED` | The user is not
@@ -521,7 +521,7 @@ service SnowballR {
   //
   // ## Errors
   // | Error Code | Description |
-  // | ---: | :--- |
+  // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `INVALID_ARGUMENT` | The provided role is unspecified. |
   // | `PERMISSION_DENIED` | The user is not allowed to change the role of the
@@ -535,7 +535,7 @@ service SnowballR {
   //
   // ## Errors
   // | Error Code | Description |
-  // | ---: | :--- |
+  // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `PERMISSION_DENIED` | The user is not allowed to view all global
   // projects. |
@@ -546,7 +546,7 @@ service SnowballR {
   //
   // ## Errors
   // | Error Code | Description |
-  // | ---: | :--- |
+  // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `PERMISSION_DENIED` | The user is not allowed to view all global deleted
   // projects. |
@@ -557,7 +557,7 @@ service SnowballR {
   //
   // ## Errors
   // | Error Code | Description |
-  // | ---: | :--- |
+  // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No user with the provided id was found. |
   // | `PERMISSION_DENIED` | The user is not allowed to view the deleted
@@ -569,7 +569,7 @@ service SnowballR {
   //
   // ## Errors
   // | Error Code | Description |
-  // | ---: | :--- |
+  // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `PERMISSION_DENIED` | The user is not allowed to view all global archived
   // projects. |
@@ -580,7 +580,7 @@ service SnowballR {
   //
   // ## Errors
   // | Error Code | Description |
-  // | ---: | :--- |
+  // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No user with the provided id was found. |
   // | `PERMISSION_DENIED` | The user is not allowed to view the projects of the
@@ -592,7 +592,7 @@ service SnowballR {
   //
   // ## Errors
   // | Error Code | Description |
-  // | ---: | :--- |
+  // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No user with the provided id was found. |
   // | `PERMISSION_DENIED` | The user is not allowed to view the archived
@@ -608,7 +608,7 @@ service SnowballR {
   //
   // ## Errors
   // | Error Code | Description |
-  // | ---: | :--- |
+  // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `ALREADY_EXISTS` | A project with the provided name already exists. |
   // | `INVALID_ARGUMENT` | The provided project name was empty. |
@@ -618,7 +618,7 @@ service SnowballR {
   //
   // ## Errors
   // | Error Code | Description |
-  // | ---: | :--- |
+  // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No project with the provided id was found. |
   // | `PERMISSION_DENIED` | The user is not a member of the specified project.
@@ -633,7 +633,7 @@ service SnowballR {
   //
   // ## Errors
   // | Error Code | Description |
-  // | ---: | :--- |
+  // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No project with the provided id was found. |
   // | `INVALID_ARGUMENT` | Invalid project settings specified. |
@@ -649,7 +649,7 @@ service SnowballR {
   //
   // ## Errors
   // | Error Code | Description |
-  // | ---: | :--- |
+  // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No project with the provided id was found. |
   // | `PERMISSION_DENIED` | The user is not a member of the specified project. |
@@ -661,7 +661,7 @@ service SnowballR {
   // The calling user is **required to be a project admin**.
   // ## Errors
   // | Error Code | Description |
-  // | ---: | :--- |
+  // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No project with the provided id was found. |
   // | `PERMISSION_DENIED` | The user is not an admin of the specified project. |
@@ -673,7 +673,7 @@ service SnowballR {
   //
   // ## Errors
   // | Error Code | Description |
-  // | ---: | :--- |
+  // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No project with the provided id was found. |
   // | `PERMISSION_DENIED` | The user is not an admin of the specified project. |
@@ -684,7 +684,7 @@ service SnowballR {
   //
   // ## Errors
   // | Error Code | Description |
-  // | ---: | :--- |
+  // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No project with the provided id was found. |
   // | `PERMISSION_DENIED` | The user is not a member of the specified project. |
@@ -697,7 +697,7 @@ service SnowballR {
   //
   // ## Errors
   // | Error Code | Description |
-  // | ---: | :--- |
+  // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No project with the provided id was found. |
   // | `PERMISSION_DENIED` | The user is not a member of the specified project. |
@@ -709,7 +709,7 @@ service SnowballR {
   //
   // ## Errors
   // | Error Code | Description |
-  // | ---: | :--- |
+  // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No criterion with the provided id was found. |
   // | `PERMISSION_DENIED` | The user is not a member of the project the criterion belongs to. |
@@ -719,7 +719,7 @@ service SnowballR {
   //
   // ## Errors
   // | Error Code | Description |
-  // | ---: | :--- |
+  // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No project with the provided id was found. |
   // | `PERMISSION_DENIED` | The user is not a member of the specified project. |
@@ -732,7 +732,7 @@ service SnowballR {
   //
   // ## Errors
   // | Error Code | Description |
-  // | ---: | :--- |
+  // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `INVALID_ARGUMENT` | At least one field in the provided criterion was blank. |
   // | `NOT_FOUND` | No project with the provided id was found. |
@@ -746,7 +746,7 @@ service SnowballR {
   //
   // ## Errors
   // | Error Code | Description |
-  // | ---: | :--- |
+  // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No criterion with the provided id was found. |
   // | `INVALID_ARGUMENT` | At least one field in the provided update was empty. |
@@ -760,7 +760,7 @@ service SnowballR {
   //
   // ## Errors
   // | Error Code | Description |
-  // | ---: | :--- |
+  // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No criterion with the provided id was found. |
   // | `PERMISSION_DENIED` | The user is not an admin of the project the criterion belongs to. |
@@ -770,7 +770,7 @@ service SnowballR {
   //
   // ## Errors
   // | Error Code | Description |
-  // | ---: | :--- |
+  // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No project paper with the provided id was found. |
   // | `PERMISSION_DENIED` | The user is not a member of the project the paper belongs to. |
@@ -782,7 +782,7 @@ service SnowballR {
   //
   // ## Errors
   // | Error Code | Description |
-  // | ---: | :--- |
+  // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No project paper with the provided relative id was found. Either the project does not exist or the relative id was not found within the project. |
   // | `PERMISSION_DENIED` | The user is not a member of the project the paper belongs to. |
@@ -792,7 +792,7 @@ service SnowballR {
   //
   // ## Errors
   // | Error Code | Description |
-  // | ---: | :--- |
+  // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No project with the provided id was found. |
   // | `PERMISSION_DENIED` | The user is not a member of the specified project. |
@@ -806,7 +806,7 @@ service SnowballR {
   //
   // ## Errors
   // | Error Code | Description |
-  // | ---: | :--- |
+  // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | Either the project or the paper with the provided ids were not found. |
   // | `INVALID_ARGUMENT` | The provided stage does not exist in the project or the paper is not valid. This could mean that stage was less than zero or greater than `max_stage`. |
@@ -822,7 +822,7 @@ service SnowballR {
   //
   // ## Errors
   // | Error Code | Description |
-  // | ---: | :--- |
+  // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No project paper with the provided id was found. |
   // | `PERMISSION_DENIED` | The user is not admin of the project the project paper belongs to. |
@@ -835,7 +835,7 @@ service SnowballR {
   //
   // ## Errors
   // | Error Code | Description |
-  // | ---: | :--- |
+  // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `PERMISSION_DENIED` | The user is not an admin of the project the project paper belongs to. |
   rpc RemovePaperFromProject(Id) returns (Nothing);
@@ -844,7 +844,7 @@ service SnowballR {
   //
   // ## Errors
   // | Error Code | Description |
-  // | ---: | :--- |
+  // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No review with the provided id was found. |
   // | `PERMISSION_DENIED` | The user is not a member of the project the review belongs to. |
@@ -854,7 +854,7 @@ service SnowballR {
   //
   // ## Errors
   // | Error Code | Description |
-  // | ---: | :--- |
+  // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No project paper with the provided id was found. |
   // | `PERMISSION_DENIED` | The user is not a member of the project the project paper belongs to. |
@@ -872,7 +872,7 @@ service SnowballR {
   //
   // ## Errors
   // | Error Code | Description |
-  // | ---: | :--- |
+  // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No project paper with the provided id was found. |
   // | `ALREADY_EXISTS` | The user already has a review for the specified project paper. |
@@ -891,7 +891,7 @@ service SnowballR {
   //
   // ## Errors
   // | Error Code | Description |
-  // | ---: | :--- |
+  // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No review with the provided id was found. |
   // | `INVALID_ARGUMENT` | At least one field in the provided update was empty. This could be an invalid `decision` or an empty or invalid `selected_criteria_ids`. |
@@ -908,7 +908,7 @@ service SnowballR {
   //
   // ## Errors
   // | Error Code | Description |
-  // | ---: | :--- |
+  // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No review with the provided id was found. |
   // | `PERMISSION_DENIED` | The user is either not an owner of the review or not a member of the project the review belongs to. |
@@ -919,7 +919,7 @@ service SnowballR {
   //
   // ## Errors
   // | Error Code | Description |
-  // | ---: | :--- |
+  // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No paper with the provided id was found. |
   rpc GetPaperById(Id) returns (Paper);
@@ -929,7 +929,7 @@ service SnowballR {
   //
   // ## Errors
   // | Error Code | Description |
-  // | ---: | :--- |
+  // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `INVALID_ARGUMENT` | At least one field in the provided paper was invalid. |
   rpc CreatePaper(Paper) returns (Paper);
@@ -940,7 +940,7 @@ service SnowballR {
   //
   // ## Errors
   // | Error Code | Description |
-  // | ---: | :--- |
+  // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No paper with the provided id was found. |
   // | `INVALID_ARGUMENT` | At least one field in the provided paper was invalid. |
@@ -951,7 +951,7 @@ service SnowballR {
   //
   // ## Errors
   // | Error Code | Description |
-  // | ---: | :--- |
+  // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No paper with the provided id was found. |
   rpc GetForwardReferencedPapers(Id) returns (Paper.List);
@@ -960,7 +960,7 @@ service SnowballR {
   //
   // ## Errors
   // | Error Code | Description |
-  // | ---: | :--- |
+  // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No paper with the provided id was found. |
   rpc GetBackwardReferencedPapers(Id) returns (Paper.List);
@@ -971,7 +971,7 @@ service SnowballR {
   //
   // ## Errors
   // | Error Code | Description |
-  // | ---: | :--- |
+  // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No paper with the provided id was found. |
   // | `FAILED_PRECONDITION` | The paper has no pdf attached to it. See `paper.has_pdf`. |
@@ -983,7 +983,7 @@ service SnowballR {
   //
   // ## Errors
   // | Error Code | Description |
-  // | ---: | :--- |
+  // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No paper with the provided id was found. |
   // | `RESOURCE_EXHAUSTED` | The provided pdf was declined by the server. A possible reason could be, that it was too large. |
