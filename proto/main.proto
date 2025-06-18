@@ -127,9 +127,7 @@ service SnowballR {
   // | Error Code | Description |
   // | :--- | :--- |
   // | `ALREADY_EXISTS` | The provided email is already registered. |
-  // | `INVALID_ARGUMENT` | At least one input did not meet the requirements.
-  // The email need's to be a valid email, the passwords needs to meet the
-  // previously stated criteria and the first and last name must not be blank. |
+  // | `INVALID_ARGUMENT` | At least one input did not meet the requirements. The email need's to be a valid email, the passwords needs to meet the previously stated criteria and the first and last name must not be blank. |
   rpc Register(RegisterRequest) returns (Nothing);
 
   // If email and password exactly match a user in the server's database, a
@@ -146,8 +144,7 @@ service SnowballR {
   // | Error Code | Description |
   // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user does not exist or the password is incorrect.
-  // | | `INVALID_ARGUMENT` | The email is not an actual email or no password is
-  // provided. |
+  // | `INVALID_ARGUMENT` | The email is not an actual email or no password is provided. |
   rpc Login(LoginRequest) returns (Nothing);
 
   // Revoke access through the currently used set of access and refresh token.
@@ -208,11 +205,9 @@ service SnowballR {
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `INVALID_ARGUMENT` | Either the provided token is invalid or the new
-  // password does not meet the rules specified in `register`. | |
-  // `FAILED_PRECONDITION` | The account trying to be reset is not in a state in
-  // which the password can be changed. | | `DEADLINE_EXCEEDED` | The provided
-  // token is expired. |
+  // | `INVALID_ARGUMENT` | Either the provided token is invalid or the new password does not meet the rules specified in `register`. |
+  // | `FAILED_PRECONDITION` | The account trying to be reset is not in a state in which the password can be changed. |
+  // | `DEADLINE_EXCEEDED` | The provided token is expired. |
   rpc ResetPassword(PasswordResetRequest) returns (Nothing);
 
   // Use the old password in order to set a new password.
@@ -223,9 +218,8 @@ service SnowballR {
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `INVALID_ARGUMENT` | The provided old password is not correct or the
-  // new password does not meet the rules specified in `register`. | |
-  // `UNAUTHENTICATED` | The user is not signed in. |
+  // | `INVALID_ARGUMENT` | The provided old password is not correct or the new password does not meet the rules specified in `register`. |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
   rpc ChangePassword(PasswordChangeRequest) returns (Nothing);
 
   // Get all registered users of a SnowballR instance.
@@ -279,9 +273,8 @@ service SnowballR {
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No user with the provided id was found. |
   // | `INVALID_ARGUMENT` | The email was invalid. |
-  // | `PERMISSION_DENIED` | The user is not allowed to modify the user with the
-  // specified id. | | `ALREADY_EXISTS` | The updated email is already
-  // registered. |
+  // | `PERMISSION_DENIED` | The user is not allowed to modify the user with the specified id. |
+  // | `ALREADY_EXISTS` | The updated email is already registered. |
   rpc UpdateUser(User.Update) returns (User);
 
   // Prevent the user with the provided id from logging in. It is not fully
@@ -296,9 +289,8 @@ service SnowballR {
   // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No user with the provided id was found. |
-  // | `PERMISSION_DENIED` | The user is not allowed to delete the user with the
-  // specified id. | | `FAILED_PRECONDITION` | The user to be deleted was an
-  // admin. |
+  // | `PERMISSION_DENIED` | The user is not allowed to delete the user with the specified id. |
+  // | `FAILED_PRECONDITION` | The user to be deleted was an admin. |
   rpc SoftDeleteUser(Id) returns (Nothing);
 
   // Allow a previously soft-deleted user to login again.
@@ -309,8 +301,7 @@ service SnowballR {
   // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No user with the provided id was found. |
-  // | `PERMISSION_DENIED` | The user is not allowed to restore the user with
-  // the specified id. |
+  // | `PERMISSION_DENIED` | The user is not allowed to restore the user with the specified id. |
   rpc SoftUndeleteUser(Id) returns (Nothing);
 
   // Get the user-specific settings for the calling user. It is **guaranteed**
@@ -352,8 +343,7 @@ service SnowballR {
   // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No project with the provided id was found. |
-  // | `PERMISSION_DENIED` | The user is not a member of the specified project
-  // or is not allowed to review. |
+  // | `PERMISSION_DENIED` | The user is not a member of the specified project or is not allowed to review. |
   rpc GetPapersToReviewForProject(Id) returns (Project.Paper.List);
 
   // Get the project paper with the succeeding _local_ id of the project paper
@@ -367,8 +357,7 @@ service SnowballR {
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No paper with the provided id was found. |
   // | `FAILED_PRECONDITION` | There was no next paper. |
-  // | `PERMISSION_DENIED` | The user is not a member of the specified project.
-  // |
+  // | `PERMISSION_DENIED` | The user is not a member of the specified project. |
   rpc GetNextPaper(Id) returns (Project.Paper);
 
   // Get the next project paper the calling user is able to review. Papers with
@@ -382,8 +371,7 @@ service SnowballR {
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No paper with the provided id was found. |
   // | `FAILED_PRECONDITION` | There was no next paper available to review. |
-  // | `PERMISSION_DENIED` | The user is not a member of the specified project
-  // or is not allowed to review. |
+  // | `PERMISSION_DENIED` | The user is not a member of the specified project or is not allowed to review. |
   rpc GetNextPaperToReview(Id) returns (Project.Paper);
 
   // Get the project paper with the preceeding _local_ id of the project paper
@@ -397,8 +385,7 @@ service SnowballR {
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No paper with the provided id was found. |
   // | `FAILED_PRECONDITION` | There was no previous paper. |
-  // | `PERMISSION_DENIED` | The user is not a member of the specified project.
-  // |
+  // | `PERMISSION_DENIED` | The user is not a member of the specified project. |
   rpc GetPreviousPaper(Id) returns (Project.Paper);
 
   // Get the list of papers on the reading list of the calling user.
@@ -449,8 +436,7 @@ service SnowballR {
   // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No user with the provided id was found. |
-  // | `PERMISSION_DENIED` | The user is not allowed to view the invitations of
-  // the specified user. |
+  // | `PERMISSION_DENIED` | The user is not allowed to view the invitations of the specified user. |
   rpc GetPendingInvitationsForUser(Id) returns (Project.List);
 
   // Invite a user to a project. If the project does not exist, a `NOT_FOUND`
@@ -469,10 +455,9 @@ service SnowballR {
   // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No project with the provided id was found. |
-  // | `FAILED_PRECONDITION` | The project is not active, meaning it is either
-  // archived or deleted. | | `PERMISSION_DENIED` | The user is not allowed to
-  // invite users to the specified project. | | `INVALID_ARGUMENT` | The
-  // provided email is not a valid email address. |
+  // | `FAILED_PRECONDITION` | The project is not active, meaning it is either archived or deleted. |
+  // | `PERMISSION_DENIED` | The user is not allowed to invite users to the specified project. |
+  // | `INVALID_ARGUMENT` | The provided email is not a valid email address. |
   rpc InviteUserToProject(Project.Member.Invite) returns (Nothing);
 
   // Get a list of all users with a pending invitation to the provided project.
@@ -485,8 +470,7 @@ service SnowballR {
   // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No project with the provided id was found. |
-  // | `PERMISSION_DENIED` | The user is not allowed to view the pending
-  // invitations of the specified project. |
+  // | `PERMISSION_DENIED` | The user is not allowed to view the pending invitations of the specified project. |
   rpc GetPendingInvitationsForProject(Id) returns (User.List);
 
   // Get a list of all members of the specified project. The calling user is
@@ -497,8 +481,7 @@ service SnowballR {
   // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No project with the provided id was found. |
-  // | `PERMISSION_DENIED` | The user is not allowed to view the members of the
-  // specified project. |
+  // | `PERMISSION_DENIED` | The user is not allowed to view the members of the specified project. |
   rpc GetProjectMembers(Id) returns (Project.Member.List);
 
   // Remove the specified user from the given project. If the user is not part
@@ -509,10 +492,9 @@ service SnowballR {
   // | Error Code | Description |
   // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
-  // | `NOT_FOUND` | No project with the provided project id or user with the
-  // provided user id was found. | | `PERMISSION_DENIED` | The user is not
-  // allowed to remove the specified user from the project. | |
-  // `FAILED_PRECONDITION` | The user to be removed is the last project admin. |
+  // | `NOT_FOUND` | No project with the provided project id or user with the provided user id was found. |
+  // | `PERMISSION_DENIED` | The user is not allowed to remove the specified user from the project. |
+  // | `FAILED_PRECONDITION` | The user to be removed is the last project admin. |
   rpc RemoveProjectMember(Project.Member.Remove) returns (Nothing);
 
   // Change the role of the user with the provided id within the given project.
@@ -524,11 +506,9 @@ service SnowballR {
   // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `INVALID_ARGUMENT` | The provided role is unspecified. |
-  // | `PERMISSION_DENIED` | The user is not allowed to change the role of the
-  // specified user in the project. | | `NOT_FOUND` | No project with the
-  // provided id or user with the provided id was found. | |
-  // `FAILED_PRECONDITION` | The user to be updated is not a member of the
-  // specified project or was the last admin member of the project. |
+  // | `PERMISSION_DENIED` | The user is not allowed to change the role of the specified user in the project. |
+  // | `NOT_FOUND` | No project with the provided id or user with the provided id was found. |
+  // | `FAILED_PRECONDITION` | The user to be updated is not a member of the specified project or was the last admin member of the project. |
   rpc UpdateProjectMemberRole(Project.Member.Update) returns (Nothing);
 
   // Get a list of all active projects in the SnowballR instance.
@@ -537,8 +517,7 @@ service SnowballR {
   // | Error Code | Description |
   // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
-  // | `PERMISSION_DENIED` | The user is not allowed to view all global
-  // projects. |
+  // | `PERMISSION_DENIED` | The user is not allowed to view all global projects. |
   rpc GetAllProjects(Nothing) returns (Project.List);
 
   // Get a list of all projects in the SnowballR instance that are marked as
@@ -548,8 +527,7 @@ service SnowballR {
   // | Error Code | Description |
   // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
-  // | `PERMISSION_DENIED` | The user is not allowed to view all global deleted
-  // projects. |
+  // | `PERMISSION_DENIED` | The user is not allowed to view all global deleted projects. |
   rpc GetAllDeletedProjects(Nothing) returns (Project.List);
 
   // Get a list of all projects the provided user is a member of and which are
@@ -560,8 +538,7 @@ service SnowballR {
   // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No user with the provided id was found. |
-  // | `PERMISSION_DENIED` | The user is not allowed to view the deleted
-  // projects of the specified user. |
+  // | `PERMISSION_DENIED` | The user is not allowed to view the deleted projects of the specified user. |
   rpc GetAllDeletedProjectsForUser(Id) returns (Project.List);
 
   // Get a list of all projects in the SnowballR instance that are marked as
@@ -571,8 +548,7 @@ service SnowballR {
   // | Error Code | Description |
   // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
-  // | `PERMISSION_DENIED` | The user is not allowed to view all global archived
-  // projects. |
+  // | `PERMISSION_DENIED` | The user is not allowed to view all global archived projects. |
   rpc GetAllArchivedProjects(Nothing) returns (Project.List);
 
   // Get a list of all active projects the provided user is a member of. Pending
@@ -583,8 +559,7 @@ service SnowballR {
   // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No user with the provided id was found. |
-  // | `PERMISSION_DENIED` | The user is not allowed to view the projects of the
-  // specified user. |
+  // | `PERMISSION_DENIED` | The user is not allowed to view the projects of the specified user. |
   rpc GetAllProjectsForUser(Id) returns (Project.List);
 
   // Get a list of all projects the provided user is a member of and which are
@@ -595,8 +570,7 @@ service SnowballR {
   // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No user with the provided id was found. |
-  // | `PERMISSION_DENIED` | The user is not allowed to view the archived
-  // projects of the specified user. |
+  // | `PERMISSION_DENIED` | The user is not allowed to view the archived projects of the specified user. |
   rpc GetAllArchivedProjectsForUser(Id) returns (Project.List);
 
   // Create a new project. The provided name has to be unique, otherwise an
@@ -621,8 +595,7 @@ service SnowballR {
   // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No project with the provided id was found. |
-  // | `PERMISSION_DENIED` | The user is not a member of the specified project.
-  // |
+  // | `PERMISSION_DENIED` | The user is not a member of the specified project. |
   rpc GetProjectById(Id) returns (Project);
 
   // Update the project with the given id using the provided data. Only
@@ -637,10 +610,9 @@ service SnowballR {
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No project with the provided id was found. |
   // | `INVALID_ARGUMENT` | Invalid project settings specified. |
-  // | `PERMISSION_DENIED` | The user is not allowed to update the project
-  // settings. | | `FAILED_PRECONDITION` | The project is not active. | |
-  // `ALREADY_EXISTS` | The provided project name is already used by another
-  // project. |
+  // | `PERMISSION_DENIED` | The user is not allowed to update the project settings. |
+  // | `FAILED_PRECONDITION` | The project is not active. |
+  // | `ALREADY_EXISTS` | The provided project name is already used by another project. |
   rpc UpdateProject(Project.Update) returns (Project);
 
   // Export the provided project in the given format. A binary blob is returned.
