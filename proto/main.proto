@@ -251,9 +251,8 @@ service SnowballR {
   // | `NOT_FOUND` | No user with the provided id was found. |
   rpc GetUserById(Id) returns (User);
 
-  // Get the user with the specified email address. If none is found, a
-  // `NOT_FOUND` error is returned.
-  //
+  // Get the user with the specified email address.
+  // 
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
@@ -278,9 +277,7 @@ service SnowballR {
 
   // Prevent the user with the provided id from logging in. It is not fully
   // deleted from the database though, but not considered as an **active user**
-  // anymore. The calling user and other admin users cannot be deleted and will
-  // result in a `FAILED_PRECONDITION` error. If no user with that `id` exists,
-  // a `NOT_FOUND` error is returned.
+  // anymore.
   // The calling user is **required to be admin**.
   //
   // ## Errors
@@ -347,8 +344,7 @@ service SnowballR {
 
   // Get the project paper with the succeeding _local_ id of the project paper
   // identified by the provided _global_ id. It is **guaranteed** that the
-  // returned paper is in the same project as the provided one. If the provided
-  // paper is the last paper in the project, a `NOT_FOUND` error is returned.
+  // returned paper is in the same project as the provided one.
   //
   // ## Errors
   // | Error Code | Description |
@@ -361,8 +357,7 @@ service SnowballR {
 
   // Get the next project paper the calling user is able to review. Papers with
   // lower local ids are preferred. It is **guaranteed** that the returned paper
-  // is in the same project as the one provided. If there is no reviewable paper
-  // left in the project, a `NOT_FOUND` error is returned.
+  // is in the same project as the one provided.
   //
   // ## Errors
   // | Error Code | Description |
@@ -375,8 +370,7 @@ service SnowballR {
 
   // Get the project paper with the preceeding _local_ id of the project paper
   // identified by the provided _global_ id. It is **guaranteed** that the
-  // returned paper is in the same project as the provided one. If the provided
-  // paper is the first paper in the project, a `NOT_FOUND` error is returned.
+  // returned paper is in the same project as the provided one.
   //
   // ## Errors
   // | Error Code | Description |
@@ -407,8 +401,7 @@ service SnowballR {
 
   // Add the paper with the provided id to the calling user's reading list. If
   // the paper is already on the user's reading list, nothing will be changed
-  // and **no error** will be returned. If no paper with the provided id exists,
-  // a `NOT_FOUND` error is returned.
+  // and **no error** will be returned.
   //
   // ## Errors
   // | Error Code | Description |
@@ -438,10 +431,8 @@ service SnowballR {
   // | `PERMISSION_DENIED` | The user is not allowed to view the invitations of the specified user. |
   rpc GetPendingInvitationsForUser(Id) returns (Project.List);
 
-  // Invite a user to a project. If the project does not exist, a `NOT_FOUND`
-  // error is returned. The provided project has to be active, meaning
-  // it is neither deleted nor archived. If this condition is not met, a
-  // `FAILED_PRECONDITION` error is returned. If a user with the provided email
+  // Invite a user to a project.The provided project has to be active, meaning
+  // it is neither deleted nor archived. If a user with the provided email
   // already exists, an invitation is sent. The user is **not** instantly added
   // to the project. The user may then join the project using the invitation
   // displayed in the frontend. If, however, no user with the provided email
@@ -572,12 +563,10 @@ service SnowballR {
   // | `PERMISSION_DENIED` | The user is not allowed to view the archived projects of the specified user. |
   rpc GetAllArchivedProjectsForUser(Id) returns (Project.List);
 
-  // Create a new project. The provided name has to be unique, otherwise an
-  // `ALREADY_EXISTS` error is returned. Every field must be **specified**
-  // and **non-empty**, otherwise an `INVALID_ARGUMENT` error is returned. The
-  // calling user is automatically a member of that project with "project admin"
-  // role (`MEMBER_ROLE_ADMIN`). If the project was successfully created, it is
-  // returned and **guaranteed** to be **specified**.
+  // Create a new project. Every field must be **specified** and **non-empty**.
+  // The calling user is automatically a member of that project with "project
+  // admin" role (`MEMBER_ROLE_ADMIN`). If the project was successfully created,
+  // it is returned and **guaranteed** to be **specified**.
   //
   // ## Errors
   // | Error Code | Description |
@@ -627,9 +616,9 @@ service SnowballR {
   rpc ExportProject(ExportRequest) returns (Blob);
 
   // Mark a project as deleted. It is not fully deleted from the database and
-  // may later be restored. If no project exists with that `id`, a `NOT_FOUND`
-  // error is returned.
+  // may later be restored.
   // The calling user is **required to be a project admin**.
+  // 
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
@@ -638,8 +627,7 @@ service SnowballR {
   // | `PERMISSION_DENIED` | The user is not an admin of the specified project. |
   rpc SoftDeleteProject(Id) returns (Nothing);
 
-  // Restore a previously deleted project to the **active** state. If no
-  // project exists with that `id`, a `NOT_FOUND` error is returned.
+  // Restore a previously deleted project to the **active** state.
   // The calling user is **required to be a project admin**.
   //
   // ## Errors
@@ -697,9 +685,8 @@ service SnowballR {
   rpc GetAllCriteriaForProject(Id) returns (Criterion.List);
 
   // Create a new criterion. Every field **must be specified** and
-  // **non-empty**, otherwise an `INVALID_ARGUMENT` error is returned. If
-  // successful, the newly created criterion is returned.
-  // The calling user is **required to be a project admin**.
+  // **non-empty**. If successful, the newly created criterion is returned. The
+  // calling user is **required to be a project admin**.
   //
   // ## Errors
   // | Error Code | Description |
@@ -725,8 +712,7 @@ service SnowballR {
   rpc UpdateCriterion(Criterion.Update) returns (Criterion);
 
   // Permanently delete the specified criterion. All references to it will also
-  // be removed. **This cannot be reversed**. If no criterion with that `id`
-  // exists, a `NOT_FOUND` error is returned.
+  // be removed. **This cannot be reversed**.
   // The calling user is **required to be a project admin**.
   //
   // ## Errors
@@ -770,9 +756,7 @@ service SnowballR {
   rpc GetAllProjectPapersForProject(Id) returns (Project.Paper.List);
 
   // Add the provided paper to the given project within the specified stage.
-  // If the paper is already in the project, a `FAILED_PRECONDITION` error is
-  // returned. The stage must be lesser or equal to the projects `max_stage`,
-  // otherwise an `INVALID_ARGUMENT` error is returned.
+  //  The stage must be lesser or equal to the projects `max_stage`.
   // The calling user is **required to be a project admin**.
   //
   // ## Errors
@@ -832,14 +816,11 @@ service SnowballR {
   rpc GetAllReviewsForProjectPaper(Id) returns (Review.List);
 
   // Create a new review for a specific project paper. Every field must be
-  // **specified** and **non-empty**, otherwise an `INVALID_ARGUMENT` error
-  // is returned. `selected_criteria_ids` may be empty. The calling user must
-  // not currently have another review for this project paper, otherwise a
-  // `FAILED_PRECONDITION` error will be returned. The paper must also be
-  // currently `UNREVIEWED` or `IN_REVIEW`, if it is not a `FAILED_PRECONDITION`
-  // error is returned. The user also has to be a member of the same project
-  // the project paper belongs to, if it is not a `FAILED_PRECONDITION` error is
-  // returned. If successful, the created review is returned.
+  // **specified** and **non-empty**. `selected_criteria_ids` may be empty. The
+  // calling user must not currently have another review for this project paper.
+  // The paper must also be currently `UNREVIEWED` or `IN_REVIEW`. The user also
+  // has to be a member of the same project the project paper belongs to. If
+  // successful, the created review is returned.
   //
   // ## Errors
   // | Error Code | Description |
@@ -871,11 +852,10 @@ service SnowballR {
   rpc UpdateReview(Review.Update) returns (Review);
 
   // Permanently remove the specified review from the project paper. **This
-  // cannot be undone**. If no review with that `id` exists, a `NOT_FOUND` error
-  // is returned. Only the owner of a review is allowed to delete a review. The
-  // owner of the review has to be member of the project the review is in, in
-  // order to remove it. A user is owner of a review, if the reviews `user_id`
-  // matches the user's `id`.
+  // cannot be undone**.. Only the owner of a review is allowed to delete a
+  // review. The owner of the review has to be member of the project the review
+  // is in, in order to remove it. A user is owner of a review, if the reviews
+  // `user_id` matches the user's `id`.
   //
   // ## Errors
   // | Error Code | Description |
@@ -936,9 +916,7 @@ service SnowballR {
   // | `NOT_FOUND` | No paper with the provided id was found. |
   rpc GetBackwardReferencedPapers(Id) returns (Paper.List);
 
-  // Get a paper's pdf as a binary blob. If the specified paper has no
-  // pdf attached to it (`has_pdf == false`), a `FAILED_PRECONDITION` error is
-  // returned.
+  // Get a paper's pdf as a binary blob.
   //
   // ## Errors
   // | Error Code | Description |
