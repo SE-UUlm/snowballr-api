@@ -206,7 +206,7 @@ service SnowballR {
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `INVALID_ARGUMENT` | Either the provided token is invalid or the new password does not meet the rules specified in `register`. |
+  // | `INVALID_ARGUMENT` | Either the provided token is invalid or the new password does not meet the rules specified in `Register`. |
   // | `FAILED_PRECONDITION` | The account trying to be reset is not in a state in which the password can be changed. |
   // | `DEADLINE_EXCEEDED` | The provided token is expired. |
   rpc ResetPassword(PasswordResetRequest) returns (Nothing);
@@ -219,7 +219,7 @@ service SnowballR {
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `INVALID_ARGUMENT` | The provided old password is not correct or the new password does not meet the rules specified in `register`. |
+  // | `INVALID_ARGUMENT` | The provided old password is not correct or the new password does not meet the rules specified in `Register`. |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   rpc ChangePassword(PasswordChangeRequest) returns (Nothing);
 
