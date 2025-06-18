@@ -270,7 +270,7 @@ service SnowballR {
   // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No user with the provided id was found. |
-  // | `INVALID_ARGUMENT` | The email was invalid. |
+  // | `INVALID_ARGUMENT` | The first name, last name, role or email was invalid. |
   // | `PERMISSION_DENIED` | The user is not allowed to modify the user with the specified id. |
   // | `ALREADY_EXISTS` | The updated email is already registered. |
   rpc UpdateUser(User.Update) returns (User);
