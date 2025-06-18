@@ -25,7 +25,7 @@ import "user_settings.proto";
 // the `Authorization` header. If failing to do so, an `UNAUTHENTICATED` error
 // will be returned.
 //
-// Furthemore, the server may respond at any time with the `UNAVAILABLE` error
+// Furthermore, the server may respond at any time with the `UNAVAILABLE` error
 // code if it is unable to process a request.
 //
 // Every error should come with a meaningful description, detailing the nature
@@ -100,7 +100,7 @@ import "user_settings.proto";
 // the required role for any call may change at any time.
 //
 service SnowballR {
-  // Query all available origins a paper may be sourced from by the backend.
+  // Query all available origins from which a paper may be sourced by the backend.
   // Each source is identified by a unique string and is later used to specify
   // which APIs shall be used by a project to collect papers. The list is
   // **guaranteed** to be **non-empty** but **may change** at any time.
@@ -117,10 +117,10 @@ service SnowballR {
   // The password string is **required** to
   //
   // - be at least **eight characters long**,
-  // - contain at least **two lower-case letter**,
-  // - contain at least **two upper-case letter**,
-  // - contain at least **two digit**,
-  // - and contain at least **two special character**.
+  // - contain at least **two lower-case letters**,
+  // - contain at least **two upper-case letters**,
+  // - contain at least **two digits**,
+  // - and contain at least **two special characters**.
   //
   // This call does not require the user to be authenticated.
   //
@@ -130,7 +130,7 @@ service SnowballR {
   // | `ALREADY_EXISTS` | The provided email is already registered. |
   // | `INVALID_ARGUMENT` | At least one input did not meet the requirements.
   // The email need's to be a valid email, the passwords needs to meet the
-  // previously stated criteria and the first and last name must not be empty. |
+  // previously stated criteria and the first and last name must not be blank. |
   rpc Register(RegisterRequest) returns (Nothing);
 
   // If email and password exactly match a user in the server's database, a
@@ -224,7 +224,7 @@ service SnowballR {
   // ## Errors
   // | Error Code | Description |
   // | ---: | :--- |
-  // | `INVALID_ARGUMENT` | The provided previous password is not correct or the
+  // | `INVALID_ARGUMENT` | The provided old password is not correct or the
   // new password does not meet the rules specified in `register`. | |
   // `UNAUTHENTICATED` | The user is not signed in. |
   rpc ChangePassword(PasswordChangeRequest) returns (Nothing);
@@ -735,7 +735,7 @@ service SnowballR {
   // | Error Code | Description |
   // | ---: | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
-  // | `INVALID_ARGUMENT` | At least one field in the provided criterion was empty. |
+  // | `INVALID_ARGUMENT` | At least one field in the provided criterion was blank. |
   // | `NOT_FOUND` | No project with the provided id was found. |
   // | `PERMISSION_DENIED` | The user is not an admin of the specified project. |
   rpc CreateCriterion(Criterion.Create) returns (Criterion);
