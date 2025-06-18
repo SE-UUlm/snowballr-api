@@ -609,6 +609,7 @@ service SnowballR {
   // | Error Code | Description |
   // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `INVALID_ARGUMENT` | The specified format is invalid. |
   // | `NOT_FOUND` | No project with the provided id was found. |
   // | `PERMISSION_DENIED` | The user is not a member of the specified project. |
   rpc ExportProject(ExportRequest) returns (Blob);
