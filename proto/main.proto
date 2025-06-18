@@ -596,7 +596,7 @@ service SnowballR {
   // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No project with the provided id was found. |
-  // | `INVALID_ARGUMENT` | Invalid project settings specified. |
+  // | `INVALID_ARGUMENT` | Invalid name, status or project settings specified. |
   // | `PERMISSION_DENIED` | The user is not allowed to update the project settings. |
   // | `FAILED_PRECONDITION` | The project is not active. |
   rpc UpdateProject(Project.Update) returns (Project);
