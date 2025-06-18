@@ -170,8 +170,9 @@ service SnowballR {
   // further attention.
   //
   // Use this call if the access token is expired.
-  // This call does not require the user to be authenticated.
-  // TODO: clarify need for refresh token but no need for access token
+  // This call does not require the user to be authenticated using an access
+  // token. Instead, the validity of the accompanying refresh token — which is
+  // also set by `Register` and `Login` — is confirmed.
   //
   // ## Errors
   // | Error Code | Description |
