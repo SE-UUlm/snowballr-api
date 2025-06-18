@@ -11,8 +11,12 @@ enum UserRole {
 
 enum UserStatus {
   USER_STATUS_UNSPECIFIED = 0;
+  // User is registered and has confirmed their email address
   USER_STATUS_ACTIVE = 1;
+  // User has requested the deletion of their account
   USER_STATUS_DELETED = 2;
+  // User is registered, but has not yet confirmed their email address
+  USER_STATUS_ACTIVE_UNCONFIRMED = 3;
 }
 
 message User {
@@ -32,4 +36,3 @@ message User {
     google.protobuf.FieldMask mask = 2;
   }
 }
-
