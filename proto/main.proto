@@ -224,8 +224,6 @@ service SnowballR {
   rpc ChangePassword(PasswordChangeRequest) returns (Nothing);
 
   // Get all registered users of a SnowballR instance.
-  // TODO: create new function call for member invitation
-  // (discover new members using a filter)
   //
   // ## Errors
   // | Error Code | Description |
