@@ -18,6 +18,9 @@
       <a href="#service-{{ service.full_name }}-{{ method.name }}">
         rpc <code>{{ method.name }}</code>
       </a>
+      {% if "<!-- auth -->" in method.description %}
+        <span>Authenticated</span>
+      {% endif %}
     </h5>
     Request: <code>{{ common.type_name(method.request) | trim }}</code><br>
     Response: <code>{{ common.type_name(method.response) }}</code><br>

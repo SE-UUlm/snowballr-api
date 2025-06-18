@@ -100,6 +100,7 @@ service SnowballR {
   // Each source is identified by a unique string and is later used to specify
   // which APIs shall be used by a project to collect papers. The list is
   // **guaranteed** to be **non-empty** but **may change** at any time.
+  // @auth
   rpc GetAvailableFetcherApis (Nothing) returns (AvailableFetcherApis);
   
   // Create an account for a SnowballR instance. The provided
