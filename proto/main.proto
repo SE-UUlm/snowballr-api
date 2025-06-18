@@ -572,7 +572,6 @@ service SnowballR {
   // | Error Code | Description |
   // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
-  // | `ALREADY_EXISTS` | A project with the provided name already exists. |
   // | `INVALID_ARGUMENT` | The provided project name was empty. |
   rpc CreateProject(Project.Create) returns (Project);
 
@@ -600,7 +599,6 @@ service SnowballR {
   // | `INVALID_ARGUMENT` | Invalid project settings specified. |
   // | `PERMISSION_DENIED` | The user is not allowed to update the project settings. |
   // | `FAILED_PRECONDITION` | The project is not active. |
-  // | `ALREADY_EXISTS` | The provided project name is already used by another project. |
   rpc UpdateProject(Project.Update) returns (Project);
 
   // Export the provided project in the given format. A binary blob is returned.
