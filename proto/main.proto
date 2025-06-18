@@ -20,10 +20,9 @@ import "user_settings.proto";
 // backend.
 //
 // Unless stated otherwise, **every** call **requires** the user to be
-// **authenticated**. This shall be achieved by providing a valid access token
-// assigned by the server (see [Login](#service-snowballr.SnowballR-Login)) in
-// the `Authorization` header. If failing to do so, an `UNAUTHENTICATED` error
-// will be returned.
+// **authenticated**. This will happen automatically using a http-only cookie
+// set by the server during registration or login. If failing to do so, an
+// `UNAUTHENTICATED` error will be returned.
 //
 // Furthermore, the server may respond at any time with the `UNAVAILABLE` error
 // code if it is unable to process a request.
