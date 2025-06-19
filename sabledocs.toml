@@ -1,5 +1,15 @@
-markdown-extensions = ["fenced_code", "markdown_mermaidjs", "tables"]
+# Configures the main title of the documentation site.
+module-title = "snowballR API documentation"
+
+# Copyright message displayed in the footer.
+footer-content = "© 2025 snowballr. All rights reserved."
+
+# The following fields configure the source control repository of the project.
 repository-type = "github"
 repository-url = "https://github.com/SE-UUlm/snowballr-api/"
 repository-branch = "main"
 repository-dir = "proto"
+
+# The markdown extensions supported by the main-page-content-file
+# See: https://python-markdown.github.io/extensions/#officially-supported-extensions
+markdown-extensions = ["fenced_code", "markdown_mermaidjs", "tables"]
