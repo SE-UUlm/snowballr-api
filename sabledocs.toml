@@ -1,8 +1,8 @@
 # Configures the main title of the documentation site.
-module-title = "snowballR API documentation"
+module-title = "SnowballR API Documentation"
 
 # Copyright message displayed in the footer.
-footer-content = "© 2025 snowballr. All rights reserved."
+footer-content = "© 2025 SnowballR authors. All rights reserved."
 
 # The following fields configure the source control repository of the project.
 repository-type = "github"
