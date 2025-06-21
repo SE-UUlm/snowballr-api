@@ -28,7 +28,7 @@ import "user_settings.proto";
 // code if it is unable to process a request.
 //
 // Every error should come with a meaningful description, detailing the nature
-// of the occured error.
+// of the occurred error.
 //
 // Every enum contains a `_UNSPECIFIED` variant indicating its absence.
 // If any other variant is present, the field is considered to be _specified_.
@@ -102,7 +102,7 @@ service SnowballR {
   // Query all available origins from which a paper may be sourced by the backend.
   // Each source is identified by a unique string and is later used to specify
   // which APIs shall be used by a project to collect papers. The list is
-  // **guaranteed** to be **non-empty** but **may change** at any time.
+  // **guaranteed** to be **non-empty**, but **may change** at any time.
   //
   // ## Errors
   // No additional errors may occur.
@@ -126,10 +126,10 @@ service SnowballR {
   // | Error Code | Description |
   // | :--- | :--- |
   // | `ALREADY_EXISTS` | The provided email is already registered. |
-  // | `INVALID_ARGUMENT` | At least one input did not meet the requirements. The email need's to be a valid email, the passwords needs to meet the previously stated criteria and the first and last name must not be blank. |
+  // | `INVALID_ARGUMENT` | At least one input did not meet the requirements. The email needs to be a valid email, the password needs to meet the previously stated criteria and the first and last name must not be empty. |
   rpc Register(RegisterRequest) returns (Nothing);
 
-  // If email and password exactly match a user in the server's database, a
+  // If the email and password exactly match a user in the server's database, a
   // new set of login tokens is provided to authenticate as that user. Old
   // access and refresh tokens shall remain valid. These credentials are handled
   // automatically and do not need further attention.
@@ -153,7 +153,7 @@ service SnowballR {
   // No additional errors may occur.
   rpc Logout(Nothing) returns (Nothing);
 
-  // Acquire the clients authentication status. The result is **guaranteed** to
+  // Acquire the client's authentication status. The result is **guaranteed** to
   // be **specified**.
   //
   // This call does not require the user to be authenticated.
@@ -180,7 +180,7 @@ service SnowballR {
   rpc RenewSession(Nothing) returns (Nothing);
 
   // If the provided email address is registered as an active user, a
-  // challange/token is emailed to that address. That token must be sent
+  // challenge/token is emailed to that address. That token must be sent
   // alongside a new password
   // (see [ResetPassword](#service-snowballr.SnowballR-ResetPassword)) in order
   // to update a lost or forgotten password.
@@ -275,7 +275,7 @@ service SnowballR {
   rpc UpdateUser(User.Update) returns (User);
 
   // Prevent the user with the provided id from logging in. It is not fully
-  // deleted from the database though, but not considered as an **active user**
+  // deleted from the database though, but not considered an **active user**
   // anymore.
   // The calling user is **required to be admin**.
   //
@@ -285,7 +285,7 @@ service SnowballR {
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No user with the provided id was found. |
   // | `PERMISSION_DENIED` | The user is not allowed to delete the user with the specified id. |
-  // | `FAILED_PRECONDITION` | The user to be deleted was an admin. |
+  // | `FAILED_PRECONDITION` | The user to be deleted is an admin. |
   rpc SoftDeleteUser(Id) returns (Nothing);
 
   // Allow a previously soft-deleted user to login again.
@@ -367,7 +367,7 @@ service SnowballR {
   // | `PERMISSION_DENIED` | The user is not a member of the specified project or is not allowed to review. |
   rpc GetNextPaperToReview(Id) returns (Project.Paper);
 
-  // Get the project paper with the preceeding _local_ id of the project paper
+  // Get the project paper with the preceding _local_ id of the project paper
   // identified by the provided _global_ id. It is **guaranteed** that the
   // returned paper is in the same project as the provided one.
   //
@@ -388,7 +388,7 @@ service SnowballR {
   // | `UNAUTHENTICATED` | The user is not signed in. |
   rpc GetReadingList(Nothing) returns (Paper.List);
 
-  // Return whether or not the paper with the provided id is on the calling
+  // Return whether the paper with the provided id is on the calling
   // user's reading list. If the provided id does not belong to a paper, `false`
   // will be returned.
   //
@@ -420,7 +420,7 @@ service SnowballR {
   rpc RemovePaperFromReadingList(Id) returns (Nothing);
 
   // Get a list of all projects to which the user with the provided id is
-  // invited to.
+  // invited.
   //
   // ## Errors
   // | Error Code | Description |
@@ -518,7 +518,7 @@ service SnowballR {
   // | `PERMISSION_DENIED` | The user is not allowed to view all global deleted projects. |
   rpc GetAllDeletedProjects(Nothing) returns (Project.List);
 
-  // Get a list of all projects the provided user is a member of and which are
+  // Get a list of all projects the provided user is a member of and that are
   // marked as deleted.
   //
   // ## Errors
@@ -549,7 +549,7 @@ service SnowballR {
   // | `PERMISSION_DENIED` | The user is not allowed to view the projects of the specified user. |
   rpc GetAllProjectsForUser(Id) returns (Project.List);
 
-  // Get a list of all projects the provided user is a member of and which are
+  // Get a list of all projects the provided user is a member of and that are
   // marked as archived.
   //
   // ## Errors
@@ -561,9 +561,9 @@ service SnowballR {
   rpc GetAllArchivedProjectsForUser(Id) returns (Project.List);
 
   // Create a new project. Every field must be **specified** and **non-empty**.
-  // The calling user is automatically a member of that project with "project
-  // admin" role (`MEMBER_ROLE_ADMIN`). If the project was successfully created,
-  // it is returned and **guaranteed** to be **specified**.
+  // The calling user is automatically a member of that project with the
+  // "project admin" role (`MEMBER_ROLE_ADMIN`). If the project was successfully
+  // created, it is returned and **guaranteed** to be **specified**.
   //
   // ## Errors
   // | Error Code | Description |
@@ -598,7 +598,7 @@ service SnowballR {
   // | `FAILED_PRECONDITION` | The project is not active. |
   rpc UpdateProject(Project.Update) returns (Project);
 
-  // Export the provided project in the given format. A binary blob is returned.
+  // Export the provided project in the given format. A blob is returned.
   // The export includes everything for it to be reimported and be
   // indistinguishable from the original project.
   //
@@ -687,7 +687,7 @@ service SnowballR {
   // | Error Code | Description |
   // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
-  // | `INVALID_ARGUMENT` | At least one field in the provided criterion was blank. |
+  // | `INVALID_ARGUMENT` | At least one field in the provided criterion was empty. |
   // | `NOT_FOUND` | No project with the provided id was found. |
   // | `PERMISSION_DENIED` | The user is not an admin of the specified project. |
   rpc CreateCriterion(Criterion.Create) returns (Criterion);
@@ -707,7 +707,7 @@ service SnowballR {
   rpc UpdateCriterion(Criterion.Update) returns (Criterion);
 
   // Permanently delete the specified criterion. All references to it will also
-  // be removed. **This cannot be reversed**.
+  // be removed. **This cannot be undone**.
   // The calling user is **required to be a project admin**.
   //
   // ## Errors
@@ -759,7 +759,7 @@ service SnowballR {
   // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | Either the project or the paper with the provided ids were not found. |
-  // | `INVALID_ARGUMENT` | The provided stage does not exist in the project or the paper is not valid. This could mean that stage was less than zero or greater than `max_stage`. |
+  // | `INVALID_ARGUMENT` | The provided stage does not exist in the project. This could mean that stage was less than zero or greater than `max_stage`. |
   // | `ALREADY_EXISTS` | The specified paper already exists within the provided project. |
   // | `PERMISSION_DENIED` | The user is not part of the specified project. |
   rpc AddPaperToProject(Project.Paper.Add) returns (Project.Paper);
@@ -826,15 +826,15 @@ service SnowballR {
   // | `ALREADY_EXISTS` | The user already has a review for the specified project paper. |
   // | `FAILED_PRECONDITION` | The project paper is not in the `UNREVIEWED` or `IN_REVIEW` state. |
   // | `PERMISSION_DENIED` | The user is not a member of the project the project paper belongs to. |
-  // | `INVALID_ARGUMENT` | At least one field in the provided review was empty. This could be an invalid `decision` or an empty or invalid `selected_criteria_ids`. |
+  // | `INVALID_ARGUMENT` | At least one field in the provided review (except for `selected_criteria_ids`) was empty. This could be an invalid `decision` or `selected_criteria_ids`. |
   rpc CreateReview(Review.Create) returns (Review);
 
-  // Update the review with the given id using the provided data. Only
-  // fields specified in the field-mask will be updated, excluding `user_id`.
-  // The updated review is returned and **guaranteed** to be **specified**.
-  // Only the owner of a review is allowed to update a review. The owner of the
-  // review has to be member of the project the review is in, in order to update
-  // it. A user is owner of a review, if the reviews `user_id` matches the
+  // Update the review with the given id using the provided data. Only fields
+  // specified in the field-mask will be updated, excluding `user_id`. The
+  // updated review is returned and **guaranteed** to be **specified**. Only the
+  // owner of a review is allowed to update a review. The owner of the review
+  // has to be a member of the project the review is in, in order to update
+  // it. A user is the owner of a review if the review's `user_id` matches the
   // user's `id`.
   //
   // ## Errors
@@ -843,22 +843,22 @@ service SnowballR {
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No review with the provided id was found. |
   // | `INVALID_ARGUMENT` | At least one field in the provided update was empty. This could be an invalid `decision` or an empty or invalid `selected_criteria_ids`. |
-  // | `PERMISSION_DENIED` | The user is either not an owner of the review or not a member of the project the review belongs to. |
+  // | `PERMISSION_DENIED` | The user is either not the owner of the review or not a member of the project the review belongs to. |
   // | `FAILED_PRECONDITION` | The project paper is in a state where no further review modifications are allowed. |
   rpc UpdateReview(Review.Update) returns (Review);
 
   // Permanently remove the specified review from the project paper. **This
-  // cannot be undone**.. Only the owner of a review is allowed to delete a
+  // cannot be undone**. Only the owner of a review is allowed to delete a
   // review. The owner of the review has to be member of the project the review
-  // is in, in order to remove it. A user is owner of a review, if the reviews
-  // `user_id` matches the user's `id`.
+  // is in, in order to remove it. A user is the owner of a review if the
+  // review's `user_id` matches the user's `id`.
   //
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No review with the provided id was found. |
-  // | `PERMISSION_DENIED` | The user is either not an owner of the review or not a member of the project the review belongs to. |
+  // | `PERMISSION_DENIED` | The user is either not the owner of the review or not a member of the project the review belongs to. |
   // | `FAILED_PRECONDITION` | The project paper is in a state where reviews are not allowed to be deleted. |
   rpc DeleteReview(Id) returns (Nothing);
 
@@ -894,7 +894,7 @@ service SnowballR {
   // | `PERMISSION_DENIED` | The user is not allowed to update the specified paper. |
   rpc UpdatePaper(Paper.Update) returns (Paper);
 
-  // Get a list of papers which are referring to the provided paper.
+  // Get a list of papers that are referred to by the provided paper.
   //
   // ## Errors
   // | Error Code | Description |
@@ -903,7 +903,7 @@ service SnowballR {
   // | `NOT_FOUND` | No paper with the provided id was found. |
   rpc GetForwardReferencedPapers(Id) returns (Paper.List);
 
-  // Get a list of papers which are referred to by the provided paper.
+  // Get a list of papers that are referring to the provided paper.
   //
   // ## Errors
   // | Error Code | Description |
@@ -912,18 +912,18 @@ service SnowballR {
   // | `NOT_FOUND` | No paper with the provided id was found. |
   rpc GetBackwardReferencedPapers(Id) returns (Paper.List);
 
-  // Get a paper's pdf as a binary blob.
+  // Get a paper's PDF as a blob.
   //
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No paper with the provided id was found. |
-  // | `FAILED_PRECONDITION` | The paper has no pdf attached to it. See `paper.has_pdf`. |
+  // | `FAILED_PRECONDITION` | The paper has no PDF attached to it. See [`paper.has_pdf`](#message-snowballr.Paper). |
   rpc GetPaperPdf(Id) returns (Blob);
 
-  // Set or overwrite the pdf of the specified paper. This call may also be
-  // used to remove the pdf of a paper by not specifying the `pdf` field.
+  // Set or overwrite the PDF of the specified paper. This call may also be
+  // used to remove the PDF of a paper by not specifying the `pdf` field.
   // The paper's `has_pdf` field is automatically updated by the server.
   //
   // ## Errors
@@ -931,7 +931,7 @@ service SnowballR {
   // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No paper with the provided id was found. |
-  // | `RESOURCE_EXHAUSTED` | The provided pdf was declined by the server. A possible reason could be, that it was too large. |
+  // | `RESOURCE_EXHAUSTED` | The provided PDF was declined by the server. A possible reason could be, that it was too large. |
   // | `INVALID_ARGUMENT` | The provided PDF does not seem to be in the correct format. |
   rpc SetPaperPdf(Paper.PdfUpdate) returns (Nothing);
 }
