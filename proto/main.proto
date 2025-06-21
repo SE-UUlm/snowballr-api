@@ -932,6 +932,7 @@ service SnowballR {
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No paper with the provided id was found. |
   // | `RESOURCE_EXHAUSTED` | The provided pdf was declined by the server. A possible reason could be, that it was too large. |
+  // | `INVALID_ARGUMENT` | The provided PDF does not seem to be in the correct format. |
   rpc SetPaperPdf(Paper.PdfUpdate) returns (Nothing);
 }
 
