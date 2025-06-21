@@ -108,9 +108,8 @@ service SnowballR {
   // No additional errors may occur.
   rpc GetAvailableFetcherApis(Nothing) returns (AvailableFetcherApis);
 
-  // Create an account for a SnowballR instance. The provided
-  // email **must not be already registered** and
-  // **every field must not be empty**. If successful, login tokens are
+  // Create an account. The provided email **must not be already registered**
+  // and **every field must not be empty**. If successful, login tokens are
   // provided which are automatically used by following calls.
   //
   // The password string is **required** to
@@ -223,7 +222,7 @@ service SnowballR {
   // | `UNAUTHENTICATED` | The user is not signed in. |
   rpc ChangePassword(PasswordChangeRequest) returns (Nothing);
 
-  // Get all registered users of a SnowballR instance.
+  // Get all registered users.
   //
   // ## Errors
   // | Error Code | Description |
@@ -436,9 +435,9 @@ service SnowballR {
   // already exists, an invitation is sent. The user is **not** instantly added
   // to the project. The user may then join the project using the invitation
   // displayed in the frontend. If, however, no user with the provided email
-  // exists, an invitation email is sent out. The recipient may register on
-  // the SnowballR instance and then accept the invitation. The calling user is
-  // **required to be a project admin**.
+  // exists, an invitation email is sent out. The recipient may register and
+  // **then accept the invitation. The calling user is required to be a project
+  // **admin**.
   //
   // ## Errors
   // | Error Code | Description |
@@ -453,7 +452,7 @@ service SnowballR {
   // Get a list of all users with a pending invitation to the provided project.
   // If the `id` field is specified, it is **guaranteed** that the user exists.
   // If, however, the `id` is empty, the user was invited by email and has not
-  // yet registered on the instance.
+  // yet registered.
   //
   // ## Errors
   // | Error Code | Description |
@@ -501,7 +500,7 @@ service SnowballR {
   // | `FAILED_PRECONDITION` | The user to be updated is not a member of the specified project or was the last admin member of the project. |
   rpc UpdateProjectMemberRole(Project.Member.Update) returns (Nothing);
 
-  // Get a list of all active projects in the SnowballR instance.
+  // Get a list of all active projects.
   //
   // ## Errors
   // | Error Code | Description |
@@ -510,8 +509,7 @@ service SnowballR {
   // | `PERMISSION_DENIED` | The user is not allowed to view all global projects. |
   rpc GetAllProjects(Nothing) returns (Project.List);
 
-  // Get a list of all projects in the SnowballR instance that are marked as
-  // deleted.
+  // Get a list of all projectsthat are marked as deleted.
   //
   // ## Errors
   // | Error Code | Description |
@@ -531,8 +529,7 @@ service SnowballR {
   // | `PERMISSION_DENIED` | The user is not allowed to view the deleted projects of the specified user. |
   rpc GetAllDeletedProjectsForUser(Id) returns (Project.List);
 
-  // Get a list of all projects in the SnowballR instance that are marked as
-  // archived.
+  // Get a list of all projects that are marked as archived.
   //
   // ## Errors
   // | Error Code | Description |
