@@ -495,9 +495,9 @@ service SnowballR {
   // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `INVALID_ARGUMENT` | The provided role is unspecified. |
-  // | `PERMISSION_DENIED` | The user is not allowed to change the role of the specified user in the project. |
+  // | `PERMISSION_DENIED` | The user is not allowed to change the role of the specified user in the project. This could for example be the case if trying to demote a project admin. |
   // | `NOT_FOUND` | No project with the provided id or user with the provided id was found. |
-  // | `FAILED_PRECONDITION` | The user to be updated is not a member of the specified project or was the last admin member of the project. |
+  // | `FAILED_PRECONDITION` | The user to be updated is not a member of the specified project. |
   rpc UpdateProjectMemberRole(Project.Member.Update) returns (Nothing);
 
   // Get a list of all active projects.
