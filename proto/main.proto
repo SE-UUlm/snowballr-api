@@ -134,9 +134,6 @@ service SnowballR {
   // access and refresh tokens shall remain valid. These credentials are handled
   // automatically and do not need further attention.
   //
-  // This call will only fail with `UNAUTHENTICATED`, even so when no user
-  // with the provided email exists.
-  //
   // This call does not require the user to be authenticated.
   //
   // ## Errors
