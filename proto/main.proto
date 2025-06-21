@@ -764,10 +764,11 @@ service SnowballR {
   // | `PERMISSION_DENIED` | The user is not part of the specified project. |
   rpc AddPaperToProject(Project.Paper.Add) returns (Project.Paper);
 
-  // Update the project paper with the specified id using the
-  // provided data. Only fields specified in the field-mask will be updated,
-  // excluding `local_id`, `decision` and `reviews`. The updated project will
-  // be returned and **guaranteed** to be **specified**.
+  // Update the project paper with the specified id using the provided data.
+  // Only fields specified in the field-mask will be updated, excluding
+  // `local_id`, `decision`, `stage` and `reviews`. Furthermore, the composited paper
+  // cannot be modified, resort to the `UpdatePaper` call for this. The updated
+  // project will be returned and **guaranteed** to be **specified**.
   // The calling user is **required to be a project admin**.
   //
   // ## Errors
