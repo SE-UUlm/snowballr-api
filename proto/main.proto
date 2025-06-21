@@ -386,13 +386,13 @@ service SnowballR {
   rpc GetReadingList(Nothing) returns (Paper.List);
 
   // Return whether the paper with the provided id is on the calling
-  // user's reading list. If the provided id does not belong to a paper, `false`
-  // will be returned.
+  // user's reading list.
   //
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `NOT_FOUND` | The specified paper does not exist. |
   rpc IsPaperOnReadingList(Id) returns (BoolValue);
 
   // Add the paper with the provided id to the calling user's reading list. If
@@ -407,13 +407,13 @@ service SnowballR {
   rpc AddPaperToReadingList(Id) returns (Nothing);
 
   // Remove the paper with the provided id from the calling user's reading
-  // list. If no paper with the provided id exists, nothing will be changed and
-  // **no error** will be returned.
+  // list.
   //
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `NOT_FOUND` | The specified paper does not exist. |
   rpc RemovePaperFromReadingList(Id) returns (Nothing);
 
   // Get a list of all projects to which the user with the provided id is
