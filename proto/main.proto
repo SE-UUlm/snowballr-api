@@ -109,7 +109,7 @@ service SnowballR {
   rpc GetAvailableFetcherApis(Nothing) returns (AvailableFetcherApis);
 
   // Create an account. The provided email **must not be already registered**
-  // and **every field must not be empty**. If successful, login tokens are
+  // and **every field must not be blank**. If successful, login tokens are
   // provided which are automatically used by following calls.
   //
   // The password string is **required** to
@@ -126,7 +126,7 @@ service SnowballR {
   // | Error Code | Description |
   // | :--- | :--- |
   // | `ALREADY_EXISTS` | The provided email is already registered. |
-  // | `INVALID_ARGUMENT` | At least one input did not meet the requirements. The email needs to be a valid email, the password needs to meet the previously stated criteria and the first and last name must not be empty. |
+  // | `INVALID_ARGUMENT` | At least one input did not meet the requirements. The email needs to be a valid email, the password needs to meet the previously stated criteria and the first and last name must not be blank. |
   rpc Register(RegisterRequest) returns (Nothing);
 
   // If the email and password exactly match a user in the server's database, a
@@ -449,7 +449,7 @@ service SnowballR {
 
   // Get a list of all users with a pending invitation to the provided project.
   // If the `id` field is specified, it is **guaranteed** that the user exists.
-  // If, however, the `id` is empty, the user was invited by email and has not
+  // If, however, the `id` is blank, the user was invited by email and has not
   // yet registered.
   //
   // ## Errors
@@ -558,7 +558,7 @@ service SnowballR {
   // | `PERMISSION_DENIED` | The user is not allowed to view the archived projects of the specified user. |
   rpc GetAllArchivedProjectsForUser(Id) returns (Project.List);
 
-  // Create a new project. Every field must be **specified** and **non-empty**.
+  // Create a new project. Every field must be **specified** and **non-blank**.
   // The calling user is automatically a member of that project with the
   // "project admin" role (`MEMBER_ROLE_ADMIN`). If the project was successfully
   // created, it is returned and **guaranteed** to be **specified**.
@@ -567,7 +567,7 @@ service SnowballR {
   // | Error Code | Description |
   // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
-  // | `INVALID_ARGUMENT` | The provided project name was empty. |
+  // | `INVALID_ARGUMENT` | The provided project name was blank. |
   rpc CreateProject(Project.Create) returns (Project);
 
   // Get a project by its id.
@@ -678,14 +678,14 @@ service SnowballR {
   rpc GetAllCriteriaForProject(Id) returns (Criterion.List);
 
   // Create a new criterion. Every field **must be specified** and
-  // **non-empty**. If successful, the newly created criterion is returned. The
+  // **non-blank**. If successful, the newly created criterion is returned. The
   // calling user is **required to be a project admin**.
   //
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
-  // | `INVALID_ARGUMENT` | At least one field in the provided criterion was empty. |
+  // | `INVALID_ARGUMENT` | At least one field in the provided criterion was blank. |
   // | `NOT_FOUND` | No project with the provided id was found. |
   // | `PERMISSION_DENIED` | The user is not an admin of the specified project. |
   rpc CreateCriterion(Criterion.Create) returns (Criterion);
@@ -700,7 +700,7 @@ service SnowballR {
   // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No criterion with the provided id was found. |
-  // | `INVALID_ARGUMENT` | At least one field in the provided update was empty. |
+  // | `INVALID_ARGUMENT` | At least one field in the provided update was blank. |
   // | `PERMISSION_DENIED` | The user is not an admin of the project the criterion belongs to. |
   rpc UpdateCriterion(Criterion.Update) returns (Criterion);
 
@@ -810,7 +810,7 @@ service SnowballR {
   rpc GetAllReviewsForProjectPaper(Id) returns (Review.List);
 
   // Create a new review for a specific project paper. Every field must be
-  // **specified** and **non-empty**. `selected_criteria_ids` may be empty. The
+  // **specified** and **non-blank**. `selected_criteria_ids` may be empty. The
   // calling user must not currently have another review for this project paper.
   // The paper must also be currently `UNREVIEWED` or `IN_REVIEW`. The user also
   // has to be a member of the same project the project paper belongs to. If
@@ -824,7 +824,7 @@ service SnowballR {
   // | `ALREADY_EXISTS` | The user already has a review for the specified project paper. |
   // | `FAILED_PRECONDITION` | The project paper is not in the `UNREVIEWED` or `IN_REVIEW` state. |
   // | `PERMISSION_DENIED` | The user is not a member of the project the project paper belongs to. |
-  // | `INVALID_ARGUMENT` | At least one field in the provided review (except for `selected_criteria_ids`) was empty. This could be an invalid `decision` or `selected_criteria_ids`. |
+  // | `INVALID_ARGUMENT` | At least one field in the provided review (except for `selected_criteria_ids`) was blank. This could be an invalid `decision` or `selected_criteria_ids`. |
   rpc CreateReview(Review.Create) returns (Review);
 
   // Update the review with the given id using the provided data. Only fields
@@ -840,7 +840,7 @@ service SnowballR {
   // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No review with the provided id was found. |
-  // | `INVALID_ARGUMENT` | At least one field in the provided update was empty. This could be an invalid `decision` or an empty or invalid `selected_criteria_ids`. |
+  // | `INVALID_ARGUMENT` | At least one field in the provided update was blank. This could be an invalid `decision` or an empty or invalid `selected_criteria_ids`. |
   // | `PERMISSION_DENIED` | The user is either not the owner of the review or not a member of the project the review belongs to. |
   // | `FAILED_PRECONDITION` | The project paper is in a state where no further review modifications are allowed. |
   rpc UpdateReview(Review.Update) returns (Review);
@@ -870,7 +870,7 @@ service SnowballR {
   rpc GetPaperById(Id) returns (Paper);
 
   // Create a paper using the given data. The `id` will be ignored and set by
-  // the server. All fields may be empty. The created paper will be returned.
+  // the server. All fields may be blank. The created paper will be returned.
   //
   // ## Errors
   // | Error Code | Description |
