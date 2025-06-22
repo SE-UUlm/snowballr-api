@@ -427,6 +427,17 @@ service SnowballR {
   // | `PERMISSION_DENIED` | The user is not allowed to view the invitations of the specified user. |
   rpc GetPendingInvitationsForUser(Id) returns (Project.List);
 
+  // Get a list of user that match the search query and can be invited. If no user matches the search query, then
+  // the returned list if empty.
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | :--- | :--- |
+  // | `INVALID_ARGUMENT` | The query is empty or too short or the requested number of results exceeds the allowed maximum. |
+  // | `RESOURCE_EXHAUSTED` | Too many search requests. |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
+  rpc GetInviteCandidates(User.SearchQuery) returns (User.List);
+
   // Invite a user to a project. The provided project has to be active, meaning
   // it is neither deleted nor archived. If a user with the provided email
   // already exists, an invitation is sent. The user is **not** instantly added
