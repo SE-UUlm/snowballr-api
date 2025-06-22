@@ -1,0 +1,6 @@
+lint:
+  rules:
+    remove:
+      # Disable max line length rule due to markdown tables being difficult
+      # to format.
+      - MAX_LINE_LENGTH
