@@ -139,7 +139,7 @@ service SnowballR {
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `UNAUTHENTICATED` | The user does not exist or the password is incorrect.
+  // | `UNAUTHENTICATED` | The user does not exist or the password is incorrect. |
   // | `INVALID_ARGUMENT` | The email is not an actual email or no password is provided. |
   rpc Login(LoginRequest) returns (Nothing);
 
@@ -275,7 +275,6 @@ service SnowballR {
   // Prevent the user with the provided id from logging in. It is not fully
   // deleted from the database though, but not considered an **active user**
   // anymore.
-  // The calling user is **required to be admin**.
   //
   // ## Errors
   // | Error Code | Description |
@@ -428,7 +427,7 @@ service SnowballR {
   // | `PERMISSION_DENIED` | The user is not allowed to view the invitations of the specified user. |
   rpc GetPendingInvitationsForUser(Id) returns (Project.List);
 
-  // Invite a user to a project.The provided project has to be active, meaning
+  // Invite a user to a project. The provided project has to be active, meaning
   // it is neither deleted nor archived. If a user with the provided email
   // already exists, an invitation is sent. The user is **not** instantly added
   // to the project. The user may then join the project using the invitation
@@ -507,7 +506,7 @@ service SnowballR {
   // | `PERMISSION_DENIED` | The user is not allowed to view all global projects. |
   rpc GetAllProjects(Nothing) returns (Project.List);
 
-  // Get a list of all projectsthat are marked as deleted.
+  // Get a list of all projects that are marked as deleted.
   //
   // ## Errors
   // | Error Code | Description |
@@ -592,7 +591,7 @@ service SnowballR {
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No project with the provided id was found. |
   // | `INVALID_ARGUMENT` | Invalid name, status or project settings specified. |
-  // | `PERMISSION_DENIED` | The user is not allowed to update the project settings. |
+  // | `PERMISSION_DENIED` | The user is not allowed to update the project. |
   // | `FAILED_PRECONDITION` | The project is not active. |
   rpc UpdateProject(Project.Update) returns (Project);
 
@@ -749,7 +748,7 @@ service SnowballR {
   rpc GetAllProjectPapersForProject(Id) returns (Project.Paper.List);
 
   // Add the provided paper to the given project within the specified stage.
-  //  The stage must be lesser or equal to the projects `max_stage`.
+  // The stage must be lesser or equal to the projects `max_stage`.
   // The calling user is **required to be a project admin**.
   //
   // ## Errors
@@ -759,7 +758,7 @@ service SnowballR {
   // | `NOT_FOUND` | Either the project or the paper with the provided ids were not found. |
   // | `INVALID_ARGUMENT` | The provided stage does not exist in the project. This could mean that stage was less than zero or greater than `max_stage`. |
   // | `ALREADY_EXISTS` | The specified paper already exists within the provided project. |
-  // | `PERMISSION_DENIED` | The user is not part of the specified project. |
+  // | `PERMISSION_DENIED` | The user is not part of the specified project or is not a project admin. |
   rpc AddPaperToProject(Project.Paper.Add) returns (Project.Paper);
 
   // Update the project paper with the specified id using the provided data.
@@ -847,8 +846,8 @@ service SnowballR {
 
   // Permanently remove the specified review from the project paper. **This
   // cannot be undone**. Only the owner of a review is allowed to delete a
-  // review. The owner of the review has to be member of the project the review
-  // is in, in order to remove it. A user is the owner of a review if the
+  // review. The owner of the review has to be a member of the project the
+  // review is in, in order to remove it. A user is the owner of a review if the
   // review's `user_id` matches the user's `id`.
   //
   // ## Errors
