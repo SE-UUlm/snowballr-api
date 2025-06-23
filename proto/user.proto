@@ -38,12 +38,7 @@ message User {
 
   message SearchQuery {
     // The search query to match users by name or email.
-    // The query must be at least 3 characters long and matches
-    // users using the algorithm of the FZF tool.
+    // The query must be at least 3 characters long.
     string query = 1;
-
-    // Maximum number of results to return (default: 5, max: 20).
-    // Use this to control the result list size in autocomplete scenarios.
-    int32 max_results = 2;
   }
 }
