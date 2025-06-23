@@ -35,4 +35,10 @@ message User {
     User user = 1;
     google.protobuf.FieldMask mask = 2;
   }
+
+  message SearchQuery {
+    // The search query to match users by name or email.
+    // The query must be at least 3 characters long.
+    string query = 1;
+  }
 }
