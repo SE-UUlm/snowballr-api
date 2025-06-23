@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.5.0] - 2025-06-23
+
+### Changed
+
+- Correct outdated note about the authorization header in API documentation ([#37](https://github.com/SE-UUlm/snowballr-api/issues/37)) (Luca Schlecker)
+
+### Added
+
+- Add `GetInviteCandidates` call to get a list of users that match a search query and can be invited ([#50](https://github.com/SE-UUlm/snowballr-api/issues/50)) (Leonhard Alkewitz)
+- Add structured error specifications to every call in the API documentation ([#37](https://github.com/SE-UUlm/snowballr-api/issues/37)) (Luca Schlecker)
+- Add a module title and a copyright notice to the API documentation ([#37](https://github.com/SE-UUlm/snowballr-api/issues/37)) (Leonhard Alkewitz)
+- Add `USER_STATUS_ACTIVE_UNCONFIRMED` to the `UserStatus` enum to represent users that are registered successfully but did not confirm their email yet ([#45](https://github.com/SE-UUlm/snowballr-api/issues/45)) (Felix Schlegel)
+- Add the base type `Email` and use `Email` as request parameter type instead of `Id` in the call `GetUserByEmail` ([#46](https://github.com/SE-UUlm/snowballr-api/issues/46)) (Felix Schlegel)
+
 ## [0.4.0] - 2025-05-30
 
 ### Added
@@ -43,6 +57,8 @@
 ## [0.1.0] - 2025-01-30
 
 _:seedling: Initial release._
+
+[0.5.0]: https://github.com/SE-UUlm/snowballr-api/releases/tag/v0.5.0
 
 [0.4.0]: https://github.com/SE-UUlm/snowballr-api/releases/tag/v0.4.0
 
