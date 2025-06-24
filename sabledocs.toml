@@ -13,3 +13,6 @@ repository-dir = "proto"
 # The markdown extensions supported by the main-page-content-file
 # See: https://python-markdown.github.io/extensions/#officially-supported-extensions
 markdown-extensions = ["fenced_code", "markdown_mermaidjs", "tables"]
+
+# Use custom template for rendering documentation
+template-path = "./docs"
