@@ -6,7 +6,7 @@
     {%- else -%}
       <a href="{{ message_field.package.name if message_field.package.name else "__default" }}.html#enum-{{ message_field.full_type }}">
     {%- endif -%}
-      <span title="{{ message_field.full_type }}">{{ message_field.full_type }}</span>
+      <span title="{{ message_field.type }}">{{ message_field.type }}</span>
     </a>
   {%- else -%}
   <span>{{ message_field.full_type }}</span>
