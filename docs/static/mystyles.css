@@ -3,6 +3,52 @@ ul {
  padding-left: 2.5em !important;
 }
 
+:root {
+  --table-head: #e6e6e6;
+  --table-border: #bbb;
+  --table-row-even: #f9f9f9;
+  --table-row-odd: #f0f0f0;
+}
+
+:root[data-theme="dark"] {
+  --table-head: #242424;
+  --table-border: #444;
+  --table-row-even: #121212;
+  --table-row-odd: #1a1a1a;
+}
+
+h2 {
+  padding-top: 0.5em !important;
+  font-size: 1.5em !important;
+  font-weight: bold !important;
+}
+
+table {
+  border: 1px var(--table-border) solid;
+}
+
+table code {
+  background-color: unset !important;
+}
+
+table thead tr {
+  background-color: var(--table-head);
+  border-bottom: 1px var(--table-border) solid;
+}
+
+table td, table th {
+  padding: 0.25em;
+  background-color: inherit !important;
+}
+
+table tbody tr:nth-child(even) {
+  background-color: var(--table-row-even) !important;
+}
+
+table tbody tr:nth-child(odd) {
+  background-color: var(--table-row-odd) !important;
+}
+
 /*! bulma.io v0.9.4 | MIT License | github.com/jgthms/bulma */
 /* Bulma Utilities */
 @import "https://unpkg.com/open-props/easings.min.css";
