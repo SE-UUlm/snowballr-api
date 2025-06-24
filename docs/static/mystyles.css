@@ -1,3 +1,8 @@
+ul {
+ list-style: unset !important;
+ padding-left: 2.5em !important;
+}
+
 /*! bulma.io v0.9.4 | MIT License | github.com/jgthms/bulma */
 /* Bulma Utilities */
 @import "https://unpkg.com/open-props/easings.min.css";

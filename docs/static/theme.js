@@ -1,3 +1,35 @@
+const mermaid = import('https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs');
+const diagrams = document.getElementsByClassName("mermaid");
+const originalDataTag = "data-original-mermaid";
+
+function saveOriginalMermaidCode() {
+    for (const diagram of diagrams) {
+        diagram.setAttribute(originalDataTag, diagram.innerHTML);
+    }
+}
+
+function resetMermaidDiagrams() {
+    for (const diagram of diagrams) {
+        diagram.innerHTML = diagram.getAttribute(originalDataTag);
+        diagram.removeAttribute("data-processed");
+    }
+}
+
+function renderMermaidDiagrams() {
+    mermaid.then(m => {
+        const config = {
+            theme: theme.value === 'dark' ? 'dark' : 'default',
+            startOnLoad: false,
+        };
+        m.default.initialize(config);
+        m.default.run({ nodes: diagrams });
+    })
+}
+
+window.addEventListener("load", () => {
+    saveOriginalMermaidCode();
+    renderMermaidDiagrams();
+});
 
 const storageKey = 'theme-preference'
 
@@ -35,6 +67,9 @@ const reflectPreference = () => {
         body.className = '';
         html.className = '';
     }
+
+    resetMermaidDiagrams();
+    renderMermaidDiagrams();
 
     document.firstElementChild
         .setAttribute('data-theme', theme.value)
