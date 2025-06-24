@@ -12,6 +12,7 @@ RUN pip3 install pypatch markdown-mermaidjs \
     && pypatch apply ./patches/sabledocs_nested_links.patch sabledocs \
     && pypatch apply ./patches/sabledocs_nested_names.patch sabledocs \
     && pypatch apply ./patches/sabledocs_fix_arguments.patch sabledocs \
+    && pypatch apply ./patches/sabledocs_auth_tag.patch sabledocs \
     && pypatch apply ./patches/markdown_mermaidjs_no_script.patch markdown_mermaidjs \
     && sabledocs
 

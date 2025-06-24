@@ -49,6 +49,21 @@ table tbody tr:nth-child(odd) {
   background-color: var(--table-row-odd) !important;
 }
 
+.auth-sidebyside {
+  display: flex;
+  flex-direction: row;
+}
+
+.auth-sidebyside .block {
+  flex: 1;
+}
+
+.auth-sidebyside .auth-padlock {
+  display: flex;
+  padding-left: 0.5em;
+  font-size: 1.5em;
+}
+
 /*! bulma.io v0.9.4 | MIT License | github.com/jgthms/bulma */
 /* Bulma Utilities */
 @import "https://unpkg.com/open-props/easings.min.css";
