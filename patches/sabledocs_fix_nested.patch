@@ -56,16 +56,3 @@ index 0edcce8..e4caa9f 100644
          self.values: list[EnumValue] = []
          self.parent_message = None
          self.package: Optional[Package] = None
-diff --git a/templates/_default/package.html b/templates/_default/package.html
-index ca8591b..9b045d2 100644
---- a/templates/_default/package.html
-+++ b/templates/_default/package.html
-@@ -26,7 +26,7 @@
-       <p>
-         <a href="#message-{{ message.full_name }}">
-           <span class="tag" style="min-width: 6em">Message</span>
--          <code>{{ message.name }}</code> 
-+          <code>{{ message.chain_name }}</code> 
-         </a>
-       </p>
-       {% endif %}
