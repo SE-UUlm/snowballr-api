@@ -2,10 +2,7 @@
 
 <h4 class="title is-4 type-heading" id="message-{{ message.full_name }}">
   <span>
-    <a href="#message-{{ message.full_name }}" title="{{ message.full_name }}">message {{ message.name }}</a>
-  {% if message.parent_message %}
-    <span style="font-size: 0.7em; font-weight: normal">(Nested in {{ common.type_name(message.parent_message) }})</span>
-  {% endif %}
+    <a href="#message-{{ message.full_name }}" title="{{ message.full_name }}">message {{ message.chain_name }}</a>
   </span>
   {% if message.repository_url %}
     <a class="type-source-link" href="{{ message.repository_url }}">{{ message.source_file_path }}</a>
