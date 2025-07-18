@@ -124,6 +124,17 @@ message Project {
     }
   }
 
+  message InviteCandidatesRequest {
+    // The search query to match users by name or email.
+    // The query must be at least 3 characters long.
+    string query = 1;
+
+    // The id of the project to which potential candidates should be invited.
+    // This field is optional and should be left **unspecified** if candidates
+    // are requested for a project that has not yet been created.
+    string project_id = 2;
+  }
+
   message Paper {
     string id = 1;
     string local_id = 6;
