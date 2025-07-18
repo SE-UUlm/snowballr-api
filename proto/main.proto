@@ -267,7 +267,7 @@ service SnowballR {
   // Update all in the field-mask specified attributes of the user with the
   // provided id except for `status`. The `role` may be updated by a server
   // admin using this call. The updated user is returned and **guaranteed** to
-  // be specified.
+  // be **specified**.
   //
   // ## Errors
   // | Error Code | Description |
@@ -482,7 +482,7 @@ service SnowballR {
   // to the project. The user may then join the project using the invitation
   // displayed in the frontend. If, however, no user with the provided email
   // exists, an invitation email is sent out. The recipient may register and
-  // **then accept the invitation. The calling user is required to be a project
+  // **then accept the invitation**. The calling user is **required to be a project
   // **admin**.
   //
   // ## Errors
