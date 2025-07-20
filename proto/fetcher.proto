@@ -1,0 +1,15 @@
+syntax = "proto3";
+package snowballr;
+
+message AvailableFetcherApis {
+  repeated string fetcher_apis = 1;
+}
+
+message GetAvailableFetcherOptionsRequest {
+  string fetcher_name = 1;
+}
+
+message AvailableFetcherOptions {
+  // option_name -> option_default_value
+  map<string, string> options = 1;
+}
