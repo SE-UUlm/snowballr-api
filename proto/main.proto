@@ -765,7 +765,7 @@ service SnowballR {
   // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No criterion with the provided id was found. |
-  // | `PERMISSION_DENIED` | The user is not a member of the project the criterion belongs to. |
+  // | `PERMISSION_DENIED` | If the criterion is a user-criterion, then the calling user is not the original creator of the criterion. If the criterion is a project-criterion, then the user is not a member of the project the criterion belongs to. |
   //
   // @auth
   rpc GetCriterionById(Id) returns (Criterion);
@@ -783,16 +783,27 @@ service SnowballR {
   rpc GetAllCriteriaForProject(Id) returns (Criterion.List);
 
   // Create a new criterion. Every field **must be specified** and
-  // **non-blank**. If successful, the newly created criterion is returned. The
-  // calling user is **required to be a project admin**.
+  // **non-blank**. If successful, the newly created criterion is returned.
+  //
+  // There are two types of criterion that must be differentiated: user- and
+  // project-criterion. A user-criterion has a user but no project attached
+  // and can be used for the creation of default criteria for a project.
+  // Project-criteria on the other hand are associated with a project and
+  // provide the basis for justifying reviews.
+  //
+  // A user-criterion is created by leaving the `project_id` empty. For project-
+  // criterion creation this field has to be set and refer to a valid project in
+  // the `ACTIVE` state. Creating project-criteria requires the calling user to
+  // be a **project admin**.
   //
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
-  // | `INVALID_ARGUMENT` | At least one field in the provided criterion was blank. |
-  // | `NOT_FOUND` | No project with the provided id was found. |
-  // | `PERMISSION_DENIED` | The user is not an admin of the specified project. |
+  // | `INVALID_ARGUMENT` | At least one field in the provided criterion other than `project_id` was blank. |
+  // | `NOT_FOUND` | The `project_id` was not blank but does not refer to a valid project. |
+  // | `PERMISSION_DENIED` | A project-criterion is created and the user is not an admin of the specified project. |
+  // | `FAILED_PRECONDITION` | A project-criterion is created and the specified project is not in the `ACTIVE` state. |
   //
   // @auth
   rpc CreateCriterion(Criterion.Create) returns (Criterion);
@@ -800,29 +811,38 @@ service SnowballR {
   // Update the criterion with the given id using the provided data. Only
   // fields specified in the field-mask will be updated. The updated criterion
   // is returned and **guaranteed** to be **specified**.
-  // The calling user is **required to be a project admin**.
+  // If the updated criterion is a user-criterion, the calling user
+  // is **required to be the creator of the criterion**. If it is a
+  // project-criterion, then then the calling user is **required to be a project
+  // admin**
+  // .
   //
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No criterion with the provided id was found. |
-  // | `INVALID_ARGUMENT` | At least one field in the provided update was blank. |
-  // | `PERMISSION_DENIED` | The user is not an admin of the project the criterion belongs to. |
+  // | `INVALID_ARGUMENT` | At least one field in the provided update other than `project_id` was blank. |
+  // | `PERMISSION_DENIED` | If the criterion is a user-criterion, then the calling user is not the original creator of the criterion. If the criterion is a project-criterion, then the user is not an admin of the project the criterion belongs to. |
+  // | `FAILED_PRECONDITION` | If the criterion is a project-criterion, then the project this criterion belongs to is not in the `ACTIVE` state. |
   //
   // @auth
   rpc UpdateCriterion(Criterion.Update) returns (Criterion);
 
   // Permanently delete the specified criterion. All references to it will also
   // be removed. **This cannot be undone**.
-  // The calling user is **required to be a project admin**.
+  // If the updated criterion is a user-criterion, the calling user
+  // is **required to be the creator of the criterion**. If it is a
+  // project-criterion, then then the calling user is **required to be a project
+  // admin**
   //
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No criterion with the provided id was found. |
-  // | `PERMISSION_DENIED` | The user is not an admin of the project the criterion belongs to. |
+  // | `PERMISSION_DENIED` | If the criterion is a user-criterion, then the calling user is not the original creator of the criterion. If the criterion is a project-criterion, then the user is not an admin of the project the criterion belongs to. |
+  // | `FAILED_PRECONDITION` | If the criterion is a project-criterion, then the project this criterion belongs to is not in the `ACTIVE` state. |
   //
   // @auth
   rpc DeleteCriterion(Id) returns (Nothing);
