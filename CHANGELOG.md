@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.6.0] - 2025-07-24
+
+### Added
+
+- **Breaking:** Introduce fetcher options ([#69](https://github.com/SE-UUlm/snowballr-api/issues/69)) (Luca Schlecker)
+    - Move fetcher-related messages to `fetcher.proto` file
+    - Add `FetcherOptions` message to represent option names and their associated values
+    - Add `GetAvailableFetcherOptions` call to get FetcherOptions representing option names associated with their default values
+    - Change `Project.Settings.fetcher_apis` to `Project.Settings.fetchers`, replacing the string-list type with a map that associates a fetcher name with FetcherOptions. The values in the FetcherOptions represent the actual values of the option
+
+### Changed
+
+- Add differentiation between user-criteria and project-criteria in the description as well as the requirement of the project to be in `ACTIVE` state in the error specification for the CRUD criterion calls ([#65](https://github.com/SE-UUlm/snowballr-api/issues/65)) (Luca Schlecker)
+- **Breaking:**Drop `api` suffix for fetcher related calls (e.g., `GetAvailableFetcherApis` was renamed to `GetAvailableFetchers`), messages and fields ([!73](https://github.com/SE-UUlm/snowballr-api/pull/73)) (Luca Schlecker)
+
 ## [0.5.1] - 2025-07-23
 
 ### Changed
@@ -71,6 +86,8 @@
 ## [0.1.0] - 2025-01-30
 
 _:seedling: Initial release._
+
+[0.6.0]: https://github.com/SE-UUlm/snowballr-api/releases/tag/v0.6.0
 
 [0.5.1]: https://github.com/SE-UUlm/snowballr-api/releases/tag/v0.5.1
 
