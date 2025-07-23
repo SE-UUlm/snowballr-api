@@ -5,6 +5,7 @@ import "authentication.proto";
 import "base.proto";
 import "criterion.proto";
 import "export.proto";
+import "fetcher.proto";
 import "paper.proto";
 import "project.proto";
 import "review.proto";
@@ -110,6 +111,18 @@ service SnowballR {
   //
   // @auth
   rpc GetAvailableFetcherApis(Nothing) returns (AvailableFetcherApis);
+
+  // Query all available options for the specified fetcher. The names of the
+  // available options are returned as a string array. Each option name can occur
+  // only once. It is possible that there are no available options.
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | :--- | :--- |
+  // | `NOT_FOUND` | The provided fetcher is unknown. |
+  //
+  // @auth
+  rpc GetAvailableFetcherOptions(GetAvailableFetcherOptionsRequest) returns (AvailableFetcherOptions);
 
   // Create an account. The provided email **must not be already registered**
   // and **every field must not be blank**. If successful, login tokens are
@@ -1066,8 +1079,4 @@ service SnowballR {
   //
   // @auth
   rpc SetPaperPdf(Paper.PdfUpdate) returns (Nothing);
-}
-
-message AvailableFetcherApis {
-  repeated string fetcher_apis = 1;
 }

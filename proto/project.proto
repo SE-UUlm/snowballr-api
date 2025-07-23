@@ -92,9 +92,13 @@ message Project {
   }
 
   message Settings {
+    message FetcherOptions {
+      map<string, string> options = 1;
+    }
+    
     float similarity_threshold = 5;
     ReviewDecisionMatrix decision_matrix = 6;
-    repeated string fetcher_apis = 7;
+    map<string, FetcherOptions> fetcher_apis = 7;
     SnowballingType snowballing_type = 8;
     bool review_maybe_allowed = 9;
   }
