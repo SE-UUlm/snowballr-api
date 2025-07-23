@@ -267,7 +267,7 @@ service SnowballR {
   // Update all in the field-mask specified attributes of the user with the
   // provided id except for `status`. The `role` may be updated by a server
   // admin using this call. The updated user is returned and **guaranteed** to
-  // be specified.
+  // be **specified**.
   //
   // ## Errors
   // | Error Code | Description |
@@ -464,9 +464,11 @@ service SnowballR {
   // @auth
   rpc GetPendingInvitationsForUser(Id) returns (Project.List);
 
-  // Get a list of users that match the search query and can be invited.
-  // If no user matches the search query or the query is too short,
-  // then the returned list of users is empty.
+  // Get a list of users that match the search query and can be invited. If the query is too short or no users match,
+  // an empty list is returned. If a project is specified, i.e., a project id is given, all current members
+  // of that project are excluded from the candidate list. In case no project with the given id exists,
+  // then no project members are filtered out from the candidate list. The **calling user is always excluded**
+  // from the candidate list.
   //
   // ## Errors
   // | Error Code | Description |
@@ -474,7 +476,7 @@ service SnowballR {
   // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
-  rpc GetInviteCandidates(User.SearchQuery) returns (User.List);
+  rpc GetInviteCandidates(Project.InviteCandidatesRequest) returns (User.List);
 
   // Invite a user to a project. The provided project has to be active, meaning
   // it is neither deleted nor archived. If a user with the provided email
@@ -482,8 +484,8 @@ service SnowballR {
   // to the project. The user may then join the project using the invitation
   // displayed in the frontend. If, however, no user with the provided email
   // exists, an invitation email is sent out. The recipient may register and
-  // **then accept the invitation. The calling user is required to be a project
-  // **admin**.
+  // **then accept the invitation**. The calling user is **required to be a project
+  // admin**.
   //
   // ## Errors
   // | Error Code | Description |
