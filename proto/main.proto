@@ -80,7 +80,7 @@ import "user_settings.proto";
 //  Project 1 -- 0+ ProjectPaper : contains
 //  Project 1 -- 0+ Criterion : contains
 //
-//  ProjectSettings 0+ -- 1+ FetcherApi : "fetches from"
+//  ProjectSettings 0+ -- 1+ Fetcher : "fetches from"
 //
 //  ProjectPaper 1 -- 0+ Review : has
 //  ProjectPaper 1 -- 1 Paper : "refers to"
@@ -110,11 +110,11 @@ service SnowballR {
   // No additional errors may occur.
   //
   // @auth
-  rpc GetAvailableFetcherApis(Nothing) returns (AvailableFetcherApis);
+  rpc GetAvailableFetchers(Nothing) returns (AvailableFetchers);
 
-  // Query all available options for the specified fetcher. The names of the
-  // available options are returned as a string array. Each option name can occur
-  // only once. It is possible that there are no available options.
+  // Query all available options for the specified fetcher. The names and
+  // default values of the available options are returned as a string map.
+  // Each option name can only appear once. Note that there may be no available options.
   //
   // ## Errors
   // | Error Code | Description |
@@ -122,7 +122,7 @@ service SnowballR {
   // | `NOT_FOUND` | The provided fetcher is unknown. |
   //
   // @auth
-  rpc GetAvailableFetcherOptions(GetAvailableFetcherOptionsRequest) returns (AvailableFetcherOptions);
+  rpc GetAvailableFetcherOptions(GetAvailableFetcherOptionsRequest) returns (FetcherOptions);
 
   // Create an account. The provided email **must not be already registered**
   // and **every field must not be blank**. If successful, login tokens are
