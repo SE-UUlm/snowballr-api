@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.5.1] - 2025-07-23
+
+### Changed
+
+- **Breaking:** Add `project_id` parameter to the request of `GetInviteCandidates` to filter out possible project members ([#66](https://github.com/SE-UUlm/snowballr-api/issues/66)) (Leonhard Alkewitz)
+- Replace textual descriptions of auth requirement with **@auth** tag ([#49](https://github.com/SE-UUlm/snowballr-api/issues/49)) (Luca Schlecker)
+- Show full name instead of nested hint for messages ([!59](https://github.com/SE-UUlm/snowballr-api/pull/59)) (Luca Schlecker)
+- Fix links to nested messages ([#55](https://github.com/SE-UUlm/snowballr-api/issues/55)) (Luca Schlecker)
+
+### Added
+
+- Add table and heading styling ([#51](https://github.com/SE-UUlm/snowballr-api/issues/51)) (Luca Schlecker)
+- Add docker compose file ([#60](https://github.com/SE-UUlm/snowballr-api/issues/60)) (Felix Schlegel)
+
 ## [0.5.0] - 2025-06-23
 
 ### Changed
@@ -57,6 +71,8 @@
 ## [0.1.0] - 2025-01-30
 
 _:seedling: Initial release._
+
+[0.5.1]: https://github.com/SE-UUlm/snowballr-api/releases/tag/v0.5.1
 
 [0.5.0]: https://github.com/SE-UUlm/snowballr-api/releases/tag/v0.5.0
 
