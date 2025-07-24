@@ -1,6 +1,7 @@
 syntax = "proto3";
 package snowballr;
 
+import "fetcher.proto";
 import "google/protobuf/field_mask.proto";
 import "google/protobuf/timestamp.proto";
 import "paper.proto";
@@ -92,13 +93,10 @@ message Project {
   }
 
   message Settings {
-    message FetcherOptions {
-      map<string, string> options = 1;
-    }
-    
     float similarity_threshold = 5;
     ReviewDecisionMatrix decision_matrix = 6;
-    map<string, FetcherOptions> fetcher_apis = 7;
+    // Map fetcher name to its fetcher options, i.e. the map of option names to saved option values
+    map<string, FetcherOptions> fetchers = 7;
     SnowballingType snowballing_type = 8;
     bool review_maybe_allowed = 9;
   }
