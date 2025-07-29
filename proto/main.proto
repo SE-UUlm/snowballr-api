@@ -143,6 +143,17 @@ service SnowballR {
   // | `INVALID_ARGUMENT` | At least one input did not meet the requirements. The email needs to be a valid email, the password needs to meet the previously stated criteria and the first and last name must not be blank. |
   rpc Register(RegisterRequest) returns (Nothing);
 
+  // After registering, a user is sent a verification token via email.
+  // This call is used to submit that token, confirming the ownership of the
+  // email address and activating the user account.option
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | :--- | :--- |
+  // | `DEADLINE_EXCEEDED` | The provided token is invalid, could not be found or is expired. |
+  // | `INVALID_ARGUMENT` | No token was provided. |
+  rpc VerifyEmail(VerifyEmailRequest) returns (Nothing);
+
   // If the email and password exactly match a user in the server's database, a
   // new set of login tokens is provided to authenticate as that user. Old
   // access and refresh tokens shall remain valid. These credentials are handled
