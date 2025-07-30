@@ -13,6 +13,10 @@ message RegisterRequest {
   string password = 4;
 }
 
+message VerifyEmailRequest {
+  string token = 1;
+}
+
 message RequestPasswordResetRequest {
   string email = 1;
 }
