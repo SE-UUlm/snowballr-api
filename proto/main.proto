@@ -145,7 +145,7 @@ service SnowballR {
 
   // After registering, a user is sent a verification token via email.
   // This call is used to submit that token, confirming the ownership of the
-  // email address and activating the user account.option
+  // email address and activating the user account.
   //
   // ## Errors
   // | Error Code | Description |
