@@ -523,6 +523,18 @@ service SnowballR {
   // @auth
   rpc InviteUserToProject(Project.Member.Invite) returns (Nothing);
 
+  // Accept a project invitation. After inviting a user to a project, the invited user
+  // receives an email with a link to accept the invitation. This call is used to
+  // accept that invitation.
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | :--- | :--- |
+  // | `DEADLINE_EXCEEDED` | The provided token is invalid, could not be found or is expired. |
+  // | `FAILED_PRECONDITION` | The user is not registered. |
+  // | `INVALID_ARGUMENT` | No token was provided. |
+  rpc AcceptProjectInvitation(Project.Member.Accept) returns (Nothing);
+
   // Get a list of all users with a pending invitation to the provided project.
   // If the `id` field is specified, it is **guaranteed** that the user exists.
   // If, however, the `id` is blank, the user was invited by email and has not
