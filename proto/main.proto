@@ -143,9 +143,9 @@ service SnowballR {
   // | `INVALID_ARGUMENT` | At least one input did not meet the requirements. The email needs to be a valid email, the password needs to meet the previously stated criteria and the first and last name must not be blank. |
   rpc Register(RegisterRequest) returns (Nothing);
 
-  // After registering, a user is sent a verification token via email.
+  // After registering, a user receives a verification token via email.
   // This call is used to submit that token, confirming the ownership of the
-  // email address and activating the user account.option
+  // email address and activating the user account.
   //
   // ## Errors
   // | Error Code | Description |
