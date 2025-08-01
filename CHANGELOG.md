@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.7.0] - 2025-08-04
+
+### Added
+
+- Add `VerifyEmail` call ([#74](https://github.com/SE-UUlm/snowballr-api/issues/74)) (Moritz Wieland)
+- Add `AcceptProjectInvitation` call ([#76](https://github.com/SE-UUlm/snowballr-api/issues/76)) (Moritz Wieland)
+
 ## [0.6.0] - 2025-07-24
 
 ### Added
@@ -86,6 +93,8 @@
 ## [0.1.0] - 2025-01-30
 
 _:seedling: Initial release._
+
+[0.7.0]: https://github.com/SE-UUlm/snowballr-api/releases/tag/v0.7.0
 
 [0.6.0]: https://github.com/SE-UUlm/snowballr-api/releases/tag/v0.6.0
 
