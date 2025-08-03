@@ -143,9 +143,9 @@ service SnowballR {
   // | `INVALID_ARGUMENT` | At least one input did not meet the requirements. The email needs to be a valid email, the password needs to meet the previously stated criteria and the first and last name must not be blank. |
   rpc Register(RegisterRequest) returns (Nothing);
 
-  // After registering, a user is sent a verification token via email.
+  // After registering, a user receives a verification token via email.
   // This call is used to submit that token, confirming the ownership of the
-  // email address and activating the user account.option
+  // email address and activating the user account.
   //
   // ## Errors
   // | Error Code | Description |
@@ -522,6 +522,18 @@ service SnowballR {
   //
   // @auth
   rpc InviteUserToProject(Project.Member.Invite) returns (Nothing);
+
+  // Accept a project invitation. After inviting a user to a project, the invited user
+  // receives an email with a link to accept the invitation. This call is used to
+  // accept that invitation.
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | :--- | :--- |
+  // | `DEADLINE_EXCEEDED` | The provided token is invalid, could not be found or is expired. |
+  // | `FAILED_PRECONDITION` | The user is not registered. |
+  // | `INVALID_ARGUMENT` | No token was provided. |
+  rpc AcceptProjectInvitation(Project.Member.Accept) returns (Nothing);
 
   // Get a list of all users with a pending invitation to the provided project.
   // If the `id` field is specified, it is **guaranteed** that the user exists.

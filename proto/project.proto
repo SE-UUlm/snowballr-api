@@ -114,6 +114,10 @@ message Project {
       string user_email = 2;
     }
 
+    message Accept {
+      string token = 1;
+    }
+
     message Remove {
       string project_id = 1;
       string user_id = 2;
