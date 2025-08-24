@@ -36,4 +36,8 @@ message Paper {
     string paper_id = 1;
     Blob pdf = 2;
   }
+
+  message SearchQuery {
+    string query = 2;
+  }
 }

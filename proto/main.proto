@@ -1047,6 +1047,28 @@ service SnowballR {
   // @auth
   rpc GetPaperById(Id) returns (Paper);
 
+  // Search the local database for papers using a search string.
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | :--- | :--- |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
+  //
+  // @auth
+  rpc SearchLocalPapers(Paper.SearchQuery) returns (Paper.List);
+
+  // Search for papers using all fetchers of a project and a search string.
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | :--- | :--- |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `NOT_FOUND` | No project with the provided id was found. |
+  // | `PERMISSION_DENIED` | The user is not part of the specified project. |
+  //
+  // @auth
+  rpc SearchFetcherPapers(Project.Paper.SearchQuery) returns (Paper.List);
+
   // Create a paper using the given data. The `id` will be ignored and set by
   // the server. All fields may be blank. The created paper will be returned.
   //
