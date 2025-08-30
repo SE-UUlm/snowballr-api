@@ -22,6 +22,7 @@ message Paper {
   bool has_pdf = 9;
   repeated Author authors = 10;
   repeated string backward_referenced_ids = 11;
+  map<string, string> fetcher_metadata = 12;
 
   message List {
     repeated Paper papers = 1;
