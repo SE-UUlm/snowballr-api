@@ -1074,7 +1074,7 @@ service SnowballR {
   // @auth
   rpc UpdatePaper(Paper.Update) returns (Paper);
 
-  // Get a list of papers that are referred to by the provided paper.
+  // Get a list of papers that are referring to the provided paper, i.e. the papers that cite this paper.
   //
   // ## Errors
   // | Error Code | Description |
@@ -1085,7 +1085,7 @@ service SnowballR {
   // @auth
   rpc GetForwardReferencedPapers(Id) returns (Paper.List);
 
-  // Get a list of papers that are referring to the provided paper.
+  // Get a list of papers that are referred to by the provided paper, i.e. the references of this paper.
   //
   // ## Errors
   // | Error Code | Description |
