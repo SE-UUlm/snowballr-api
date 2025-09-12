@@ -154,16 +154,17 @@ service SnowballR {
   // | `INVALID_ARGUMENT` | No token was provided. |
   rpc VerifyEmail(VerifyEmailRequest) returns (Nothing);
 
-  // If the email and password exactly match a user in the server's database, a
-  // new set of login tokens is provided to authenticate as that user. Old
-  // access and refresh tokens shall remain valid. These credentials are handled
-  // automatically and do not need further attention.
+  // If the email and password exactly match a user in the server's database and
+  // the user's email address has been verified, a new set of login tokens is
+  // provided to authenticate as that user. Old access and refresh tokens shall remain valid.
+  // These credentials are handled automatically and do not need further attention.
   //
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user does not exist or the password is incorrect. |
   // | `INVALID_ARGUMENT` | The email is not an actual email or no password is provided. |
+  // | `FAILED_PRECONDITION` | The user exists, but the email address is not verified yet. |
   rpc Login(LoginRequest) returns (Nothing);
 
   // Revoke access through the currently used set of access and refresh token.
