@@ -808,16 +808,10 @@ service SnowballR {
   // Create a new criterion. Every field **must be specified** and
   // **non-blank**. If successful, the newly created criterion is returned.
   //
-  // There are two types of criterion that must be differentiated: user- and
-  // project-criterion. A user-criterion has a user but no project attached
-  // and can be used for the creation of default criteria for a project.
-  // Project-criteria on the other hand are associated with a project and
-  // provide the basis for justifying reviews.
-  //
-  // A user-criterion is created by leaving the `project_id` empty. For project-
-  // criterion creation this field has to be set and refer to a valid project in
-  // the `ACTIVE` state. Creating project-criteria requires the calling user to
-  // be a **project admin**.
+  // A user-criterion is created by leaving the `project_id` empty. For project-criterion
+  // creation this field has to be set and refer to a valid project in
+  // the `ACTIVE` state. Creating project-criteria **requires** the calling user **to
+  // be a project admin**.
   //
   // ## Errors
   // | Error Code | Description |
@@ -837,8 +831,7 @@ service SnowballR {
   // If the updated criterion is a user-criterion, the calling user
   // is **required to be the creator of the criterion**. If it is a
   // project-criterion, then then the calling user is **required to be a project
-  // admin**
-  // .
+  // admin**.
   //
   // ## Errors
   // | Error Code | Description |
@@ -854,10 +847,10 @@ service SnowballR {
 
   // Permanently delete the specified criterion. All references to it will also
   // be removed. **This cannot be undone**.
-  // If the updated criterion is a user-criterion, the calling user
+  // If the deleted criterion is a user-criterion, the calling user
   // is **required to be the creator of the criterion**. If it is a
   // project-criterion, then then the calling user is **required to be a project
-  // admin**
+  // admin**.
   //
   // ## Errors
   // | Error Code | Description |

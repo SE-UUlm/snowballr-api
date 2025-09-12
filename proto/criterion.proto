@@ -10,6 +10,12 @@ enum CriterionCategory {
   CRITERION_CATEGORY_HARD_EXCLUSION = 3;
 }
 
+// There are two types of criterion that must be differentiated: user- and
+// project-criterion. A user-criterion has a user but no project attached
+// and can be used for the creation of default criteria for a project in the
+// user settings.
+// A project-criterion on the other hand is associated with a project and
+// provide the basis for justifying reviews. It has no owning / attached user.
 message Criterion {
   string id = 1;
   string tag = 2;
