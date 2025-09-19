@@ -861,7 +861,7 @@ service SnowballR {
 
   // Get a project paper using the project ID and the relative ID (`local_id`) within that
   // project. The relative ID is only **unique within its project**, not globally.
-  // Prefer `GetProjectPaperById` wherever possible.
+  // Prefer [GetProjectPaperById](#service-snowballr.SnowballR-GetProjectById) wherever possible.
   //
   // ## Errors
   // | Error Code | Description |
@@ -903,7 +903,7 @@ service SnowballR {
 
   // Update all attributes specified in the field mask for the project paper with the provided ID,
   // except the fields `local_id`, `decision`, `stage`, and `reviews`. Furthermore, the underlying paper
-  // cannot be modified; use the `UpdatePaper` call for this. The updated
+  // cannot be modified; use the [UpdatePaper](#service-snowballr.SnowballR-UpdatePaper) call for this. The updated
   // project paper is returned and **guaranteed to be specified**.
   // The calling user is **required to be a project admin**.
   //
@@ -1077,7 +1077,7 @@ service SnowballR {
   // | :--- | :--- |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No paper with the provided ID was found. |
-  // | `FAILED_PRECONDITION` | The paper has no PDF attached to it. See [`paper.has_pdf`](#message-snowballr.Paper). |
+  // | `FAILED_PRECONDITION` | The paper has no PDF attached to it. See [paper.has_pdf](#message-snowballr.Paper). |
   //
   // @auth
   rpc GetPaperPdf(Id) returns (Blob);
