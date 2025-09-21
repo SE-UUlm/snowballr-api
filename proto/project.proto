@@ -168,6 +168,11 @@ message Project {
       Paper project_paper = 1;
       google.protobuf.FieldMask mask = 2;
     }
+
+    message SearchQuery {
+      string project_id = 1;
+      string query = 2;
+    }
   }
 }
 
