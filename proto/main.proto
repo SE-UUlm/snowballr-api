@@ -121,8 +121,8 @@ service SnowballR {
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | The fetcher with the provided name was not found. |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
   rpc GetAvailableFetcherOptions(GetAvailableFetcherOptionsRequest) returns (FetcherOptions);
@@ -142,9 +142,9 @@ service SnowballR {
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
+  // | `INVALID_ARGUMENT` | At least one input did not meet the requirements: The `email` must be a valid email address, the `password` must meet the previously stated criteria, and the `first_name` and `last_name` must not be left blank. |
   // | `ALREADY_EXISTS` | The provided email address is already registered. |
   // | `INTERNAL` | The verification email could not be sent. |
-  // | `INVALID_ARGUMENT` | At least one input did not meet the requirements: The `email` must be a valid email address, the `password` must meet the previously stated criteria, and the `first_name` and `last_name` must not be left blank. |
   rpc Register(RegisterRequest) returns (Nothing);
 
   // After registering, a user receives a verification token via email.
@@ -154,8 +154,8 @@ service SnowballR {
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `NOT_FOUND` | The provided token is invalid, could not be found, or has expired. |
   // | `INVALID_ARGUMENT` | No token was provided. |
+  // | `NOT_FOUND` | The provided token is invalid, could not be found, or has expired. |
   rpc VerifyEmail(VerifyEmailRequest) returns (Nothing);
 
   // If the provided email and password exactly match those of a user in the server's database and
@@ -166,8 +166,8 @@ service SnowballR {
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `UNAUTHENTICATED` | The email address is not registered (anymore) or verified, or the password is incorrect. |
   // | `INVALID_ARGUMENT` | The email is not a valid email address or no password was provided. |
+  // | `UNAUTHENTICATED` | The email address is not registered (anymore) or verified, or the password is incorrect. |
   rpc Login(LoginRequest) returns (Nothing);
 
   // Revoke access through the currently used set of access and refresh tokens.
@@ -277,23 +277,23 @@ service SnowballR {
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `UNAUTHENTICATED` | The user is not signed in. |
-  // | `NOT_FOUND` | No user with the provided ID was found. |
   // | `INVALID_ARGUMENT` | The user ID is not a valid UUID. |
+  // | `NOT_FOUND` | No user with the provided ID was found. |
   // | `PERMISSION_DENIED` | This user is neither a server admin nor a member in the same project as the requested user. |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
   rpc GetUserById(Id) returns (User);
 
   // Get the user with the specified email address.
-  // 
+  //
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `UNAUTHENTICATED` | The user is not signed in. |
-  // | `NOT_FOUND` | No user with the provided email was found. |
   // | `INVALID_ARGUMENT` | The email is not a valid email address. |
+  // | `NOT_FOUND` | No user with the provided email was found. |
   // | `PERMISSION_DENIED` | This user is neither a server admin nor a member in the same project as the requested user. |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
   rpc GetUserByEmail(Email) returns (User);
@@ -305,12 +305,12 @@ service SnowballR {
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `UNAUTHENTICATED` | The user is not signed in. |
-  // | `NOT_FOUND` | No user with the provided ID was found. |
   // | `INVALID_ARGUMENT` | At least one (updated) user detail did not meet the requirements: The `id` must be a valid UUID, the `email` must be a valid email address, the `first_name` and `last_name` must not be left blank, and the `role` must be specified. |
-  // | `PERMISSION_DENIED` | This user is neither a server admin nor the requested user themselves. |
+  // | `NOT_FOUND` | No user with the provided ID was found. |
   // | `ALREADY_EXISTS` | The provided email address is already taken. |
+  // | `PERMISSION_DENIED` | This user is neither a server admin nor the requested user themselves. |
   // | `FAILED_PRECONDITION` | The user is not active (i.e., in state `USER_STATUS_ACTIVE`). |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
   rpc UpdateUser(User.Update) returns (User);
@@ -321,11 +321,11 @@ service SnowballR {
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `INVALID_ARGUMENT` | The  user ID is not a valid UUID. |
   // | `NOT_FOUND` | No user with the provided ID was found. |
   // | `PERMISSION_DENIED` | This user is neither a server admin nor the requested user themselves. |
   // | `FAILED_PRECONDITION` | The user to be deleted is a server admin. |
-  // | `INVALID_ARGUMENT` | The  user ID is not a valid UUID. |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
   rpc SoftDeleteUser(Id) returns (Nothing);
@@ -336,11 +336,11 @@ service SnowballR {
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `INVALID_ARGUMENT` | The user ID is not a valid UUID. |
   // | `NOT_FOUND` | No user with the provided ID was found. |
   // | `PERMISSION_DENIED` | This user is not a server admin. |
-  // | `INVALID_ARGUMENT` | The user ID is not a valid UUID. |
   // | `FAILED_PRECONDITION` | The user to be restored is not deleted (i.e., in state `USER_STATUS_DELETED`). |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
   rpc SoftUndeleteUser(Id) returns (Nothing);
@@ -350,8 +350,8 @@ service SnowballR {
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `NOT_FOUND` | No user settings were found for the calling user. |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
   rpc GetUserSettings(Nothing) returns (UserSettings);
@@ -362,9 +362,9 @@ service SnowballR {
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `INVALID_ARGUMENT` | At least one updated setting did not meet the requirements. |
   // | `FAILED_PRECONDITION` | The user is not active (i.e., in state `USER_STATUS_ACTIVE`). |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
   rpc UpdateUserSettings(UserSettings.Update) returns (UserSettings);
@@ -388,10 +388,10 @@ service SnowballR {
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `INVALID_ARGUMENT` | The project ID is not a valid UUID. |
   // | `NOT_FOUND` | No project with the provided ID was found. |
   // | `PERMISSION_DENIED` | This user is neither a server admin nor a member of the project. |
-  // | `INVALID_ARGUMENT` | The project ID is not a valid UUID. |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
   rpc GetPapersToReviewForProject(Id) returns (Project.Paper.List);
@@ -403,11 +403,11 @@ service SnowballR {
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `UNAUTHENTICATED` | The user is not signed in. |
-  // | `NOT_FOUND` | No project paper with the provided ID was found. |
-  // | `FAILED_PRECONDITION` | There is no next project paper in the project. |
-  // | `PERMISSION_DENIED` | This user is neither a server admin nor a member of the project the project paper belongs to. |
   // | `INVALID_ARGUMENT` | The project paper ID is not a valid UUID. |
+  // | `NOT_FOUND` | No project paper with the provided ID was found. |
+  // | `PERMISSION_DENIED` | This user is neither a server admin nor a member of the project the project paper belongs to. |
+  // | `FAILED_PRECONDITION` | There is no next project paper in the project. |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
   rpc GetNextPaper(Id) returns (Project.Paper);
@@ -419,11 +419,11 @@ service SnowballR {
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `UNAUTHENTICATED` | The user is not signed in. |
-  // | `NOT_FOUND` | No project paper with the provided ID was found. |
-  // | `FAILED_PRECONDITION` | There is no next project paper available to review in the project. |
-  // | `PERMISSION_DENIED` | This user is neither a server admin nor a member of the project the project paper belongs to. |
   // | `INVALID_ARGUMENT` | The project paper ID is not a valid UUID. |
+  // | `NOT_FOUND` | No project paper with the provided ID was found. |
+  // | `PERMISSION_DENIED` | This user is neither a server admin nor a member of the project the project paper belongs to. |
+  // | `FAILED_PRECONDITION` | There is no next project paper available to review in the project. |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
   rpc GetNextPaperToReview(Id) returns (Project.Paper);
@@ -435,11 +435,11 @@ service SnowballR {
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `UNAUTHENTICATED` | The user is not signed in. |
-  // | `NOT_FOUND` | No project paper with the provided ID was found. |
-  // | `FAILED_PRECONDITION` | There is no previous project paper in the project. |
-  // | `PERMISSION_DENIED` | This user is neither a server admin nor a member of the project the project paper belongs to. |
   // | `INVALID_ARGUMENT` | The project paper ID is not a valid UUID. |
+  // | `NOT_FOUND` | No project paper with the provided ID was found. |
+  // | `PERMISSION_DENIED` | This user is neither a server admin nor a member of the project the project paper belongs to. |
+  // | `FAILED_PRECONDITION` | There is no previous project paper in the project. |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
   rpc GetPreviousPaper(Id) returns (Project.Paper);
@@ -460,9 +460,9 @@ service SnowballR {
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `UNAUTHENTICATED` | The user is not signed in. |
-  // | `NOT_FOUND` | No paper with the provided ID was found. |
   // | `INVALID_ARGUMENT` | The paper ID is not a valid UUID. |
+  // | `NOT_FOUND` | No paper with the provided ID was found. |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
   rpc IsPaperOnReadingList(Id) returns (BoolValue);
@@ -474,10 +474,10 @@ service SnowballR {
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `UNAUTHENTICATED` | The user is not signed in. |
-  // | `NOT_FOUND` | No paper with the provided ID was found. |
   // | `INVALID_ARGUMENT` | The paper ID is not a valid UUID. |
+  // | `NOT_FOUND` | No paper with the provided ID was found. |
   // | `FAILED_PRECONDITION` | The user is not active (i.e., in state `USER_STATUS_ACTIVE`). |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
   rpc AddPaperToReadingList(Id) returns (Nothing);
@@ -488,10 +488,10 @@ service SnowballR {
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `UNAUTHENTICATED` | The user is not signed in. |
-  // | `NOT_FOUND` | No paper with the provided ID was found. |
   // | `INVALID_ARGUMENT` | The paper ID is not a valid UUID. |
+  // | `NOT_FOUND` | No paper with the provided ID was found. |
   // | `FAILED_PRECONDITION` | The user is not active (i.e., in state `USER_STATUS_ACTIVE`). |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
   rpc RemovePaperFromReadingList(Id) returns (Nothing);
@@ -502,10 +502,10 @@ service SnowballR {
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `INVALID_ARGUMENT` | The user ID is not a valid UUID. |
   // | `NOT_FOUND` | No user with the provided ID was found. |
   // | `PERMISSION_DENIED` | This user is neither a server admin nor the requested user themselves. |
-  // | `INVALID_ARGUMENT` | The user ID is not a valid UUID. |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
   rpc GetPendingInvitationsForUser(Id) returns (Project.List);
@@ -520,8 +520,8 @@ service SnowballR {
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `FAILED_PRECONDITION` | The project is not active (i.e., neither archived nor deleted). |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
   rpc GetInviteCandidates(Project.InviteCandidatesRequest) returns (User.List);
@@ -534,12 +534,12 @@ service SnowballR {
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `UNAUTHENTICATED` | The user is not signed in. |
-  // | `NOT_FOUND` | No project with the provided ID was found. |
-  // | `FAILED_PRECONDITION` | The project is not active (i.e., neither archived nor deleted). |
-  // | `PERMISSION_DENIED` | This user is neither a server admin nor a project admin of the project. |
   // | `INVALID_ARGUMENT` | The email is not a valid email address, or the project ID is not a valid UUID. |
+  // | `NOT_FOUND` | No project with the provided ID was found. |
+  // | `PERMISSION_DENIED` | This user is neither a server admin nor a project admin of the project. |
+  // | `FAILED_PRECONDITION` | The project is not active (i.e., neither archived nor deleted). |
   // | `INTERNAL` | The invitation email could not be sent. |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
   rpc InviteUserToProject(Project.Member.Invite) returns (Nothing);
@@ -551,9 +551,9 @@ service SnowballR {
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `FAILED_PRECONDITION` | The user is not registered and active (i.e., in state `USER_STATUS_ACTIVE`). |
   // | `INVALID_ARGUMENT` | No token was provided. |
   // | `NOT_FOUND` | The provided token is invalid, could not be found, or has expired. |
+  // | `FAILED_PRECONDITION` | The user is not registered and active (i.e., in state `USER_STATUS_ACTIVE`). |
   rpc AcceptProjectInvitation(Project.Member.Accept) returns (Nothing);
 
   // Get a list of all users with a pending invitation to the specified project.
@@ -563,10 +563,10 @@ service SnowballR {
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `INVALID_ARGUMENT` | The project ID is not a valid UUID. |
   // | `NOT_FOUND` | No project with the provided ID was found. |
   // | `PERMISSION_DENIED` | This user is neither a server admin nor a member of the project. |
-  // | `INVALID_ARGUMENT` | The project ID is not a valid UUID. |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
   rpc GetPendingInvitationsForProject(Id) returns (User.List);
@@ -577,10 +577,10 @@ service SnowballR {
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `INVALID_ARGUMENT` | The project ID is not a valid UUID. |
   // | `NOT_FOUND` | No project with the provided ID was found. |
   // | `PERMISSION_DENIED` | This user is neither a server admin nor a member of the project. |
-  // | `INVALID_ARGUMENT` | The project ID is not a valid UUID. |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
   rpc GetProjectMembers(Id) returns (Project.Member.List);
@@ -592,11 +592,11 @@ service SnowballR {
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `INVALID_ARGUMENT` | The project ID or the user ID is not a valid UUID. |
   // | `NOT_FOUND` | No project with the provided project ID or user with the provided user ID was found. |
   // | `PERMISSION_DENIED` | This user is neither a server admin, a project admin of the project nor the user themselves. |
-  // | `INVALID_ARGUMENT` | The project ID or the user ID is not a valid UUID. |
   // | `FAILED_PRECONDITION` | The user to be removed is the last project admin in the project. |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
   rpc RemoveProjectMember(Project.Member.Remove) returns (Nothing);
@@ -608,11 +608,11 @@ service SnowballR {
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `INVALID_ARGUMENT` | The project ID or the user ID is not a valid UUID, or the provided new role is not specified. |
-  // | `PERMISSION_DENIED` | This user is neither a server admin nor a project admin of the project. |
   // | `NOT_FOUND` | No project with the provided ID or user with the provided ID was found. |
+  // | `PERMISSION_DENIED` | This user is neither a server admin nor a project admin of the project. |
   // | `FAILED_PRECONDITION` | The user to be updated is not a member of the specified project. |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
   rpc UpdateProjectMemberRole(Project.Member.Update) returns (Nothing);
@@ -622,8 +622,8 @@ service SnowballR {
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `PERMISSION_DENIED` | The user is not a server admin. |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
   rpc GetAllProjects(Nothing) returns (Project.List);
@@ -633,8 +633,8 @@ service SnowballR {
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `PERMISSION_DENIED` | The user is not a server admin. |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
   rpc GetAllDeletedProjects(Nothing) returns (Project.List);
@@ -645,10 +645,10 @@ service SnowballR {
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `UNAUTHENTICATED` | The user is not signed in. |
-  // | `NOT_FOUND` | No user with the provided ID was found. |
   // | `INVALID_ARGUMENT` | The user ID is not a valid UUID. |
+  // | `NOT_FOUND` | No user with the provided ID was found. |
   // | `PERMISSION_DENIED` | This user is neither a server admin nor the calling user. |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
   rpc GetAllDeletedProjectsForUser(Id) returns (Project.List);
@@ -658,8 +658,8 @@ service SnowballR {
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `PERMISSION_DENIED` | The user is not a server admin. |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
   rpc GetAllArchivedProjects(Nothing) returns (Project.List);
@@ -670,10 +670,10 @@ service SnowballR {
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `UNAUTHENTICATED` | The user is not signed in. |
-  // | `NOT_FOUND` | No user with the provided ID was found. |
   // | `INVALID_ARGUMENT` | The user ID is not a valid UUID. |
+  // | `NOT_FOUND` | No user with the provided ID was found. |
   // | `PERMISSION_DENIED` | This user is neither a server admin nor the calling user. |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
   rpc GetAllProjectsForUser(Id) returns (Project.List);
@@ -684,10 +684,10 @@ service SnowballR {
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `UNAUTHENTICATED` | The user is not signed in. |
-  // | `NOT_FOUND` | No user with the provided ID was found. |
   // | `INVALID_ARGUMENT` | The user ID is not a valid UUID. |
+  // | `NOT_FOUND` | No user with the provided ID was found. |
   // | `PERMISSION_DENIED` | This user is neither a server admin nor the calling user. |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
   rpc GetAllArchivedProjectsForUser(Id) returns (Project.List);
@@ -702,9 +702,9 @@ service SnowballR {
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `INVALID_ARGUMENT` | The provided project name was blank. |
   // | `NOT_FOUND` | No user settings were found for the calling user. |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
   rpc CreateProject(Project.Create) returns (Project);
@@ -714,10 +714,10 @@ service SnowballR {
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `INVALID_ARGUMENT` | The project ID is not a valid UUID. |
   // | `NOT_FOUND` | No project with the provided ID was found. |
   // | `PERMISSION_DENIED` | The user is not a member of the project. |
-  // | `INVALID_ARGUMENT` | The project ID is not a valid UUID. |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
   rpc GetProjectById(Id) returns (Project);
@@ -730,11 +730,11 @@ service SnowballR {
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `INVALID_ARGUMENT` | At least one (updated) project detail did not meet the requirements: The `id` must be a valid UUID, the `name` must not be left blank, the `status` must be specified and the project settings must be valid. The `status` cannot be set to `PROJECT_STATUS_DELETED` or `PROJECT_STATUS_ACTIVE_LOCKED`. |
   // | `NOT_FOUND` | No project with the provided ID was found. |
   // | `PERMISSION_DENIED` | This user is neither a server admin nor a project admin of the project. |
-  // | `INVALID_ARGUMENT` | At least one (updated) project detail did not meet the requirements: The `id` must be a valid UUID, the `name` must not be left blank, the `status` must be specified and the project settings must be valid. The `status` cannot be set to `PROJECT_STATUS_DELETED` or `PROJECT_STATUS_ACTIVE_LOCKED`. |
   // | `FAILED_PRECONDITION` | The project is not active (i.e., neither archived nor deleted). |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
   rpc UpdateProject(Project.Update) returns (Project);
@@ -745,10 +745,10 @@ service SnowballR {
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `INVALID_ARGUMENT` | The project ID is not a valid UUID or the format is not a valid export format. |
   // | `NOT_FOUND` | No project with the provided ID was found. |
   // | `PERMISSION_DENIED` | This user is neither a server admin nor a member of the project. |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
   rpc ExportProject(ExportRequest) returns (Blob);
@@ -759,10 +759,10 @@ service SnowballR {
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `INVALID_ARGUMENT` | The project ID is not a valid UUID. |
   // | `NOT_FOUND` | No project with the provided ID was found. |
   // | `PERMISSION_DENIED` | This user is neither a server admin nor a project admin of the project. |
-  // | `INVALID_ARGUMENT` | The project ID is not a valid UUID. |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
   rpc SoftDeleteProject(Id) returns (Nothing);
@@ -773,11 +773,11 @@ service SnowballR {
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `INVALID_ARGUMENT` | The project ID is not a valid UUID. |
   // | `NOT_FOUND` | No project with the provided ID was found. |
   // | `PERMISSION_DENIED` | This user is neither a server admin nor a project admin of the project. |
-  // | `INVALID_ARGUMENT` | The project ID is not a valid UUID. |
   // | `FAILED_PRECONDITION` | The project to be restored is not deleted (i.e., in state `PROJECT_STATUS_DELETED`). |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
   rpc SoftUndeleteProject(Id) returns (Nothing);
@@ -788,10 +788,10 @@ service SnowballR {
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `INVALID_ARGUMENT` | The project ID is not a valid UUID. |
   // | `NOT_FOUND` | No project with the provided ID was found. |
   // | `PERMISSION_DENIED` | This user is neither a server admin nor a member of the project. |
-  // | `INVALID_ARGUMENT` | The project ID is not a valid UUID. |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
   rpc GetProjectInformation(Project.Information.Get)
@@ -804,10 +804,10 @@ service SnowballR {
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `INVALID_ARGUMENT` | The project ID is not a valid UUID. |
   // | `NOT_FOUND` | No project with the provided ID was found or the specified stage does not exist. |
   // | `PERMISSION_DENIED` | This user is neither a server admin nor a member of the project. |
-  // | `INVALID_ARGUMENT` | The project ID is not a valid UUID. |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
   rpc GetDecisionStatisticsForStage(Project.Information.DecisionStatistics.Get)
@@ -818,10 +818,10 @@ service SnowballR {
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `INVALID_ARGUMENT` | The criterion ID is not a valid UUID. |
   // | `NOT_FOUND` | No criterion with the provided ID was found. |
   // | `PERMISSION_DENIED` | If the criterion is a user-criterion, the calling user is not the original creator of the criterion. If the criterion is a project-criterion, the user is not a member of the project the criterion belongs to. |
-  // | `INVALID_ARGUMENT` | The criterion ID is not a valid UUID. |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
   rpc GetCriterionById(Id) returns (Criterion);
@@ -831,10 +831,10 @@ service SnowballR {
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `INVALID_ARGUMENT` | The project ID is not a valid UUID. |
   // | `NOT_FOUND` | No project with the provided ID was found. |
   // | `PERMISSION_DENIED` | This user is neither a server admin nor a member of the project. |
-  // | `INVALID_ARGUMENT` | The project ID is not a valid UUID. |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
   rpc GetAllCriteriaForProject(Id) returns (Criterion.List);
@@ -849,11 +849,11 @@ service SnowballR {
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `INVALID_ARGUMENT` | At least one input did not meet the requirements: All fields (except of `project_id`) must not be left blank and if the `project_id` is given, it must be a valid UUID. |
   // | `NOT_FOUND` | A project ID is given but does not refer to a existent project. |
   // | `PERMISSION_DENIED` | A project ID is given but this user is neither a server admin nor a project admin of the project the criterion should belong to. |
   // | `FAILED_PRECONDITION` | A project ID is given but does not refer to a active project (i.e., neither archived nor deleted). |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
   rpc CreateCriterion(Criterion.Create) returns (Criterion);
@@ -867,11 +867,11 @@ service SnowballR {
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `UNAUTHENTICATED` | The user is not signed in. |
-  // | `NOT_FOUND` | No criterion with the provided ID was found. |
   // | `INVALID_ARGUMENT` | At least one (updated) criterion detail did not meet the requirements: All fields (except of `project_id`) must not be left blank and if the `project_id` is given, it must be a valid UUID. |
+  // | `NOT_FOUND` | No criterion with the provided ID was found. |
   // | `PERMISSION_DENIED` | If the criterion is a user-criterion, the calling user is not the original creator of the criterion. If the criterion is a project-criterion, this user is neither a server admin nor a project admin of the project the criterion belongs to. |
   // | `FAILED_PRECONDITION` | A project ID is given but does not refer to a active project (i.e., neither archived nor deleted). |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
   rpc UpdateCriterion(Criterion.Update) returns (Criterion);
@@ -885,10 +885,10 @@ service SnowballR {
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `INVALID_ARGUMENT` | If the criterion is a project-criterion, the project ID is not a valid UUID. |
   // | `NOT_FOUND` | No criterion with the provided ID was found. |
   // | `PERMISSION_DENIED` | If the criterion is a user-criterion, the calling user is not the original creator of the criterion. If the criterion is a project-criterion, this user is neither a server admin nor a project admin of the project the criterion belongs to. |
-  // | `INVALID_ARGUMENT` | If the criterion is a project-criterion, the project ID is not a valid UUID. |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
   rpc DeleteCriterion(Id) returns (Nothing);
@@ -898,10 +898,10 @@ service SnowballR {
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `INVALID_ARGUMENT` | The project paper ID is not a valid UUID. |
   // | `NOT_FOUND` | No project paper with the provided ID was found. |
   // | `PERMISSION_DENIED` | This user is neither a server admin nor a member of the project the project paper belongs to. |
-  // | `INVALID_ARGUMENT` | The project paper ID is not a valid UUID. |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
   rpc GetProjectPaperById(Id) returns (Project.Paper);
@@ -913,10 +913,10 @@ service SnowballR {
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `INVALID_ARGUMENT` | The project ID is not a valid UUID or the relative ID is not a non-negative Long number. |
   // | `NOT_FOUND` | No project paper with the provided relative ID was found. Either the project does not exist or the relative ID was not found within the project. |
   // | `PERMISSION_DENIED` | This user is neither a server admin nor a member of the project the project paper belongs to. |
-  // | `INVALID_ARGUMENT` | The project ID is not a valid UUID or the relative ID is not a non-negative Long number. |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
   rpc GetProjectPaperByRelativeId(Project.Paper.Get) returns (Project.Paper);
@@ -926,10 +926,10 @@ service SnowballR {
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `INVALID_ARGUMENT` | The project ID is not a valid UUID. |
   // | `NOT_FOUND` | No project with the provided ID was found. |
   // | `PERMISSION_DENIED` | This user is neither a server admin nor a member of the project. |
-  // | `INVALID_ARGUMENT` | The project ID is not a valid UUID. |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
   rpc GetAllProjectPapersForProject(Id) returns (Project.Paper.List);
@@ -941,13 +941,13 @@ service SnowballR {
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `UNAUTHENTICATED` | The user is not signed in. |
-  // | `NOT_FOUND` | No project with the provided project ID or paper with the provided paper ID was found. |
   // | `INVALID_ARGUMENT` | The project ID or paper ID is not a valid UUID. |
-  // | `OUT_OF_RANGE` | The provided stage does not exist in the project, i.e., the stage was less than zero or greater than `max_stage`. |
-  // | `FAILED_PRECONDITION` | The project is not active (i.e., neither archived nor deleted). |
-  // | `PERMISSION_DENIED` | This user is neither a server admin nor a member of the project the project paper belongs to. |
+  // | `NOT_FOUND` | No project with the provided project ID or paper with the provided paper ID was found. |
   // | `ALREADY_EXISTS` | The provided paper already exists within the project. |
+  // | `PERMISSION_DENIED` | This user is neither a server admin nor a member of the project the project paper belongs to. |
+  // | `FAILED_PRECONDITION` | The project is not active (i.e., neither archived nor deleted). |
+  // | `OUT_OF_RANGE` | The provided stage does not exist in the project, i.e., the stage was less than zero or greater than `max_stage`. |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
   rpc AddPaperToProject(Project.Paper.Add) returns (Project.Paper);
@@ -961,10 +961,10 @@ service SnowballR {
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `INVALID_ARGUMENT` | The project paper ID or paper ID is not a valid UUID. |
   // | `NOT_FOUND` | No project paper with the provided ID or paper with the provided ID was found. |
   // | `PERMISSION_DENIED` | This user is neither a server admin nor a project admin of the project the project paper belongs to. |
-  // | `INVALID_ARGUMENT` | The project paper ID or paper ID is not a valid UUID. |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
   rpc UpdateProjectPaper(Project.Paper.Update) returns (Project.Paper);
@@ -977,10 +977,10 @@ service SnowballR {
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `INVALID_ARGUMENT` | The project paper ID is not a valid UUID. |
   // | `NOT_FOUND` | No project paper with the provided ID was found. |
   // | `PERMISSION_DENIED` | This user is neither a server admin nor a project admin of the project the project paper belongs to. |
-  // | `INVALID_ARGUMENT` | The project paper ID is not a valid UUID. |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
   rpc RemovePaperFromProject(Id) returns (Nothing);
@@ -990,10 +990,10 @@ service SnowballR {
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `INVALID_ARGUMENT` | The review ID is not a valid UUID. |
   // | `NOT_FOUND` | No review with the provided ID was found. |
   // | `PERMISSION_DENIED` | This user is neither a server admin nor a member of the project the review belongs to. |
-  // | `INVALID_ARGUMENT` | The review ID is not a valid UUID. |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
   rpc GetReviewById(Id) returns (Review);
@@ -1003,10 +1003,10 @@ service SnowballR {
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `INVALID_ARGUMENT` | The project paper ID is not a valid UUID. |
   // | `NOT_FOUND` | No project paper with the provided ID was found. |
   // | `PERMISSION_DENIED` | This user is neither a server admin nor a member of the project the project paper belongs to. |
-  // | `INVALID_ARGUMENT` | The project paper ID is not a valid UUID. |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
   rpc GetAllReviewsForProjectPaper(Id) returns (Review.List);
@@ -1021,12 +1021,12 @@ service SnowballR {
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `INVALID_ARGUMENT` | At least one input did not meet the requirements: The project paper ID must be a valid UUID, the decision must be specified, and if given, the selected criteria IDs must be a list of valid UUIDs. |
   // | `NOT_FOUND` | No project paper with the provided ID was found. |
   // | `ALREADY_EXISTS` | The user has already created a review for the specified project paper. |
-  // | `FAILED_PRECONDITION` | The project paper is not in the `PAPER_DECISION_UNREVIEWED` or `PAPER_DECISION_IN_REVIEW` state, or the project is not active. |
   // | `PERMISSION_DENIED` | This user is neither a server admin nor a member of the project the project paper belongs to. |
-  // | `INVALID_ARGUMENT` | At least one input did not meet the requirements: The project paper ID must be a valid UUID, the decision must be specified, and if given, the selected criteria IDs must be a list of valid UUIDs. |
+  // | `FAILED_PRECONDITION` | The project paper is not in the `PAPER_DECISION_UNREVIEWED` or `PAPER_DECISION_IN_REVIEW` state, or the project is not active. |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
   rpc CreateReview(Review.Create) returns (Review);
@@ -1039,11 +1039,11 @@ service SnowballR {
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `UNAUTHENTICATED` | The user is not signed in. |
-  // | `NOT_FOUND` | No review with the provided ID was found. |
   // | `INVALID_ARGUMENT` | At least one (updated) review detail did not meet the requirements: The review ID must be a valid UUID, the decision must be specified, and if given, the selected criteria IDs must be a list of valid UUIDs. |
+  // | `NOT_FOUND` | No review with the provided ID was found. |
   // | `PERMISSION_DENIED` | This user is neither a server admin, the owner of the review nor in the same project as the review. |
   // | `FAILED_PRECONDITION` | The project paper is in a state in which no further modifications to the review are allowed, or the project is not active. |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
   rpc UpdateReview(Review.Update) returns (Review);
@@ -1057,11 +1057,11 @@ service SnowballR {
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `INVALID_ARGUMENT` | The review ID is not a valid UUID. |
   // | `NOT_FOUND` | No review with the provided ID was found. |
   // | `PERMISSION_DENIED` | This user is neither a server admin, the owner of the review nor in the same project as the review. |
-  // | `INVALID_ARGUMENT` | The review ID is not a valid UUID. |
   // | `FAILED_PRECONDITION` | The project paper is in a state in which no deletions of reviews are allowed anymore, or the project is not active. |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
   rpc DeleteReview(Id) returns (Nothing);
@@ -1071,9 +1071,9 @@ service SnowballR {
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `UNAUTHENTICATED` | The user is not signed in. |
-  // | `NOT_FOUND` | No paper with the provided ID was found. |
   // | `INVALID_ARGUMENT` | The paper ID is not a valid UUID. |
+  // | `NOT_FOUND` | No paper with the provided ID was found. |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
   rpc GetPaperById(Id) returns (Paper);
@@ -1084,9 +1084,9 @@ service SnowballR {
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `UNAUTHENTICATED` | The user is not signed in. |
   // | `INVALID_ARGUMENT` | At least one field must be not blank. |
   // | `ALREADY_EXISTS` | The paper with the provided information already exists or is too similar to an existing paper. |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
   rpc CreatePaper(Paper) returns (Paper);
@@ -1097,10 +1097,10 @@ service SnowballR {
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `UNAUTHENTICATED` | The user is not signed in. |
-  // | `NOT_FOUND` | No paper with the provided ID was found. |
   // | `INVALID_ARGUMENT` | At least one field must be not blank, or the paper ID is not a valid UUID. |
+  // | `NOT_FOUND` | No paper with the provided ID was found. |
   // | `ALREADY_EXISTS` | The paper with the provided information already exists or is too similar to an existing paper. |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
   rpc UpdatePaper(Paper.Update) returns (Paper);
@@ -1110,9 +1110,9 @@ service SnowballR {
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `UNAUTHENTICATED` | The user is not signed in. |
-  // | `NOT_FOUND` | No paper with the provided ID was found. |
   // | `INVALID_ARGUMENT` | The paper ID is not a valid UUID. |
+  // | `NOT_FOUND` | No paper with the provided ID was found. |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
   rpc GetForwardReferencedPapers(Id) returns (Paper.List);
@@ -1122,9 +1122,9 @@ service SnowballR {
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `UNAUTHENTICATED` | The user is not signed in. |
-  // | `NOT_FOUND` | No paper with the provided ID was found. |
   // | `INVALID_ARGUMENT` | The paper ID is not a valid UUID. |
+  // | `NOT_FOUND` | No paper with the provided ID was found. |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
   rpc GetBackwardReferencedPapers(Id) returns (Paper.List);
@@ -1134,10 +1134,10 @@ service SnowballR {
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `INVALID_ARGUMENT` | The paper ID is not a valid UUID. |
   // | `NOT_FOUND` | No paper with the provided ID was found. |
   // | `FAILED_PRECONDITION` | The paper has no attached PDF (see [paper.has_pdf](#message-snowballr.Paper)). |
-  // | `INVALID_ARGUMENT` | The paper ID is not a valid UUID. |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
   rpc GetPaperPdf(Id) returns (Blob);
@@ -1149,10 +1149,10 @@ service SnowballR {
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `INVALID_ARGUMENT` | The PDF is not in the correct format, or the paper ID is not a valid UUID. |
   // | `NOT_FOUND` | No paper with the provided ID was found. |
   // | `RESOURCE_EXHAUSTED` | The PDF was declined by the server, e.g., because it is too large. |
-  // | `INVALID_ARGUMENT` | The PDF is not in the correct format, or the paper ID is not a valid UUID. |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
   rpc SetPaperPdf(Paper.PdfUpdate) returns (Nothing);
