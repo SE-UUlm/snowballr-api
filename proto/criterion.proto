@@ -15,7 +15,7 @@ enum CriterionCategory {
 // and can be used for the creation of default criteria for a project in the
 // user settings.
 // A project-criterion on the other hand is associated with a project and
-// provide the basis for justifying reviews. It has no owning / attached user.
+// provide the basis for justifying reviews.
 message Criterion {
   string id = 1;
   string tag = 2;
