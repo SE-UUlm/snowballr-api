@@ -730,13 +730,24 @@ service SnowballR {
   // is returned and **guaranteed to be specified**. The calling user is
   // **required to be a project admin**.
   //
+  // The following rules apply:
+  //
+  // - If `status` = `PROJECT_STATUS_DELETED`: No updates are allowed.
+  // - If `status` = `PROJECT_STATUS_ARCHIVED`: Only update of the `status` field is allowed.
+  // - If `status` = `PROJECT_STATUS_ACTIVE`: All non-immutable fields may be updated.
+  // - If `status` = `PROJECT_STATUS_ACTIVE_LOCKED`: All non-immutable fields, except the slr (project) settings, may be updated.
+  // - The value `PROJECT_STATUS_DELETED` is not allowed when updating a project, as the [SoftDeleteProject](#service-snowballr.SnowballR-SoftDeleteProject) call must be used instead.
+  //
+  // >**Note:** If the project is locked and the request sets `status` to `PROJECT_STATUS_ACTIVE`, no error is returned and the server keeps the state as `PROJECT_STATUS_ACTIVE_LOCKED`.
+  // Similarly, if the project is active and the request sets `status` to `PROJECT_STATUS_ACTIVE_LOCKED`, no error is returned and the server keeps the state as `PROJECT_STATUS_ACTIVE`.
+  //
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `INVALID_ARGUMENT` | At least one (updated) project detail did not meet the requirements: The `id` must be a valid UUID, the `name` must not be left blank, the `status` must be specified and the project settings must be valid. The `status` cannot be set to `PROJECT_STATUS_DELETED` or `PROJECT_STATUS_ACTIVE_LOCKED`. |
+  // | `INVALID_ARGUMENT` | At least one (updated) project detail did not meet the requirements: The `id` must be a valid UUID, the `name` must not be left blank, the `status` must be specified and the project settings must be valid. The `status` needs to follow the rules outlined above. |
   // | `NOT_FOUND` | No project with the provided ID was found. |
   // | `PERMISSION_DENIED` | The calling user is neither a server admin nor a project admin of the project. |
-  // | `FAILED_PRECONDITION` | The project is not active (i.e., archived or deleted). |
+  // | `FAILED_PRECONDITION` | The project is not in the appropriate state for the requested change. |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
