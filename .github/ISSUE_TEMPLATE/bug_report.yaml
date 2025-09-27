@@ -1,0 +1,64 @@
+name: Bug Report
+description: Report a bug or issue in the API
+title: "[Bug]: <title>"
+labels: ["bug"]
+projects: ["SE-UUlm/2"]
+
+body:
+  - type: checkboxes
+    id: existing-issue
+    attributes:
+      label: Is there an existing issue for this?
+      description: Please check whether this API bug has already been reported.
+      options:
+        - label: I have searched the existing issues
+          required: true
+
+  - type: input
+    id: affected-service
+    attributes:
+      label: Which service or proto file does this bug relate to?
+      placeholder: "e.g. user.proto, auth.proto"
+    validations:
+      required: false
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: A clear and concise description of the bug in the API definition or documentation.
+      placeholder: e.g. "The LoginResponse message is missing the `token_expires_at` field."
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps-to-reproduce
+    attributes:
+      label: Steps to reproduce
+      description: Steps to reproduce or observe the issue (e.g., generating stubs, using the API).
+      placeholder: |
+        1. Generate gRPC client code from 'auth.proto'
+        2. Call `Login` method with payload '...'
+        3. Observe missing / incorrect response field
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: What did you expect?
+      description: What behavior or definition did you expect instead?
+      placeholder: e.g. "The LoginResponse should include the token expiration field."
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Anything else?
+      description: |
+        Relevant .proto snippets, gRPC request/response examples, or links to the wiki/docs.
+
+        Tip: You can drag and drop files here.
+    validations:
+      required: false
