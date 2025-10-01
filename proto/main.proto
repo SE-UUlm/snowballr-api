@@ -14,6 +14,9 @@ import "user_settings.proto";
 
 // This service contains the complete set of API calls that the SnowballR web application uses to
 // communicate with the backend.
+//
+// ## Overview
+//
 // SnowballR is a tool designed to assist with scientific research by organizing
 // and managing structured literature reviews (SLRs). The application is split into
 // a web frontend and a backend on a central server.
@@ -47,11 +50,15 @@ import "user_settings.proto";
 //  j2:B --> T:fetcher2
 // ~~~
 //
+// ## Authentication
+//
 // A padlock icon in the top-right of a service method description indicates
 // whether a call **requires** the user to be **authenticated**. This will
 // happen automatically using an HTTP-only cookie set by the server during
 // registration or login. If the authentication fails, an `UNAUTHENTICATED` error will
 // be returned in all cases.
+//
+// ## Error Handling
 //
 // Furthermore, the server **may** respond with the `UNAVAILABLE` error
 // code at any time if it is unable to process a request. It **may** also
@@ -64,6 +71,15 @@ import "user_settings.proto";
 // Each error **should** come with a meaningful description, detailing the nature
 // of the error that occurred.
 //
+// ## Update Semantics
+//
+// Updates are applied atomically. If one part of an update request cannot
+// be fulfilled, the entire update fails and no changes are persisted.
+// If the field mask specifies a field that is not allowed to be updated, the update request is rejected.
+// In this case, the server responds with an `INVALID_ARGUMENT` error.
+//
+// ## Enums and Guarantees
+//
 // Each enum contains an `_UNSPECIFIED` variant to indicate that no meaningful value was set.
 // If any other variant is present, the field is considered to be **specified**.
 //
@@ -72,6 +88,8 @@ import "user_settings.proto";
 // can never really be **guaranteed**, so proper error handling is advised anyway. In the
 // following context, **guaranteed** denotes a situation in which the client shall
 // be able to safely make assumptions about a successfully received message.
+//
+// ## Entities and Relationships
 //
 // The following figure shows the relationships between the entities/concepts of the
 // SnowballR application. It does not depict the actual database schema used by SnowballR's
@@ -719,7 +737,7 @@ service SnowballR {
   // | :--- | :--- |
   // | `INVALID_ARGUMENT` | The project ID is not a valid UUID. |
   // | `NOT_FOUND` | No project with the provided ID was found. |
-  // | `PERMISSION_DENIED` | The user is not a member of the project. |
+  // | `PERMISSION_DENIED` | The calling user is neither a server admin nor a member of the project. |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
@@ -730,13 +748,24 @@ service SnowballR {
   // is returned and **guaranteed to be specified**. The calling user is
   // **required to be a project admin**.
   //
+  // The following rules apply:
+  //
+  // - If `status` = `PROJECT_STATUS_DELETED`: No updates are allowed.
+  // - If `status` = `PROJECT_STATUS_ARCHIVED`: Only update of the `status` field is allowed.
+  // - If `status` = `PROJECT_STATUS_ACTIVE`: All non-immutable fields may be updated.
+  // - If `status` = `PROJECT_STATUS_ACTIVE_LOCKED`: All non-immutable fields, except the slr (project) settings, may be updated.
+  // - The value `PROJECT_STATUS_DELETED` is not allowed when updating a project, as the [SoftDeleteProject](#service-snowballr.SnowballR-SoftDeleteProject) call must be used instead.
+  //
+  // >**Note:** If the project is locked and the request sets `status` to `PROJECT_STATUS_ACTIVE`, no error is returned and the server keeps the state as `PROJECT_STATUS_ACTIVE_LOCKED`.
+  // Similarly, if the project is active and the request sets `status` to `PROJECT_STATUS_ACTIVE_LOCKED`, no error is returned and the server keeps the state as `PROJECT_STATUS_ACTIVE`.
+  //
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `INVALID_ARGUMENT` | At least one (updated) project detail did not meet the requirements: The `id` must be a valid UUID, the `name` must not be left blank, the `status` must be specified and the project settings must be valid. The `status` cannot be set to `PROJECT_STATUS_DELETED` or `PROJECT_STATUS_ACTIVE_LOCKED`. |
+  // | `INVALID_ARGUMENT` | At least one (updated) project detail did not meet the requirements: The `id` must be a valid UUID, the `name` must not be left blank, the `status` must be specified and the project settings must be valid. The `status` needs to follow the rules outlined above. |
   // | `NOT_FOUND` | No project with the provided ID was found. |
   // | `PERMISSION_DENIED` | The calling user is neither a server admin nor a project admin of the project. |
-  // | `FAILED_PRECONDITION` | The project is not active (i.e., archived or deleted). |
+  // | `FAILED_PRECONDITION` | The project is not in the appropriate state for the requested change. |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
