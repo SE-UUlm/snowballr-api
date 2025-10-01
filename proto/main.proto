@@ -75,6 +75,8 @@ import "user_settings.proto";
 //
 // Updates are applied atomically. If one part of an update request cannot
 // be fulfilled, the entire update fails and no changes are persisted.
+// If the field mask specifies a field that is not allowed to be updated, the update request is rejected.
+// In this case, the server responds with an `INVALID_ARGUMENT` error.
 //
 // ## Enums and Guarantees
 //
