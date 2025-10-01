@@ -735,7 +735,7 @@ service SnowballR {
   // | :--- | :--- |
   // | `INVALID_ARGUMENT` | The project ID is not a valid UUID. |
   // | `NOT_FOUND` | No project with the provided ID was found. |
-  // | `PERMISSION_DENIED` | The user is not a member of the project. |
+  // | `PERMISSION_DENIED` | The calling user is neither a server admin nor a member of the project. |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
