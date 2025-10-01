@@ -14,6 +14,9 @@ import "user_settings.proto";
 
 // This service contains the complete set of API calls that the SnowballR web application uses to
 // communicate with the backend.
+//
+// ## Overview
+//
 // SnowballR is a tool designed to assist with scientific research by organizing
 // and managing structured literature reviews (SLRs). The application is split into
 // a web frontend and a backend on a central server.
@@ -47,11 +50,15 @@ import "user_settings.proto";
 //  j2:B --> T:fetcher2
 // ~~~
 //
+// ## Authentication
+//
 // A padlock icon in the top-right of a service method description indicates
 // whether a call **requires** the user to be **authenticated**. This will
 // happen automatically using an HTTP-only cookie set by the server during
 // registration or login. If the authentication fails, an `UNAUTHENTICATED` error will
 // be returned in all cases.
+//
+// ## Error Handling
 //
 // Furthermore, the server **may** respond with the `UNAVAILABLE` error
 // code at any time if it is unable to process a request. It **may** also
@@ -64,6 +71,8 @@ import "user_settings.proto";
 // Each error **should** come with a meaningful description, detailing the nature
 // of the error that occurred.
 //
+// ## Enums and Guarantees
+//
 // Each enum contains an `_UNSPECIFIED` variant to indicate that no meaningful value was set.
 // If any other variant is present, the field is considered to be **specified**.
 //
@@ -72,6 +81,8 @@ import "user_settings.proto";
 // can never really be **guaranteed**, so proper error handling is advised anyway. In the
 // following context, **guaranteed** denotes a situation in which the client shall
 // be able to safely make assumptions about a successfully received message.
+//
+// ## Entities and Relationships
 //
 // The following figure shows the relationships between the entities/concepts of the
 // SnowballR application. It does not depict the actual database schema used by SnowballR's
