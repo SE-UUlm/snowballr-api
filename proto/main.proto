@@ -71,6 +71,11 @@ import "user_settings.proto";
 // Each error **should** come with a meaningful description, detailing the nature
 // of the error that occurred.
 //
+// ## Update Semantics
+//
+// Updates are applied atomically. If one part of an update request cannot
+// be fulfilled, the entire update fails and no changes are persisted.
+//
 // ## Enums and Guarantees
 //
 // Each enum contains an `_UNSPECIFIED` variant to indicate that no meaningful value was set.
