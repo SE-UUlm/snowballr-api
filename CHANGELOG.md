@@ -1,5 +1,22 @@
 # Changelog
 
+## [0.8.0] - 2025-10-01
+
+### Changed
+
+- Improve description of calls and add missing error codes ([#81](https://github.com/SE-UUlm/snowballr-api/issues/81)) (Leonhard Alkewitz)
+- Fix spelling mistakes, bad wording and wrong call descriptions ([#81](https://github.com/SE-UUlm/snowballr-api/issues/81)) (Leonhard Alkewitz)
+- Move explanation of user- and project-criteria from the `CreateCriterion` call to the `Criterion` message. ([#64](https://github.com/SE-UUlm/snowballr-api/issues/64)) (Leonhard Alkewitz)
+
+### Added
+
+- Add `NOT_YET_VERIFIED` error to `Login` call ([#80](https://github.com/SE-UUlm/snowballr-api/issues/80)) (Moritz Wieland)
+
+### Fixed
+
+- Update `UpdateProject` call description to correctly reflect the allowed actions depending on the project `status` ([#92](https://github.com/SE-UUlm/snowballr-api/issues/92)) (Moritz Wieland)
+- Swap the description of `GetForwardReferencedPapers` and `GetBackwardReferencedPapers` ([#82](https://github.com/SE-UUlm/snowballr-api/issues/82)) (Dominik Enderle)
+
 ## [0.7.0] - 2025-08-04
 
 ### Added
@@ -12,10 +29,10 @@
 ### Added
 
 - **Breaking:** Introduce fetcher options ([#69](https://github.com/SE-UUlm/snowballr-api/issues/69)) (Luca Schlecker)
-    - Move fetcher-related messages to `fetcher.proto` file
-    - Add `FetcherOptions` message to represent option names and their associated values
-    - Add `GetAvailableFetcherOptions` call to get FetcherOptions representing option names associated with their default values
-    - Change `Project.Settings.fetcher_apis` to `Project.Settings.fetchers`, replacing the string-list type with a map that associates a fetcher name with FetcherOptions. The values in the FetcherOptions represent the actual values of the option
+  - Move fetcher-related messages to `fetcher.proto` file
+  - Add `FetcherOptions` message to represent option names and their associated values
+  - Add `GetAvailableFetcherOptions` call to get FetcherOptions representing option names associated with their default values
+  - Change `Project.Settings.fetcher_apis` to `Project.Settings.fetchers`, replacing the string-list type with a map that associates a fetcher name with FetcherOptions. The values in the FetcherOptions represent the actual values of the option
 
 ### Changed
 
@@ -93,6 +110,8 @@
 ## [0.1.0] - 2025-01-30
 
 _:seedling: Initial release._
+
+[0.8.0]: https://github.com/SE-UUlm/snowballr-api/releases/tag/v0.8.0
 
 [0.7.0]: https://github.com/SE-UUlm/snowballr-api/releases/tag/v0.7.0
 
