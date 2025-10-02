@@ -1110,6 +1110,30 @@ service SnowballR {
   // @auth
   rpc GetPaperById(Id) returns (Paper);
 
+  // Search the local database for papers using a search string.
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | :--- | :--- |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
+  //
+  // @auth
+  rpc SearchLocalPapers(Paper.SearchQuery) returns (Paper.List);
+
+  // Search for papers that match the search query using all available fetchers of
+  // the specified project.
+  //
+  // ## Errors
+  // | Error Code | Description |
+  // | :--- | :--- |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
+  // | `NOT_FOUND` | No project with the provided id was found. |
+  // | `PERMISSION_DENIED` | The user is not part of the specified project. |
+  // | `INVALID_ARGUMENT` | The project ID is not a valid UUID. |
+  //
+  // @auth
+  rpc SearchFetcherPapers(Project.Paper.SearchQuery) returns (Paper.List);
+
   // Create a new paper. The `id` field will be ignored and set by
   // the server. All fields **may be blank**. The created paper is returned and **guaranteed to be specified**.
   //
