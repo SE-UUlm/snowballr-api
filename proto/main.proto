@@ -815,12 +815,13 @@ service SnowballR {
   rpc SoftUndeleteProject(Id) returns (Nothing);
 
   // Get information about the specified project.
-  // The response only includes attributes specified in the field mask.
+  // The response only includes attributes specified in the field mask or all attributes when the field mask is not
+  // specified or has an empty path list.
   //
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `INVALID_ARGUMENT` | The project ID is not a valid UUID. |
+  // | `INVALID_ARGUMENT` | The project ID is not a valid UUID or the field mask contains prohibited fields. |
   // | `NOT_FOUND` | No project with the provided ID was found. |
   // | `PERMISSION_DENIED` | The calling user is neither a server admin nor a member of the project. |
   // | `UNAUTHENTICATED` | The user is not signed in. |
