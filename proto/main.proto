@@ -815,7 +815,8 @@ service SnowballR {
   rpc SoftUndeleteProject(Id) returns (Nothing);
 
   // Get information about the specified project.
-  // The response only includes attributes specified in the field mask.
+  // The response only includes attributes specified in the field mask or all attributes when the field mask is not
+  // specified or has an empty path list.
   //
   // ## Errors
   // | Error Code | Description |
