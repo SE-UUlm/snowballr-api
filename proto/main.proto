@@ -1112,12 +1112,20 @@ service SnowballR {
   rpc GetPaperById(Id) returns (Paper);
 
   // Create a new paper. The `id` field will be ignored and set by
-  // the server. All fields **may be blank**. The created paper is returned and **guaranteed to be specified**.
+  // the server. The created paper is returned and **guaranteed to be specified**.
+  //
+  // Validation details:
+  //
+  // - text fields: `external_id`, `title`, `abstrakt`, `publisher`, `publication_name` and `publication_type`
+  // - valid year range: 0 to this year + 1, i.e., if this year is 2025, the maximum year value is 2026
+  // - valid author list: each author must be valid and the list must not exceed its maximum length
+  // - valid author: `first_name` and `last_name` can be either empty or non-blank and must not exceed their maximum length. The ORCID
+  // has to be valid according to the [official ORCID specification](https://support.orcid.org/hc/en-us/articles/360006897674-Structure-of-the-ORCID-Identifier)
   //
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `INVALID_ARGUMENT` | At least one field must be non-blank. |
+  // | `INVALID_ARGUMENT` | At least one of the text fields exceeds its maximum length, the title is blank, the year is invalid, or the author list is invalid. For more details, see above. |
   // | `ALREADY_EXISTS` | The paper with the provided information already exists or is too similar to an existing paper. |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   //
@@ -1127,10 +1135,12 @@ service SnowballR {
   // Update all attributes specified in the field mask for the paper with the given ID, except the field `has_pdf`.
   // The updated paper is returned and **guaranteed to be specified**.
   //
+  // For validation details, see [CreatePaper](#service-snowballr.SnowballR-CreatePaper).
+  //
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `INVALID_ARGUMENT` | At least one field must be non-blank, or the paper ID is not a valid UUID. |
+  // | `INVALID_ARGUMENT` | At least one of the text fields exceeds its maximum length, the title is blank, the paper ID is not a valid UUID, the year is invalid, or the author list is invalid. For more details, see [CreatePaper](#service-snowballr.SnowballR-CreatePaper). |
   // | `NOT_FOUND` | No paper with the provided ID was found. |
   // | `ALREADY_EXISTS` | The paper with the provided information already exists or is too similar to an existing paper. |
   // | `UNAUTHENTICATED` | The user is not signed in. |
