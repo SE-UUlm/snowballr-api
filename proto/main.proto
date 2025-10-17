@@ -1116,6 +1116,7 @@ service SnowballR {
   //
   // Validation details:
   //
+  // - only the `title` is required, in the sense that it must not be blank
   // - text fields: `external_id`, `title`, `abstrakt`, `publisher`, `publication_name` and `publication_type`
   // - valid year range: 0 to this year + 1, i.e., if this year is 2025, the maximum year value is 2026
   // - valid author list: each author must be valid and the list must not exceed its maximum length
