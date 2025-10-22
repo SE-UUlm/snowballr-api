@@ -1120,8 +1120,7 @@ service SnowballR {
   // - text fields: `external_id`, `title`, `abstrakt`, `publisher`, `publication_name` and `publication_type`
   // - valid year range: 0 to this year + 1, i.e., if this year is 2025, the maximum year value is 2026
   // - valid author list: each author must be valid and the list must not exceed its maximum length
-  // - valid author: `first_name` and `last_name` can be either empty (then the ORCID is required) or non-blank (then the ORCID is optional) and must not exceed their maximum length. The ORCID, if given,
-  // has to be valid according to the [official ORCID specification](https://support.orcid.org/hc/en-us/articles/360006897674-Structure-of-the-ORCID-Identifier)
+  // - valid author: `first_name` and `last_name` must both be non-blank and must not exceed their maximum length.
   //
   // ## Errors
   // | Error Code | Description |

@@ -7,7 +7,6 @@ import "google/protobuf/field_mask.proto";
 message Author {
   string first_name = 1;
   string last_name = 2;
-  string orcid = 3;
 }
 
 message Paper {
