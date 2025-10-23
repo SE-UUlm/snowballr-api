@@ -1,5 +1,16 @@
 # Changelog
 
+## [0.9.0] - 2025-10-23
+
+### Changed
+
+- Update description of `GetProjectInformation` ([#95](https://github.com/SE-UUlm/snowballr-api/issues/95)) (Felix Schlegel)
+- Update validation details of `CreatePaper` and `UpdatePaper` ([#95](https://github.com/SE-UUlm/snowballr-api/issues/95)) (Felix Schlegel)
+
+### Removed
+
+- Remove `orcid` field from `Author` message ([#97](https://github.com/SE-UUlm/snowballr-api/issues/97)) (Felix Schlegel)
+
 ## [0.8.0] - 2025-10-01
 
 ### Changed
@@ -110,6 +121,8 @@
 ## [0.1.0] - 2025-01-30
 
 _:seedling: Initial release._
+
+[0.9.0]: https://github.com/SE-UUlm/snowballr-api/releases/tag/v0.9.0
 
 [0.8.0]: https://github.com/SE-UUlm/snowballr-api/releases/tag/v0.8.0
 
