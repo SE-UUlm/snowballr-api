@@ -345,7 +345,7 @@ service SnowballR {
   // | `INVALID_ARGUMENT` | The user ID is not a valid UUID. |
   // | `NOT_FOUND` | No user with the provided ID was found. |
   // | `PERMISSION_DENIED` | The calling user is neither a server admin nor the requested user themselves. |
-  // | `FAILED_PRECONDITION` | The user to be deleted is a server admin. |
+  // | `FAILED_PRECONDITION` | The user to be deleted is a server admin or the last project admin in any non-deleted project. |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
