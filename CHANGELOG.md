@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.10.0] - 2025-10-27
+
+### Changed
+
+- Update `FAILED_PRECONDITION` description to include the case where the user to be deleted is the last project admin ([#100](https://github.com/SE-UUlm/snowballr-api/issues/100)) (Leonhard Alkewitz)
+
+### Added
+
+- Add `GetAvailableExportFormats` call to get available export formats for a project ([#102](https://github.com/SE-UUlm/snowballr-api/issues/102)) (Felix Schlegel)
+
 ## [0.9.0] - 2025-10-23
 
 ### Changed
@@ -121,6 +131,8 @@
 ## [0.1.0] - 2025-01-30
 
 _:seedling: Initial release._
+
+[0.10.0]: https://github.com/SE-UUlm/snowballr-api/releases/tag/v0.10.0
 
 [0.9.0]: https://github.com/SE-UUlm/snowballr-api/releases/tag/v0.9.0
 
