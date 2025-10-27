@@ -771,6 +771,12 @@ service SnowballR {
   // @auth
   rpc UpdateProject(Project.Update) returns (Project);
 
+  // Get all available export formats that the backend supports.
+  // Each export format is identified by a unique string and can be used to specify the format
+  // for the [ExportProject](#service-snowballr.SnowballR-ExportProject) call. The list is
+  // **guaranteed to be non-empty** but **may change** at any time.
+  rpc GetAvailableExportFormats(Nothing) returns (AvailableExportFormatsReply);
+
   // Export the specified project in the specified format. A blob is returned.
   // This includes everything necessary for the project to be reimported and remain indistinguishable from the original.
   //
