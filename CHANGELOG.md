@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.11.0] - 2025-10-29
+
+### Added
+
+- Add `SearchLocalPapers` and `SearchFetcherPapers` calls to search the local or fetcher databases for papers, respectively ([#86](https://github.com/SE-UUlm/snowballr-api/issues/86)) (Luca Schlecker)
+- Add `fetcher_metadata` field to the `Paper` message that stores arbitrary metadata about a paper fetched from a fetcher ([#86](https://github.com/SE-UUlm/snowballr-api/issues/86)) (Luca Schlecker)
+
 ## [0.10.0] - 2025-10-27
 
 ### Changed
@@ -131,6 +138,8 @@
 ## [0.1.0] - 2025-01-30
 
 _:seedling: Initial release._
+
+[0.11.0]: https://github.com/SE-UUlm/snowballr-api/releases/tag/v0.11.0
 
 [0.10.0]: https://github.com/SE-UUlm/snowballr-api/releases/tag/v0.10.0
 
