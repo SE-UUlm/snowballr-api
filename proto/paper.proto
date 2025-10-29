@@ -21,6 +21,9 @@ message Paper {
   bool has_pdf = 9;
   repeated Author authors = 10;
   repeated string backward_referenced_ids = 11;
+  // A key-value map to store arbitrary metadata about the paper.
+  // This could for example be a fetcher specific id.
+  map<string, string> fetcher_metadata = 12;
 
   message List {
     repeated Paper papers = 1;
@@ -34,5 +37,13 @@ message Paper {
   message PdfUpdate {
     string paper_id = 1;
     Blob pdf = 2;
+  }
+
+  message SearchQuery {
+    // There are no restrictions on this search query in terms of valid values.
+    // The backend is fully responsible for deciding which paper attributes this
+    // query is matched against and is supposed to provide the best results for
+    // the given query.
+    string query = 2;
   }
 }
