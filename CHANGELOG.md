@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.11.1] - 2025-10-29
+
+### Changed
+
+- Replace `user_id` with `user_email` in `Project.Member.Remove` message, i.e., project members can be removed by their email address instead of user ID ([#106](https://github.com/SE-UUlm/snowballr-api/issues/106)) (Leonhard Alkewitz)
+
 ## [0.11.0] - 2025-10-29
 
 ### Added
@@ -138,6 +144,8 @@
 ## [0.1.0] - 2025-01-30
 
 _:seedling: Initial release._
+
+[0.11.1]: https://github.com/SE-UUlm/snowballr-api/releases/tag/v0.11.1
 
 [0.11.0]: https://github.com/SE-UUlm/snowballr-api/releases/tag/v0.11.0
 
