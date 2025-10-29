@@ -1126,10 +1126,10 @@ service SnowballR {
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `UNAUTHENTICATED` | The user is not signed in. |
-  // | `NOT_FOUND` | No project with the provided id was found. |
-  // | `PERMISSION_DENIED` | The user is not part of the specified project. |
   // | `INVALID_ARGUMENT` | The project ID is not a valid UUID. |
+  // | `NOT_FOUND` | No project with the provided id was found. |
+  // | `PERMISSION_DENIED` | The calling user is neither a server admin nor a member of the specified project. |
+  // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
   rpc SearchFetcherPapers(Project.Paper.SearchQuery) returns (Paper.List);

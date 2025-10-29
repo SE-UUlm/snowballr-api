@@ -171,7 +171,7 @@ message Project {
 
     message SearchQuery {
       string project_id = 1;
-      // There are no restrictions to this search query in terms of valid values.
+      // There are no restrictions on this search query in terms of valid values.
       // The backend is fully responsible for deciding which paper attributes this
       // query is matched against and is supposed to provide the best results for
       // the given query.
