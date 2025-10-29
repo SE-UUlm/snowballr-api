@@ -606,17 +606,17 @@ service SnowballR {
   // @auth
   rpc GetProjectMembers(Id) returns (Project.Member.List);
 
-  // Remove the specified user from the specified project. If the user is not part
+  // Remove the specified user or invitee from the specified project. If the user is not part
   // of the project, nothing happens. The calling user is **required to be a
   // project admin**. If there is only one project admin, then the user cannot be removed from the project.
   //
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `INVALID_ARGUMENT` | The project ID or the user ID is not a valid UUID. |
+  // | `INVALID_ARGUMENT` | The project ID is not a valid UUID or the user's email address is not a valid email address. |
   // | `NOT_FOUND` | No project with the provided project ID or user with the provided user ID was found. |
-  // | `PERMISSION_DENIED` | The calling user is neither a server admin nor a project admin of the project, nor the user themselves. |
-  // | `FAILED_PRECONDITION` | The user to be removed is the last project admin in the project. |
+  // | `PERMISSION_DENIED` | The calling user is neither a server admin nor a project admin of the project, nor the project member themselves. |
+  // | `FAILED_PRECONDITION` | The project member to be removed is the last project admin in the project. |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth

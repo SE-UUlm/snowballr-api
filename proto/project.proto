@@ -120,7 +120,7 @@ message Project {
 
     message Remove {
       string project_id = 1;
-      string user_id = 2;
+      string user_email = 3;
     }
 
     message Update {
