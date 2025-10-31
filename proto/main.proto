@@ -547,8 +547,9 @@ service SnowballR {
   // @auth
   rpc GetInviteCandidates(Project.InviteCandidatesRequest) returns (User.List);
 
-  // Invite a user to a project. The provided project must be active, meaning
-  // it is neither deleted nor archived. An invitation email is sent to the specified email address.
+  // Invite a user to a project. If the user was already invited to the specified project, nothing happens.
+  // The provided project must be active, meaning it is neither deleted nor archived.
+  // An invitation email is sent to the specified email address.
   // The recipient may need to register first and then accept the invitation.
   // The calling user is **required to be a project admin**.
   //
