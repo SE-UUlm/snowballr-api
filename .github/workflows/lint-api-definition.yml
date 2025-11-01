@@ -15,4 +15,3 @@ jobs:
 
       - name: Run protolint
         run: protolint proto/*.proto
-        
