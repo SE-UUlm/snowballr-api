@@ -7,5 +7,10 @@ Closes <!-- issue reference -->
 
 ## Checklist
 
+### Author
+
 - [ ] I have updated the documentation accordingly and commented my code
-- [ ] (for reviewer) I have checked the implementation against the requirements
+
+### Reviewer
+
+- [ ] I have checked the implementation against the requirements
