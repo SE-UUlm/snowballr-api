@@ -27,7 +27,7 @@ jobs:
       # packages. Once published, the packages are scoped to the account
       # defined here.
       - name: Log in to the Container registry
-        uses: docker/login-action@v5
+        uses: docker/login-action@v3
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
