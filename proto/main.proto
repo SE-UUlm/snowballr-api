@@ -778,8 +778,11 @@ service SnowballR {
   // **guaranteed to be non-empty** but **may change** at any time.
   rpc GetAvailableExportFormats(Nothing) returns (AvailableExportFormatsReply);
 
-  // Export the specified project in the specified format. A blob is returned.
+  // Export the specified project in the specified format. A blob and a file name is returned.
   // This includes everything necessary for the project to be reimported and remain indistinguishable from the original.
+  //
+  // The filename includes the file extension so that the client doesn't have to figure out the file format. This could be
+  // e.g. "demo_project-2025-11-10-00-25-31.json".
   //
   // ## Errors
   // | Error Code | Description |
@@ -790,7 +793,7 @@ service SnowballR {
   // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
-  rpc ExportProject(ExportRequest) returns (Blob);
+  rpc ExportProject(ExportRequest) returns (ExportResponse);
 
   // Mark the specified project as deleted. It is not permanently removed from the database and can be restored later.
   // The calling user is **required to be a project admin**.
