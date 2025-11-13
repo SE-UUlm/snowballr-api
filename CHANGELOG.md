@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.12.0] - 2025-11-13
+
+### Changed
+
+- Change description of `InviteUserToProject` to clarify that inviting an already invited user has no effect ([#109](https://github.com/SE-UUlm/snowballr-api/issues/109)) (Leonhard Alkewitz)
+
+### Added
+
+- Add `file_name` field to the `ExportProjectResponse` message of `ExportProject` to indicate the name of the exported file ([#122](https://github.com/SE-UUlm/snowballr-api/issues/122)) (Felix Schlegel)
+
 ## [0.11.1] - 2025-10-29
 
 ### Changed
@@ -144,6 +154,8 @@
 ## [0.1.0] - 2025-01-30
 
 _:seedling: Initial release._
+
+[0.12.0]: https://github.com/SE-UUlm/snowballr-api/releases/tag/v0.12.0
 
 [0.11.1]: https://github.com/SE-UUlm/snowballr-api/releases/tag/v0.11.1
 
