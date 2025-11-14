@@ -497,7 +497,6 @@ service SnowballR {
   // | :--- | :--- |
   // | `INVALID_ARGUMENT` | The paper ID is not a valid UUID. |
   // | `NOT_FOUND` | No paper with the provided ID was found. |
-  // | `FAILED_PRECONDITION` | The user is not active (i.e., in state `USER_STATUS_ACTIVE`). |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
@@ -511,7 +510,6 @@ service SnowballR {
   // | :--- | :--- |
   // | `INVALID_ARGUMENT` | The paper ID is not a valid UUID. |
   // | `NOT_FOUND` | No paper with the provided ID was found. |
-  // | `FAILED_PRECONDITION` | The user is not active (i.e., in state `USER_STATUS_ACTIVE`). |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
@@ -541,7 +539,6 @@ service SnowballR {
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `FAILED_PRECONDITION` | The project is not active (i.e., archived or deleted). |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
