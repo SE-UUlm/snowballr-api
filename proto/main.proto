@@ -911,7 +911,7 @@ service SnowballR {
   // | Error Code | Description |
   // | :--- | :--- |
   // | `INVALID_ARGUMENT` | At least one (updated) criterion detail did not meet the requirements: All fields (except `project_id`) must not be blank and if the `project_id` is given, it must be a valid UUID. |
-  // | `NOT_FOUND` | No criterion with the provided ID was found. |
+  // | `NOT_FOUND` | No criterion with the provided ID was found or a project ID is given but does not refer to an existing project. |
   // | `PERMISSION_DENIED` | If the criterion is a user-criterion, the calling user is not the original creator of the criterion. If the criterion is a project-criterion, the calling user is neither a server admin nor a project admin of the project the criterion belongs to. |
   // | `FAILED_PRECONDITION` | A project ID is given but does not refer to an active project (i.e., it is archived or deleted). |
   // | `UNAUTHENTICATED` | The user is not signed in. |
