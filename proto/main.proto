@@ -978,18 +978,17 @@ service SnowballR {
   rpc GetAllProjectPapersForProject(Id) returns (Project.Paper.List);
 
   // Add the provided paper to the given project at the specified stage.
-  // The stage must be less than or equal to the project's `max_stage`.
+  // The stage must be non-negative and less than or equal to the project's `max_stage`.
   // The calling user is **required to be a project admin**.
   //
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `INVALID_ARGUMENT` | The project ID or paper ID is not a valid UUID. |
+  // | `INVALID_ARGUMENT` | The project ID or paper ID is not a valid UUID, or the provided stage either is not a valid number or does not exist in the project, i.e., the stage was less than zero or greater than `max_stage`. |
   // | `NOT_FOUND` | No project with the provided project ID or paper with the provided paper ID was found. |
   // | `ALREADY_EXISTS` | The provided paper already exists within the project. |
   // | `PERMISSION_DENIED` | The calling user is neither a server admin nor a project admin of the project. |
   // | `FAILED_PRECONDITION` | The project is not active (i.e., archived or deleted). |
-  // | `OUT_OF_RANGE` | The provided stage does not exist in the project, i.e., the stage was less than zero or greater than `max_stage`. |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
