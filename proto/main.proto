@@ -497,7 +497,6 @@ service SnowballR {
   // | :--- | :--- |
   // | `INVALID_ARGUMENT` | The paper ID is not a valid UUID. |
   // | `NOT_FOUND` | No paper with the provided ID was found. |
-  // | `FAILED_PRECONDITION` | The user is not active (i.e., in state `USER_STATUS_ACTIVE`). |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
@@ -511,7 +510,6 @@ service SnowballR {
   // | :--- | :--- |
   // | `INVALID_ARGUMENT` | The paper ID is not a valid UUID. |
   // | `NOT_FOUND` | No paper with the provided ID was found. |
-  // | `FAILED_PRECONDITION` | The user is not active (i.e., in state `USER_STATUS_ACTIVE`). |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
@@ -541,7 +539,6 @@ service SnowballR {
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
-  // | `FAILED_PRECONDITION` | The project is not active (i.e., archived or deleted). |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
@@ -633,7 +630,7 @@ service SnowballR {
   // | `INVALID_ARGUMENT` | The project ID or the user ID is not a valid UUID, or the provided new role is not specified. |
   // | `NOT_FOUND` | No project with the provided ID or user with the provided ID was found. |
   // | `PERMISSION_DENIED` | The calling user is neither a server admin nor a project admin of the project. |
-  // | `FAILED_PRECONDITION` | The user to be updated is not a member of the specified project. |
+  // | `FAILED_PRECONDITION` | The user to be updated is not a member of the specified project or is the last project admin and should be demoted to a project member. |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
