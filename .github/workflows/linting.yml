@@ -1,0 +1,38 @@
+name: Linting
+
+on:
+    push:
+        branches:
+            - main
+    pull_request:
+    workflow_dispatch:
+
+jobs:
+    lint-api:
+        name: Linting the API definition
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v5
+
+            - name: Run protolint
+              uses: yoheimuta/action-protolint@v1
+              with:
+                  github_token: ${{ secrets.GITHUB_TOKEN }}
+                  reporter: github-check
+                  fail_on_error: true
+                  protolint_flags: proto/*.proto
+
+    lint-md:
+        name: Linting Markdown
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v5
+
+            - name: Lint Markdown
+              uses: SE-UUlm/snowballr-ci/src/lint-md@feat/1-feature-add-initial-workflows
+              with:
+                  source-branch: main
+                  ignore-links: "https://github.com/SE-UUlm/snowballr-api/releases/tag/*"
+                  ignore-paths: "docs/,patches/,proto/"
