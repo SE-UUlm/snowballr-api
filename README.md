@@ -20,8 +20,8 @@ git submodule update --init --recursive
 
 Then follow the [instructions](https://grpc.io/docs/languages/) on the gRPC
 documentation page to generate the relevant files for your project.
-For example, in the [snowballr-frontend](https://github.com/SE-UUlm/snowballr-frontend) you can use the command `npm run compile:proto`
-to generate the gRPC client.
+For example, in the [snowballr-frontend](https://github.com/SE-UUlm/snowballr-frontend) you can use the command
+`npm run compile:proto` to generate the gRPC client.
 
 ## Release procedure
 
@@ -29,9 +29,11 @@ We create a new release whenever a set of features, bug fixes, or changes is rea
 To release a new version of the API, follow these steps:
 
 1. Create a release branch for the release:
+
    ```bash
    git checkout -b releases/vX.Y.Z
    ```
+
    Replace `X`, `Y`, `Z` with the correct version numbers according to semantic versioning.
 
 2. Add an entry to the _CHANGELOG.md_. Prefer using [hallmark](https://github.com/vweevers/hallmark) to add the entry:
@@ -49,14 +51,19 @@ To release a new version of the API, follow these steps:
 4. Create a pull request and request a review, so the _CHANGELOG.md_ syntax and content is validated
 
 5. After the pull request is merged, create a tag with the same version - so "vX.Y.Z" - at the merge commit.
+
    ```bash
    git pull main
    git tag vX.Y.Z
    git push origin vX.Y.Z
    ```
+
    Then the CI automatically creates the release.
 
-To update the API in the frontend or backend or any other repository using this API, checkout the new version tag in the submodule (see [here](https://stackoverflow.com/questions/1777854/how-can-i-specify-a-branch-tag-when-adding-a-git-submodule/1778247#1778247) for additional information).
+To update the API in the frontend or backend or any other repository using this API, checkout the new version tag in the
+submodule (see
+[this StackOverflow post](https://stackoverflow.com/questions/1777854/how-can-i-specify-a-branch-tag-when-adding-a-git-submodule/1778247#1778247)
+for additional information).
 
 ## Documentation
 
