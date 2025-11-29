@@ -1,20 +1,20 @@
 name: Release
 on:
-  push:
-    tags: ["*"]
+    push:
+        tags: ["*"]
 
 permissions:
-  contents: write
+    contents: write
 
 jobs:
-  release:
-    name: Release
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v6
+    release:
+        name: Release
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v6
 
-      - name: Create GitHub release
-        uses: docker://antonyurchenko/git-release:v5
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            - name: Create GitHub release
+              uses: docker://antonyurchenko/git-release:v5
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

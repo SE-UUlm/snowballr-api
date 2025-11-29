@@ -1,25 +1,25 @@
 name: Linting
 
 on:
-  pull_request:
-    paths:
-      - CHANGELOG.md
+    pull_request:
+        paths:
+            - CHANGELOG.md
 
 jobs:
-  changelog-linting:
-    name: Linting the changelog
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v6
+    changelog-linting:
+        name: Linting the changelog
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v6
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v6
-        with:
-          node-version: "22"
+            - name: Set up Node.js
+              uses: actions/setup-node@v6
+              with:
+                  node-version: "22"
 
-      - name: Install hallmark
-        run: npm install -g hallmark
+            - name: Install hallmark
+              run: npm install -g hallmark
 
-      - name: Lint CHANGELOG.md
-        run: hallmark CHANGELOG.md
+            - name: Lint CHANGELOG.md
+              run: hallmark CHANGELOG.md

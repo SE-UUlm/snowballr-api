@@ -1,17 +1,17 @@
 name: Linting
 
 on:
-  pull_request:
-  workflow_dispatch:
+    pull_request:
+    workflow_dispatch:
 
 jobs:
-  api-linting:
-    name: Linting the API definition
-    runs-on: ubuntu-latest
-    container: yoheimuta/protolint:latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v6
+    api-linting:
+        name: Linting the API definition
+        runs-on: ubuntu-latest
+        container: yoheimuta/protolint:latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v6
 
-      - name: Run protolint
-        run: protolint proto/*.proto
+            - name: Run protolint
+              run: protolint proto/*.proto
