@@ -1,0 +1,23 @@
+name: Lint Markdown
+
+on:
+    push:
+        branches:
+            - main
+    pull_request:
+    workflow_dispatch:
+
+jobs:
+    lint-md:
+        name: Linting Markdown
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v5
+
+            - name: Lint Markdown
+              uses: SE-UUlm/snowballr-ci/src/md-lint@feat/1-feature-add-initial-workflows
+              with:
+                  source-branch: main
+                  ignore-links: "https://github.com/SE-UUlm/snowballr-api/releases/tag/*"
+                  ignore-paths: "docs/,patches/,proto/"

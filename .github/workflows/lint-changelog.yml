@@ -23,8 +23,3 @@ jobs:
 
       - name: Lint CHANGELOG.md
         run: hallmark CHANGELOG.md
-
-      - name: Check for broken references in CHANGELOG.md
-        uses: becheran/mlc@v1.0.0
-        with:
-          args: --ignore-links "https://github.com/SE-UUlm/snowballr-api/releases/tag/*" CHANGELOG.md
