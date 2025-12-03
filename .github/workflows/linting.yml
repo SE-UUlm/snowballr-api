@@ -12,8 +12,8 @@ jobs:
         name: Linting the API definition
         runs-on: ubuntu-latest
         steps:
-            - name: Checkout code
-              uses: actions/checkout@v5
+            - name: Checkout repository
+              uses: actions/checkout@v6
 
             - name: Run protolint
               uses: yoheimuta/action-protolint@v1
@@ -27,8 +27,8 @@ jobs:
         name: Linting Markdown
         runs-on: ubuntu-latest
         steps:
-            - name: Checkout code
-              uses: actions/checkout@v5
+            - name: Checkout repository
+              uses: actions/checkout@v6
 
             - name: Lint Markdown
               uses: SE-UUlm/snowballr-ci/src/lint-md@feat/1-feature-add-initial-workflows
