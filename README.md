@@ -25,40 +25,9 @@ For example, in the [snowballr-frontend](https://github.com/SE-UUlm/snowballr-fr
 
 ## Release procedure
 
-We create a new release whenever a set of features, bug fixes, or changes is ready to be integrated into the frontend / backend.
-To release a new version of the API, follow these steps:
-
-1. Create a release branch for the release:
-
-   ```bash
-   git checkout -b releases/vX.Y.Z
-   ```
-
-   Replace `X`, `Y`, `Z` with the correct version numbers according to semantic versioning.
-
-2. Add an entry to the _CHANGELOG.md_. Prefer using [hallmark](https://github.com/vweevers/hallmark) to add the entry:
-
-   ```bash
-   hallmark cc add major|minor|patch
-   ```
-
-   Follow the guidelines of [Common Changelog](https://common-changelog.org/), i.e. especially use imperative mood.
-
-   > **Note**: To use hallmark locally install it globally with `npm install -g hallmark`
-
-3. Commit and push changes to the _CHANGELOG.md_.
-
-4. Create a pull request and request a review, so the _CHANGELOG.md_ syntax and content is validated
-
-5. After the pull request is merged, create a tag with the same version - so "vX.Y.Z" - at the merge commit.
-
-   ```bash
-   git pull main
-   git tag vX.Y.Z
-   git push origin vX.Y.Z
-   ```
-
-   Then the CI automatically creates the release.
+We create a new release whenever a set of features, bug fixes, or changes is ready to be integrated into the frontend /
+backend. To release a new version of the API, follow the steps in the
+[SnowballR Wiki](https://github.com/SE-UUlm/snowballr/wiki/Contributing#release-procedure).
 
 To update the API in the frontend or backend or any other repository using this API, checkout the new version tag in the
 submodule (see
