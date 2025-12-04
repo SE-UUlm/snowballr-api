@@ -9,4 +9,4 @@ jobs:
         if: github.ref_type == 'tag'
         permissions:
             contents: write
-        uses: SE-UUlm/snowballr-ci/.github/workflows/release.yml@feat/1-feature-add-initial-workflows
+        uses: SE-UUlm/snowballr-ci/.github/workflows/release.yml@v1.0.0
