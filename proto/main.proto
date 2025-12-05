@@ -773,7 +773,7 @@ service SnowballR {
   // Each export format is identified by a unique string and can be used to specify the format
   // for the [ExportProject](#service-snowballr.SnowballR-ExportProject) call. The list is
   // **guaranteed to be non-empty** but **may change** at any time.
-  rpc GetAvailableExportFormats(Nothing) returns (AvailableExportFormatsReply);
+  rpc GetAvailableExportFormats(Nothing) returns (AvailableExportFormatsResponse);
 
   // Export the specified project in the specified format. A blob and a file name is returned.
   // This includes everything necessary for the project to be reimported and remain indistinguishable from the original.

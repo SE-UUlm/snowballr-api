@@ -11,6 +11,6 @@ message ExportResponse {
   string file_name = 2;
 }
 
-message AvailableExportFormatsReply {
+message AvailableExportFormatsResponse {
   repeated string formats = 1;
 }
