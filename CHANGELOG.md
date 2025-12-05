@@ -1,5 +1,25 @@
 # Changelog
 
+## [0.13.0] - 2025-12-05
+
+### Changed
+
+- Rename `AvailableExportFormatsReply` to `AvailableExportFormatsResponse` ([#136](https://github.com/SE-UUlm/snowballr-api/issues/136)) (Felix Schlegel)
+
+### Removed
+
+- Remove `OUT_OF_RANGE` error of the `AddPaperToProject` call ([#128](https://github.com/SE-UUlm/snowballr-api/issues/128)) (Leonhard Alkewitz)
+- Remove `FAILED_PRECONDITION` error of the `AddPaperToReadingList` call ([#126](https://github.com/SE-UUlm/snowballr-api/issues/126)) (Leonhard Alkewitz)
+- Remove `FAILED_PRECONDITION` error of the `RemovePaperFromReadingList` call ([#126](https://github.com/SE-UUlm/snowballr-api/issues/126)) (Leonhard Alkewitz)
+- Remove `FAILED_PRECONDITION` error of the `GetInviteCandidates` call ([#126](https://github.com/SE-UUlm/snowballr-api/issues/126)) (Leonhard Alkewitz)
+- Remove `GetPendingInvitationsForUser` call ([#125](https://github.com/SE-UUlm/snowballr-api/issues/125)) (Felix Schlegel)
+
+### Fixed
+
+- Correct description of the `NOT_FOUND` error of the `UpdateCriterion` call ([#127](https://github.com/SE-UUlm/snowballr-api/issues/127)) (Leonhard Alkewitz)
+- Correct overall description and of the `INVALID_ARGUMENT` error of the `AddPaperToProject` call ([#128](https://github.com/SE-UUlm/snowballr-api/issues/128)) (Leonhard Alkewitz)
+- Correct description of the `FAILED_PRECONDITION` error of the `UpdateProjectMemberRole` call ([#126](https://github.com/SE-UUlm/snowballr-api/issues/126)) (Leonhard Alkewitz)
+
 ## [0.12.0] - 2025-11-13
 
 ### Changed
@@ -154,6 +174,8 @@
 ## [0.1.0] - 2025-01-30
 
 _:seedling: Initial release._
+
+[0.13.0]: https://github.com/SE-UUlm/snowballr-api/releases/tag/v0.13.0
 
 [0.12.0]: https://github.com/SE-UUlm/snowballr-api/releases/tag/v0.12.0
 
