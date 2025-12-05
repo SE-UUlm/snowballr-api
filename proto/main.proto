@@ -515,20 +515,6 @@ service SnowballR {
   // @auth
   rpc RemovePaperFromReadingList(Id) returns (Nothing);
 
-  // Get a list of all projects to which the user with the provided ID is
-  // invited.
-  //
-  // ## Errors
-  // | Error Code | Description |
-  // | :--- | :--- |
-  // | `INVALID_ARGUMENT` | The user ID is not a valid UUID. |
-  // | `NOT_FOUND` | No user with the provided ID was found. |
-  // | `PERMISSION_DENIED` | The calling user is neither a server admin nor the requested user themselves. |
-  // | `UNAUTHENTICATED` | The user is not signed in. |
-  //
-  // @auth
-  rpc GetPendingInvitationsForUser(Id) returns (Project.List);
-
   // Get a list of users that match the search query and can be invited.
   // If the query is too short or no users match, an empty list is returned.
   // If a project is specified, i.e., a project ID is given, all current members
