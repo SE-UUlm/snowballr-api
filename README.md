@@ -1,3 +1,9 @@
+<div align="center">
+  <picture>
+    <img alt="SnowballR Logo" src="images/snowballr-logo-with-text.png" width="700"/>
+  </picture>
+</div>
+
 # SnowballR API
 
 This repository contains the API specification of the _SnowballR_ project.
