@@ -1,7 +1,28 @@
 <div align="center">
-  <picture>
-    <img alt="SnowballR Logo" src="images/snowballr-logo-with-text.png" width="700"/>
-  </picture>
+    <picture>
+        <img alt="SnowballR Logo" src="images/snowballr-logo-with-text.png" width="700"/>
+    </picture>
+</div>
+
+<div align="center">
+    <a href="https://github.com/SE-UUlm/snowballr-api/releases/latest">
+        <img alt="Version" src="https://img.shields.io/github/v/release/SE-UUlm/snowballr-api?label=Version&color=light-green">
+    </a>
+    <a href="https://github.com/SE-UUlm/snowballr-api/actions/workflows/linting.yml">
+        <img alt="Code Quality Workflow Status" src="https://img.shields.io/github/actions/workflow/status/SE-UUlm/snowballr-api/linting.yml?logo=github&label=Code%20Quality">
+    </a>
+    <a href="https://github.com/SE-UUlm/snowballr-api/pkgs/container/snowballr-api">
+        <img alt="Docker" src="https://img.shields.io/badge/Docker-ghcr.io-blue">
+    </a>
+    <a href="https://snowballr.informatik.uni-ulm.de/docs/">
+        <img alt="API Documentation" src="https://img.shields.io/badge/API Documentation-grey?logo=grpc">
+    </a>
+    <a href="https://deepwiki.com/SE-UUlm/snowballr-api">
+        <img alt="Ask DeepWiki" src="https://deepwiki.com/badge.svg">
+    </a>
+    <a href="https://github.com/SE-UUlm/snowballr-api/blob/main/LICENSE">
+        <img alt="License" src="https://img.shields.io/github/license/SE-UUlm/snowballr-api?label=License">
+    </a>
 </div>
 
 # SnowballR API
