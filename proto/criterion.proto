@@ -17,8 +17,8 @@ enum CriterionCategory {
   CRITERION_CATEGORY_HARD_EXCLUSION = 3;
 }
 
-// There are two types of criterion that must be differentiated: user- and
-// project-criterion. A user-criterion has a user but no project attached
+// There are two types of criteria that must be differentiated: user- and
+// project-criteria. A user-criterion has a user but no project attached to it
 // and can be used for the creation of default criteria for a project in the
 // user settings.
 // A project-criterion on the other hand is associated with a project and
