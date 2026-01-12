@@ -44,11 +44,11 @@ message PasswordChangeRequest {
 enum AuthenticationStatus {
   // Unspecified authentication status.
   AUTHENTICATION_STATUS_UNSPECIFIED = 0;
-  // The user is unauthenticated.
+  // The user is unauthenticated. They have to sign into the app.
   AUTHENTICATION_STATUS_UNAUTHENTICATED = 1;
-  // The user's access token is expired.
+  // The user's access token is expired. They have to use the refresh token to get a new access token.
   AUTHENTICATION_STATUS_ACCESS_TOKEN_EXPIRED = 2;
-  // The user is authenticated.
+  // The user is authenticated. They are signed in.
   AUTHENTICATION_STATUS_AUTHENTICATED = 3;
 }
 
