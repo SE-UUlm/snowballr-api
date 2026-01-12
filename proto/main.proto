@@ -1,3 +1,5 @@
+/// Main file of the SnowballR service. Contains all RPCs.
+
 syntax = "proto3";
 package snowballr;
 
@@ -820,8 +822,7 @@ service SnowballR {
   // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
-  rpc GetProjectInformation(Project.Information.Get)
-      returns (Project.Information);
+  rpc GetProjectInformation(Project.Information.Get) returns (Project.Information);
 
   // Get the distribution of paper decisions within a project's stage, meaning
   // it returns the number of papers for each possible `PaperDecision` in the
@@ -836,8 +837,7 @@ service SnowballR {
   // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
-  rpc GetDecisionStatisticsForStage(Project.Information.DecisionStatistics.Get)
-      returns (Project.Information.DecisionStatistics);
+  rpc GetDecisionStatisticsForStage(Project.Information.DecisionStatistics.Get) returns (Project.Information.DecisionStatistics);
 
   // Get a criterion by its ID.
   //
