@@ -10,15 +10,22 @@ import "paper.proto";
 import "review.proto";
 import "user.proto";
 
-// Type of snowballing after Wohlin2014.
+// The type of snowballing, according to Wohlin (2014).
+// It defines which references (forward or backward) are fetched when a paper is accepted.
+// A backward reference is defined as a paper that is cited by the paper in question.
+// A forward reference is defined as a paper that cites the paper in question, i.e., a paper where the paper in question
+// is a backward reference.
+// Roughly speaking, one could say that "backward" and "forward" are an analogy to the order of the publication dates of
+// two papers, i.e., a backward reference was most probably published before the paper in question and a forward
+// reference afterward.
 enum SnowballingType {
   // Unspecified snowballing type.
   SNOWBALLING_TYPE_UNSPECIFIED = 0;
-  // When starting a new stage, all forward references are added.
+  // All forward references are fetched.
   SNOWBALLING_TYPE_FORWARD = 1;
-  // When starting a new stage, all backward references are added.
+  // All backward references are fetched.
   SNOWBALLING_TYPE_BACKWARD = 2;
-  // When starting a new stage, all forward and backward references are added.
+  // All forward and backward references are fetched.
   SNOWBALLING_TYPE_BOTH = 3;
 }
 
@@ -223,6 +230,8 @@ message Project {
 }
 
 // Matrix containing the paper decision based on reviews made for a paper.
+// This matrix defines how a paper is decided based on its reviews.
+// For this to work, the entries need to be unique and the patterns exhaustive.
 message ReviewDecisionMatrix {
   // The actual matrix of the ReviewDecisionMatrix.
   message Pattern {

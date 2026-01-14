@@ -11,7 +11,7 @@ enum UserRole {
   USER_ROLE_UNSPECIFIED = 0;
   // Default user role. No elevated rights.
   USER_ROLE_DEFAULT = 1;
-  // Admin user role. Can do everything that a default user can do and more.
+  // (SnowballR instance) Admin user role. Can do everything that a default user can do and more.
   USER_ROLE_ADMIN = 2;
 }
 
