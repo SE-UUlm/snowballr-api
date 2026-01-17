@@ -1,14 +1,19 @@
+/// Fetcher related messages and enums of the SnowballR app.
+
 syntax = "proto3";
 package snowballr;
 
+// Response of available fetchers.
 message AvailableFetchers {
   repeated string fetcher_names = 1;
 }
 
+// Request to get all available fetchers.
 message GetAvailableFetcherOptionsRequest {
   string fetcher_name = 1;
 }
 
+// Options that are used by a fetcher to control behavior.
 message FetcherOptions {
   // Map the option name to a (default) value
   map<string, string> options = 1;
