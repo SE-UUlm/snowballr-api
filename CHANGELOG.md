@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.13.1] - 2026-01-17
+
+### Added
+
+- Add documentation to messages and enums that were missing any documentation ([#148](https://github.com/SE-UUlm/snowballr-api/issues/148)) (Felix Schlegel)
+
+### Fixed
+
+- Correct description of `InviteUserToProject` call to specify that nothing happens when inviting a project member ([#146](https://github.com/SE-UUlm/snowballr-api/issues/146)) (Felix Schlegel)
+
 ## [0.13.0] - 2025-12-05
 
 ### Changed
@@ -174,6 +184,8 @@
 ## [0.1.0] - 2025-01-30
 
 _:seedling: Initial release._
+
+[0.13.1]: https://github.com/SE-UUlm/snowballr-api/releases/tag/v0.13.1
 
 [0.13.0]: https://github.com/SE-UUlm/snowballr-api/releases/tag/v0.13.0
 
