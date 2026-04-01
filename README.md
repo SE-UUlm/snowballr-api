@@ -35,20 +35,20 @@ used, whereas the services are defined by Protocol Buffers
 
 ## Getting started
 
-To integrate the API specification into the backend or frontend, add
-this repository as a git submodule in the corresponding repository.
+To integrate the API specification into the backend or frontend, download this repository in the build pipeline or add
+it as a git submodule. Afterwards, use the protoc compiler to generate the relevant files for your project. When using
+a TypeScript-based frontend, you can use the [snowballr-api NPM package](https://www.npmjs.com/package/snowballr-api),
+which already contains the generated gRPC client and all relevant types.
 
-In the backend / frontend repository, execute the following commands:
+When using it as a git submodule, execute the following commands:
 
 ```bash
 git submodule add [-b branch] git@github.com:SE-UUlm/snowballr-api.git <name>
 git submodule update --init --recursive
 ```
 
-Then follow the [instructions](https://grpc.io/docs/languages/) on the gRPC
-documentation page to generate the relevant files for your project.
-For example, in the [snowballr-frontend](https://github.com/SE-UUlm/snowballr-frontend) you can use the command
-`npm run compile:proto` to generate the gRPC client.
+Then follow the [instructions](https://grpc.io/docs/languages/) on the gRPC documentation page to generate the relevant
+files for your project.
 
 ## Release procedure
 
@@ -56,8 +56,7 @@ We create a new release whenever a set of features, bug fixes, or changes is rea
 backend. To release a new version of the API, follow the steps in the
 [SnowballR Wiki](https://github.com/SE-UUlm/snowballr/wiki/Contributing#release-procedure).
 
-To update the API in the frontend or backend or any other repository using this API, checkout the new version tag in the
-submodule (see
+To update the API when using it as a git submodule, checkout the new version tag in the submodule (see
 [this StackOverflow post](https://stackoverflow.com/questions/1777854/how-can-i-specify-a-branch-tag-when-adding-a-git-submodule/1778247#1778247)
 for additional information).
 
@@ -71,22 +70,19 @@ docker build . -t snowballr-api
 docker run -it -p 8080:80 snowballr-api:latest
 ```
 
-The generated documentation is packaged into a
-docker container running [nginx](https://nginx.org/) and is served on the
+The generated documentation is packaged into a docker container running [nginx](https://nginx.org/) and is served on the
 internal port `80`.
 
-Moreover, the documentation will also be built automatically after every push to `main` as well as after a
-version tag has been set.
+Moreover, the documentation will also be built automatically after every push to `main` as well as after a version tag
+has been set.
 
 ## Linting
 
-This project is linted using
-[Protolint](https://github.com/yoheimuta/protolint).
-[Just](https://github.com/casey/just) is used to ease the process of running
-the linter. There are the following two recipes:
+This project is linted using [Protolint](https://github.com/yoheimuta/protolint).
+[Just](https://github.com/casey/just) is used to ease the process of running the linter. There are the following two
+recipes:
 
 - `lint`: Prints all the detected issues with the proto files.
 - `fix`: Automatically tries to fix all detected issues.
 
-These actions can be invoked by providing them as a parameter to the `just`
-cli like this: `just (lint|fix)`.
+These actions can be invoked by providing them as a parameter to the `just` cli like this: `just (lint|fix)`.
