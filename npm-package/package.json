@@ -29,7 +29,6 @@
     },
     "homepage": "https://github.com/SE-UUlm/snowballr-api#readme",
     "devDependencies": {
-        "@protobuf-ts/grpcweb-transport": "^2.11.1",
         "@protobuf-ts/plugin": "^2.11.1",
         "ts-protoc-gen": "^0.15.0"
     }
