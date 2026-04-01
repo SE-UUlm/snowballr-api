@@ -1,13 +1,12 @@
-name: Release
 on:
-    push:
-        tags: ["v*.*.*"]
+    pull_request:
+        branches:
+            - main
 
 jobs:
     publish-npm-package:
         name: Publish NPM Package
         runs-on: ubuntu-latest
-        if: github.ref_type == 'tag'
         permissions:
             id-token: write # Required for OIDC
             contents: read
@@ -28,11 +27,4 @@ jobs:
               run: cp README.md LICENSE CHANGELOG.md ./npm-package/
 
             - name: Publish to NPM
-              run: cd npm-package && npm publish --access public
-
-    release:
-        name: Release
-        if: github.ref_type == 'tag'
-        permissions:
-            contents: write
-        uses: SE-UUlm/snowballr-ci/.github/workflows/release.yml@v1.0.0
+              run: cd npm-package && npm publish --access public --dry-run
