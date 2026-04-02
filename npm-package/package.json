@@ -22,7 +22,7 @@
         "protobuf",
         "grpc"
     ],
-    "author": "SnowballR Team",
+    "author": "SnowballR",
     "license": "GPL-3.0-or-later",
     "bugs": {
         "url": "https://github.com/SE-UUlm/snowballr-api/issues"
