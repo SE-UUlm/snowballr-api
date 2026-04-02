@@ -34,5 +34,5 @@ jobs:
               uses: SE-UUlm/snowballr-ci/src/lint-md@v1.0.0
               with:
                   source-branch: main
-                  ignore-links: "https://github.com/SE-UUlm/snowballr-api/releases/tag/*"
+                  ignore-links: "https://github.com/SE-UUlm/snowballr-api/releases/tag/*,https://www.npmjs.com/package/snowballr-api"
                   ignore-paths: "docs/,patches/,proto/"
