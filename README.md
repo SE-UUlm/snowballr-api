@@ -56,6 +56,9 @@ We create a new release whenever a set of features, bug fixes, or changes is rea
 backend. To release a new version of the API, follow the steps in the
 [SnowballR Wiki](https://github.com/SE-UUlm/snowballr/wiki/Contributing#release-procedure).
 
+Remember to also update the version in the
+[package.json of the NPM package](https://github.com/SE-UUlm/snowballr-api/blob/main/npm-package/package.json).
+
 To update the API when using it as a git submodule, checkout the new version tag in the submodule (see
 [this StackOverflow post](https://stackoverflow.com/questions/1777854/how-can-i-specify-a-branch-tag-when-adding-a-git-submodule/1778247#1778247)
 for additional information).
