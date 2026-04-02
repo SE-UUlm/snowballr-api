@@ -1,6 +1,6 @@
 {
     "name": "snowballr-api",
-    "version": "0.13.2",
+    "version": "0.13.3",
     "description": "API for the SnowballR Web Application.",
     "main": "dist/",
     "type": "module",

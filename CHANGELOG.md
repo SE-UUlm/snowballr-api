@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.13.3] - 2026-04-02
+
+### Fixed
+
+- Fix missing `dist` directory in npm package by adding build step to release workflow ([#156](https://github.com/SE-UUlm/snowballr-api/issues/156)) (Felix Schlegel)
+
 ## [0.13.2] - 2026-04-02
 
 ### Added
@@ -190,6 +196,8 @@
 ## [0.1.0] - 2025-01-30
 
 _:seedling: Initial release._
+
+[0.13.3]: https://github.com/SE-UUlm/snowballr-api/releases/tag/v0.13.3
 
 [0.13.2]: https://github.com/SE-UUlm/snowballr-api/releases/tag/v0.13.2
 

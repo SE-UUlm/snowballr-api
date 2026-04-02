@@ -2,12 +2,12 @@ name: Release
 on:
     push:
         tags: ["v*.*.*"]
+        branches: ["releases/v*.*.*"]
 
 jobs:
     publish-npm-package:
-        name: Publish NPM Package
+        name: Publish NPM Package${{ github.ref_type == 'tag' && '' || ' (dry-run)' }}
         runs-on: ubuntu-latest
-        if: github.ref_type == 'tag'
         permissions:
             id-token: write # Required for OIDC
             contents: read
@@ -21,17 +21,21 @@ jobs:
                   node-version: 24
                   registry-url: "https://registry.npmjs.org"
 
-            - name: Install dependencies
-              run: cd npm-package && npm i
+            - name: Install dependencies and build package
+              run: cd npm-package && npm i && npm run compile
+
+            - name: Verify that package content exists
+              run: ls -la npm-package/dist | grep -E ".ts"
 
             - name: Copy documents to package directory
               run: cp README.md LICENSE CHANGELOG.md ./npm-package/
 
             - name: Publish to NPM
-              run: cd npm-package && npm publish --access public
+              run: cd npm-package && npm publish --access public${{ github.ref_type == 'tag' && '' || ' --dry-run' }}
 
     release:
         name: Release
+        needs: publish-npm-package
         if: github.ref_type == 'tag'
         permissions:
             contents: write
