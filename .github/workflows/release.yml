@@ -35,6 +35,7 @@ jobs:
 
     release:
         name: Release
+        needs: publish-npm-package
         if: github.ref_type == 'tag'
         permissions:
             contents: write
