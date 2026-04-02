@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.13.2] - 2026-04-02
+
+### Added
+
+- Add npm package for the API to enable easier installation and usage of the API ([#151](https://github.com/SE-UUlm/snowballr-api/issues/151)) (Felix Schlegel)
+
 ## [0.13.1] - 2026-01-17
 
 ### Added
@@ -184,6 +190,8 @@
 ## [0.1.0] - 2025-01-30
 
 _:seedling: Initial release._
+
+[0.13.2]: https://github.com/SE-UUlm/snowballr-api/releases/tag/v0.13.2
 
 [0.13.1]: https://github.com/SE-UUlm/snowballr-api/releases/tag/v0.13.1
 
