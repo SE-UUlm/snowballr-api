@@ -6,7 +6,7 @@ on:
 
 jobs:
     publish-npm-package:
-        name: Publish NPM Package${{ github.ref_type == 'tag' && '' || ' (dry-run)' }}
+        name: Publish NPM Package
         runs-on: ubuntu-latest
         permissions:
             id-token: write # Required for OIDC
@@ -30,8 +30,13 @@ jobs:
             - name: Copy documents to package directory
               run: cp README.md LICENSE CHANGELOG.md ./npm-package/
 
+            - name: Publish to NPM (dry-run)
+              run: cd npm-package && npm publish --access public --dry-run
+              if: github.ref_type != 'tag'
+
             - name: Publish to NPM
-              run: cd npm-package && npm publish --access public${{ github.ref_type == 'tag' && '' || ' --dry-run' }}
+              run: cd npm-package && npm publish --access public
+              if: github.ref_type == 'tag'
 
     release:
         name: Release
