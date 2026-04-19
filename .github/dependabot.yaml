@@ -4,3 +4,9 @@ updates:
       directory: "/"
       schedule:
           interval: "monthly"
+
+    - package-ecosystem: "npm"
+      directory: "/npm-package"
+      schedule:
+          interval: "monthly"
+      versioning-strategy: "increase"
