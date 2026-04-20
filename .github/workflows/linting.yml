@@ -33,6 +33,7 @@ jobs:
             - name: Lint Markdown
               uses: SE-UUlm/snowballr-ci/src/lint-md@v1
               with:
+                  markdownlint-config-path: markdownlint.json
                   source-branch: main
                   ignore-links: "https://github.com/SE-UUlm/snowballr-api/releases/tag/*,https://www.npmjs.com/package/snowballr-api"
                   ignore-paths: "docs/,patches/,proto/"
