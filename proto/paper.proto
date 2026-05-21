@@ -53,5 +53,7 @@ message Paper {
     // query is matched against and is supposed to provide the best results for
     // the given query.
     string query = 2;
+
+    string project_id = 3;
   }
 }
