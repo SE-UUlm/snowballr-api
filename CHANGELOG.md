@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.14.0] - 2026-05-23
+
+### Changed
+
+- Rename `SearchLocalPapers` and `SearchFetcherPapers` to `SearchLocalProjectPaperCandidates` and `SearchFetcherProjectPaperCandidates`, respectively, to clarify that the search results are filtered for papers that are not yet added to the project ([#160](https://github.com/SE-UUlm/snowballr-api/issues/160)) (Felix Schlegel)
+
+### Added
+
+- Add `project_id` to `Paper.SearchQuery` ([#160](https://github.com/SE-UUlm/snowballr-api/issues/160)) (Felix Schlegel)
+
 ## [0.13.3] - 2026-04-02
 
 ### Fixed
@@ -196,6 +206,8 @@
 ## [0.1.0] - 2025-01-30
 
 _:seedling: Initial release._
+
+[0.14.0]: https://github.com/SE-UUlm/snowballr-api/releases/tag/v0.14.0
 
 [0.13.3]: https://github.com/SE-UUlm/snowballr-api/releases/tag/v0.13.3
 
