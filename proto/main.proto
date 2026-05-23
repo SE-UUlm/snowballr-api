@@ -1127,7 +1127,7 @@ service SnowballR {
   // | `UNAUTHENTICATED` | The user is not signed in. |
   //
   // @auth
-  rpc SearchLocalProjectPaperCandidates(Paper.SearchQuery) returns (Paper.List);
+  rpc SearchLocalProjectPaperCandidates(Project.Paper.SearchQuery) returns (Paper.List);
 
   // Search for papers that match the search query using all available fetchers
   // of the specified project in order to find candidates for addition to the
