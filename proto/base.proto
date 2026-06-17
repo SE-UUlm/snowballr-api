@@ -26,3 +26,9 @@ message BoolValue {
 message Blob {
   bytes data = 1;
 }
+
+// A link with a label and a URL.
+message Link {
+  string label = 1;
+  string url = 2;
+}
