@@ -37,3 +37,21 @@ jobs:
                   source-branch: main
                   ignore-links: "https://github.com/SE-UUlm/snowballr-api/releases/tag/*,https://www.npmjs.com/package/snowballr-api"
                   ignore-paths: "docs/,patches/,proto/,AGENTS.md,CLAUDE.md"
+
+    check-version-consistency:
+        name: Check version consistency
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v6
+
+            - name: Check that CHANGELOG version matches package.json version
+              run: |
+                  CHANGELOG_VERSION=$(grep -m 1 '## \[' CHANGELOG.md | sed 's/## \[\(.*\)\].*/\1/')
+                  PACKAGE_VERSION=$(jq -r '.version' npm-package/package.json)
+                  echo "CHANGELOG version: $CHANGELOG_VERSION"
+                  echo "package.json version: $PACKAGE_VERSION"
+                  if [ "$CHANGELOG_VERSION" != "$PACKAGE_VERSION" ]; then
+                      echo "Error: version mismatch (CHANGELOG.md: $CHANGELOG_VERSION, package.json: $PACKAGE_VERSION)"
+                      exit 1
+                  fi
