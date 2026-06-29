@@ -125,7 +125,7 @@ import "user_settings.proto";
 //
 service SnowballR {
   // Get all available fetchers from which a paper may be sourced by the backend.
-  // Each source is identified by a unique string and is later used to specify
+  // Each source is identified by a unique ID and is later used to specify
   // which APIs will be used by a project to collect papers. The list is
   // **guaranteed to be non-empty** but **may change** at any time.
   //
@@ -136,19 +136,6 @@ service SnowballR {
   //
   // @auth
   rpc GetAvailableFetchers(Nothing) returns (AvailableFetchers);
-
-  // Get all available options for the specified fetcher. The names and
-  // default values of the available options are returned as a string map.
-  // Each option name **can only appear once**. Note that there may be no available options.
-  //
-  // ## Errors
-  // | Error Code | Description |
-  // | :--- | :--- |
-  // | `NOT_FOUND` | The fetcher with the provided name was not found. |
-  // | `UNAUTHENTICATED` | The user is not signed in. |
-  //
-  // @auth
-  rpc GetAvailableFetcherOptions(GetAvailableFetcherOptionsRequest) returns (FetcherOptions);
 
   // Create an account. The provided email address **must not already be registered**,
   // and no field may be blank. If successful, login tokens are

@@ -1,5 +1,22 @@
 # Changelog
 
+## [0.15.0] - 2026-06-29
+
+### Changed
+
+- Replace `AvailableFetchers.fetcher_names` with `AvailableFetchers.fetchers` (repeated `FetcherInformation`) to provide richer fetcher metadata ([#164](https://github.com/SE-UUlm/snowballr-api/issues/164)) (Felix Schlegel)
+
+### Added
+
+- Add `FetcherInformation` message with `id`, `name`, `description`, `links`, and `options_schema` fields to describe a fetcher and enable UI generation ([#164](https://github.com/SE-UUlm/snowballr-api/issues/164)) (Felix Schlegel)
+- Add `FetcherOptionSchema` message to describe individual fetcher options, including `name`, `description`, `required`, `is_secret`, and `default_value` ([#164](https://github.com/SE-UUlm/snowballr-api/issues/164)) (Felix Schlegel)
+- Add `Link` message to `base.proto` for labeled URLs ([#164](https://github.com/SE-UUlm/snowballr-api/issues/164)) (Felix Schlegel)
+
+### Removed
+
+- Remove `GetAvailableFetcherOptions` RPC; option schema is now embedded in `FetcherInformation.options_schema` ([#164](https://github.com/SE-UUlm/snowballr-api/issues/164)) (Felix Schlegel)
+- Remove `GetAvailableFetcherOptionsRequest` message ([#164](https://github.com/SE-UUlm/snowballr-api/issues/164)) (Felix Schlegel)
+
 ## [0.14.0] - 2026-05-23
 
 ### Changed
@@ -207,6 +224,8 @@
 ## [0.1.0] - 2025-01-30
 
 _:seedling: Initial release._
+
+[0.15.0]: https://github.com/SE-UUlm/snowballr-api/releases/tag/v0.15.0
 
 [0.14.0]: https://github.com/SE-UUlm/snowballr-api/releases/tag/v0.14.0
 
