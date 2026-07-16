@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.16.0] - 2026-07-16
+
+### Changed
+
+- **Breaking:** Replace `external_id` field in `Paper` message with `external_ids` repeated field to support multiple external IDs ([#166](https://github.com/SE-UUlm/snowballr-api/issues/166)) (Felix Schlegel)
+
+### Added
+
+- Add `ExternalId` message with `type`, `display_type`, and `value` fields ([#166](https://github.com/SE-UUlm/snowballr-api/issues/166)) (Felix Schlegel)
+
 ## [0.15.0] - 2026-06-29
 
 ### Changed
@@ -224,6 +234,8 @@
 ## [0.1.0] - 2025-01-30
 
 _:seedling: Initial release._
+
+[0.16.0]: https://github.com/SE-UUlm/snowballr-api/releases/tag/v0.16.0
 
 [0.15.0]: https://github.com/SE-UUlm/snowballr-api/releases/tag/v0.15.0
 
