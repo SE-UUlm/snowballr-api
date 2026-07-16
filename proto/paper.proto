@@ -51,7 +51,9 @@ message Paper {
   message ExternalId {
     // The type of the external ID, e.g. DOI, URL, ...
     string type = 1;
+    // The display type of the external ID, e.g. DOI, URL, ...
+    string display_type = 2;
     // The actual value of the ID that can be used to identify the paper
-    string value = 2;
+    string value = 3;
   }
 }

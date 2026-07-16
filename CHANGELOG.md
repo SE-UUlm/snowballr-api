@@ -8,7 +8,7 @@
 
 ### Added
 
-- Add `ExternalId` message with `type` and `value` fields ([#166](https://github.com/SE-UUlm/snowballr-api/issues/166)) (Felix Schlegel)
+- Add `ExternalId` message with `type`, `display_type`, and `value` fields ([#166](https://github.com/SE-UUlm/snowballr-api/issues/166)) (Felix Schlegel)
 
 ## [0.15.0] - 2026-06-29
 
