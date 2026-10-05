@@ -35,7 +35,7 @@ jobs:
               with:
                   markdownlint-config-path: markdownlint.json
                   source-branch: main
-                  ignore-links: "https://github.com/SE-UUlm/snowballr-api/releases/tag/*,https://www.npmjs.com/package/snowballr-api"
+                  ignore-links: "https://github.com/SE-UUlm/snowballr-api/releases/tag/*,https://www.npmjs.com/package/snowballr-api,https://stackoverflow.com/questions/1777854/*"
                   ignore-paths: "docs/,patches/,proto/,AGENTS.md,CLAUDE.md"
 
     check-version-consistency:
