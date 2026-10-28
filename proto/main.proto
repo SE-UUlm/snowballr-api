@@ -373,6 +373,7 @@ service SnowballR {
   // | Error Code | Description |
   // | :--- | :--- |
   // | `INVALID_ARGUMENT` | At least one updated setting did not meet the requirements. |
+  // | `PERMISSION_DENIED` | The user is not allowed to use at least one of the criteria IDs. |
   // | `FAILED_PRECONDITION` | The user is not active (i.e., in state `USER_STATUS_ACTIVE`). |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   //
