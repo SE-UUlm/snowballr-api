@@ -372,7 +372,9 @@ service SnowballR {
   // ## Errors
   // | Error Code | Description |
   // | :--- | :--- |
+  // | `NOT_FOUND` | A criterion that was about to be stored in the user's settings was not found. |
   // | `INVALID_ARGUMENT` | At least one updated setting did not meet the requirements. |
+  // | `PERMISSION_DENIED` | The user is not allowed to use at least one of the criteria IDs. |
   // | `FAILED_PRECONDITION` | The user is not active (i.e., in state `USER_STATUS_ACTIVE`). |
   // | `UNAUTHENTICATED` | The user is not signed in. |
   //
