@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.16.1] - 2026-10-29
+
+### Fixed
+
+- Document `PERMISSION_DENIED` and `NOT_FOUND` errors of `UpdateUserSettings` ([#177](https://github.com/SE-UUlm/snowballr-api/issues/177)) (Felix Schlegel)
+
 ## [0.16.0] - 2026-07-16
 
 ### Changed
@@ -234,6 +240,8 @@
 ## [0.1.0] - 2025-01-30
 
 _:seedling: Initial release._
+
+[0.16.1]: https://github.com/SE-UUlm/snowballr-api/releases/tag/v0.16.1
 
 [0.16.0]: https://github.com/SE-UUlm/snowballr-api/releases/tag/v0.16.0
 
