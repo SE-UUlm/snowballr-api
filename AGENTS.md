@@ -48,7 +48,7 @@ This repository has **no markdown wiki**. The canonical references are:
 │   ├── review.proto
 │   ├── user.proto
 │   └── user_settings.proto
-├── npm-package/                 # NPM publish artifact (generated TS client + package.json)
+├── npm-package/                 # NPM publish artifact (JS + .d.ts client built by scripts/compile.js)
 ├── docs/                        # custom Sabledocs HTML templates (base, enum, message, package, ...)
 ├── patches/                     # pypatch patches applied to Sabledocs / markdown_mermaidjs at build time
 ├── images/                      # logo used in README
@@ -69,7 +69,7 @@ This repository has **no markdown wiki**. The canonical references are:
 | ------------------------------- | ------------------------------------------------------ | -------------------------------------------------------------------- |
 | API entry point                 | proto/main.proto                                       | Imports all other .proto files; start here when navigating.          |
 | Service / message definitions   | proto/*.proto                                          | Canonical contract.                                                  |
-| Generated TS client (consumers) | npm-package/                                           | Published as `snowballr-api` on npm.                                 |
+| Generated TS client (consumers) | npm-package/                                           | Published as `snowballr-api`; build logic in `scripts/compile.js`.   |
 | Static docs templates           | docs/*.html                                            | Sabledocs templates (`template-path` in sabledocs.toml).             |
 | Docs build patches              | patches/*.patch                                        | Applied via `pypatch` inside the Dockerfile.                         |
 | Sabledocs configuration         | sabledocs.toml                                         | Title, footer, repo info, markdown extensions, template path.        |

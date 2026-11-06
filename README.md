@@ -40,6 +40,18 @@ it as a git submodule. Afterwards, use the protoc compiler to generate the relev
 a TypeScript-based frontend, you can use the [snowballr-api NPM package](https://www.npmjs.com/package/snowballr-api),
 which already contains the generated gRPC client and all relevant types.
 
+The package ships ES modules with type declarations, one module per proto file. Install it together with its peer
+dependencies and import from the module that defines what you need:
+
+```bash
+npm install snowballr-api @protobuf-ts/runtime @protobuf-ts/runtime-rpc
+```
+
+```ts
+import { SnowballRClient } from "snowballr-api/main.client";
+import { Project } from "snowballr-api/project";
+```
+
 When using it as a git submodule, execute the following commands:
 
 ```bash
