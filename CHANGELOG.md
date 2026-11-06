@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.17.0] - 2026-11-06
+
+### Changed
+
+- **Breaking:** Publish compiled JS and type declarations instead of TS ([#182](https://github.com/SE-UUlm/snowballr-api/issues/182)) (Felix Schlegel)
+
 ## [0.16.1] - 2026-10-29
 
 ### Fixed
@@ -240,6 +246,8 @@
 ## [0.1.0] - 2025-01-30
 
 _:seedling: Initial release._
+
+[0.17.0]: https://github.com/SE-UUlm/snowballr-api/releases/tag/v0.17.0
 
 [0.16.1]: https://github.com/SE-UUlm/snowballr-api/releases/tag/v0.16.1
 
