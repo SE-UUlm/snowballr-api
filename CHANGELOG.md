@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.17.1] - 2026-11-11
+
+### Fixed
+
+- Document locked project settings for criterion calls ([#180](https://github.com/SE-UUlm/snowballr-api/issues/180)) (Felix Schlegel)
+
 ## [0.17.0] - 2026-11-06
 
 ### Changed
@@ -246,6 +252,8 @@
 ## [0.1.0] - 2025-01-30
 
 _:seedling: Initial release._
+
+[0.17.1]: https://github.com/SE-UUlm/snowballr-api/releases/tag/v0.17.1
 
 [0.17.0]: https://github.com/SE-UUlm/snowballr-api/releases/tag/v0.17.0
 
