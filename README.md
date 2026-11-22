@@ -1,3 +1,8 @@
+This repostiory isn't used anymore. The API specification has been moved to
+[snowballr-backend](https://github.com/SE-UUlm/snowballr-backend) and is now part of the backend project.
+It was added at [`3e973f2`](https://github.com/SE-UUlm/snowballr-backend/commit/3e973f2930712274aec357cd6e48f105e8512c30)
+and matches the latest release [0.17.1](https://github.com/SE-UUlm/snowballr-api/releases/tag/v0.17.1).
+
 <div align="center">
     <picture>
         <img alt="SnowballR Logo" src="images/snowballr-logo-with-text.png" width="700"/>
